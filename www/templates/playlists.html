@@ -1,9 +1,78 @@
 <ion-view view-title="Playlists">
+
   <ion-content>
-    <ion-list>
+    <ion-list
+		show-delete="shouldShowDelete"
+		show-reorder="shouldShowReorder"
+		can-swipe="listCanSwipe">
       <ion-item ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.id}}">
-        {{playlist.title}}
+        <!-- {{playlist.title}} -->
+		<div class="row row-bottom">
+		  <div class="col col-15">
+		  	<img id="frame-list-user-avatar" src="https://media.licdn.com/mpr/mprx/0_P5r9KyY4Num1kW10XM2vrIig5tGnkIj0PcDAkCYONS7PzFOM9uDzhqORbxtrkbgJ9c2vTAxRqemPQVgMraTMbb0Z_em1QVfsvaTq-yi49t0VQSY1vElzqCVfGN">
+		  </div>
+
+		 <div class="col col-75">
+			<div class="row">
+			  <div class="col">Michael Yu</div>
+			</div>
+			<div class="row">
+			  <div class="col">something something</div>
+			</div>
+		 </div>
+
+		  <div class="col col-20">
+		  	<div class="spacer" style="height: 150px;"></div>
+		  	<div class="row">
+			</div>
+			<div class="row">
+			  <div class="col">1234张</div>
+			</div>
+		  </div>
+		</div>
+
+		<ion-option-button class="button-assertive" ng-click="edit(item)" style="width:100px;">
+		删除相框
+		</ion-option-button>
+
+		<ion-delete-button class="ion-minus-circled" ng-click="items.splice($index, 1)">
+		</ion-delete-button>
+		
+		<ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
+		</ion-reorder-button>
+
       </ion-item>
     </ion-list>
   </ion-content>
 </ion-view>
+
+
+<!-- 
+<ion-list ng-controller="MyCtrl"
+          show-delete="shouldShowDelete"
+          show-reorder="shouldShowReorder"
+          can-swipe="listCanSwipe">
+  <ion-item ng-repeat="item in items"
+            class="item-thumbnail-left">
+
+    <img ng-src="{{item.img}}">
+    <h2>{{item.title}}</h2>
+    <p>{{item.description}}</p>
+    <ion-option-button class="button-positive"
+                       ng-click="share(item)">
+      Share
+    </ion-option-button>
+    <ion-option-button class="button-assertive"
+                       ng-click="edit(item)">
+      Edit
+    </ion-option-button>
+    <ion-delete-button class="ion-minus-circled"
+                       ng-click="items.splice($index, 1)">
+    </ion-delete-button>
+    <ion-reorder-button class="ion-navicon"
+                        on-reorder="reorderItem(item, $fromIndex, $toIndex)">
+    </ion-reorder-button>
+
+  </ion-item>
+</ion-list>
+ -->
