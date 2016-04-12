@@ -6,6 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', [
     'ionic', 
+    'ion-floating-menu',
     'starter.controllers',
     'user.controllers'
     ]
