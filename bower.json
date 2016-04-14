@@ -2,12 +2,8 @@
   "name": "HelloIonic",
   "private": "true",
   "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.2.4"
-  },
-  "ignore": [
-    "angular",
-    "angular-animate",
-    "angular-sanitize",
-    "angular-ui-router"
-  ]
+    "ionic": "driftyco/ionic-bower#1.2.4",
+    "avoscloud": "~0.1.2",
+    "avoscloud-auth": "~0.1.1"
+  }
 }
