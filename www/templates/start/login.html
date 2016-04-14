@@ -6,15 +6,15 @@
 
                 <label class="item item-input item-floating-label signup-element">
                     <span class="input-label"><i class="icon ion-email"></i> 请输入您的电子邮箱</span>
-                    <input type="text" placeholder="请输入您的电子邮箱" ng-model="creds.email">
+                    <input type="text" placeholder="请输入您的手机号码" ng-model="creds.phonenumber">
                 </label>
                 <label class="item item-input item-floating-label signup-element">
                     <span class="input-label"><i class="icon ion-lock-combination"></i> 请输入您的密码</span>
-                    <input type="text" placeholder="请输入您的密码" ng-model="creds.password">
+                    <input type="password" placeholder="请输入您的密码" ng-model="creds.password">
                 </label>
                 
             </ion-list>
-            <button class="button button-energized button-block" ui-sref="app.playlists">登陆</button>
+            <button class="button button-energized button-block" ng-click="doLoginAction()">登陆</button>
             <button class="button button-stable button-block" ui-sref="app.playlists">创建账户</button>
             
 

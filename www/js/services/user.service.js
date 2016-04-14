@@ -70,27 +70,19 @@ angular.module('user.services', [])
                  * @returns {Promise}
                  */
                 login: function (_user, _password) {
-                    // return Parse.User.logIn(_user, _password);
+                    var defered = $q.defer();
 
-                    // var defered = $q.defer();
+                    AV.User.logInWithMobilePhone(_user, _password).then(function(user) {
+                      //登录成功
+                      console.log('user.service: login success');
+                      defered.resolve(user);
+                    }, function(err) {
+                      //登录失败
+                      console.log('user.service: login failed + '+err.code +" msg: "+err.message);
+                      defered.reject({avosErr: err});
+                    });
 
-                    // var ref = new Firebase("https://insider-app.firebaseio.com");
-
-                    // ref.authWithPassword({
-                    //     email    : _user,
-                    //     password : _password
-                    // }, function(error, authData) {
-                    // if (error) {
-                    //     console.log("Login Failed!", error);
-                    //     defered.reject({error: "login failed!"});
-                    // } else {
-                    //     console.log("Authenticated successfully with payload:", authData);
-
-                    //     defered.resolve(authData);
-                    // }
-                    // });
-
-                    // return defered.promise;
+                    return defered.promise;
                 },
                 /**
                  *
