@@ -5,7 +5,7 @@
 		show-delete="shouldShowDelete"
 		show-reorder="shouldShowReorder"
 		can-swipe="listCanSwipe">
-    <ion-item back-img="" ng-repeat="frame in frames" href="#/app/playlists/{{frame.id}}">
+    <ion-item back-img="{{frameImg[frame.id]}}" ng-repeat="frame in frames" href="#/app/playlists/{{frame.id}}">
       <!-- {{playlist.title}} -->
       <img id="frame-list-user-avatar" src="http://blog.sumall.com/wp-content/uploads/2015/05/default-profile-01.png">
 

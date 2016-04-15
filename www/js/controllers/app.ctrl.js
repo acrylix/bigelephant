@@ -95,6 +95,7 @@ $scope.shouldShowDelete = false;
   ];
 
   $scope.frames = [];
+  $scope.frameImg = {};
 
   var query = new AV.Query('MapUserFrame');
   query.include('frame');
@@ -102,7 +103,26 @@ $scope.shouldShowDelete = false;
   query.find().then(function(results) {
     console.log('Successfully retrieved ' + results.length + ' posts.');
     // 处理返回的结果数据
+    debugger;
     $scope.frames = results;
+    for (var i = $scope.frames.length - 1; i >= 0; i--) {
+      console.log($scope.frames[i].attributes.frame.id);
+
+      var query = new AV.Query('FileOfFrame');
+      // 最新的在前面
+      query.addDescending('createdAt');
+      query.equalTo('frame', $scope.frames[i].attributes.frame);
+      query.limit(1);
+
+      query.find().then(function(data) {
+        $scope.frameImg[data[0].attributes.frame.id] = data[0].attributes.file._url;
+        $scope.$apply();
+        console.log(" + "+data[0].attributes.file._url);
+      }, function(error) {
+        console.log(error);
+      });
+
+    }
     $scope.$apply();
     // for (var i = 0; i < results.length; i++) {
     //   var object = results[i];
