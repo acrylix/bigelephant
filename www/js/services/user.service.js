@@ -13,6 +13,7 @@ angular.module('user.services', [])
                     var currentUser = AV.User.current();
                     if (currentUser) {
                       console.log("Authenticated user with id:", currentUser.id);
+                      window.localStorage.setItem('user-id', currentUser.id);
                       return $q.when(currentUser);
                     } else {
                       return $q.reject({error: "noUser"});

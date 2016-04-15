@@ -1,60 +1,58 @@
-<ion-view view-title="Playlists">
+<ion-view view-title="相框">
 
   <ion-content>
     <ion-list
 		show-delete="shouldShowDelete"
 		show-reorder="shouldShowReorder"
 		can-swipe="listCanSwipe">
-      <ion-item ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.id}}">
-        <!-- {{playlist.title}} -->
-        <img id="frame-list-user-avatar" src="https://media.licdn.com/mpr/mprx/0_P5r9KyY4Num1kW10XM2vrIig5tGnkIj0PcDAkCYONS7PzFOM9uDzhqORbxtrkbgJ9c2vTAxRqemPQVgMraTMbb0Z_em1QVfsvaTq-yi49t0VQSY1vElzqCVfGN">
-		<div class="row row-bottom">
-		  <div class="col col-10">
-		  	
-		  </div>
+    <ion-item back-img="" ng-repeat="frame in frames" href="#/app/playlists/{{frame.id}}">
+      <!-- {{playlist.title}} -->
+      <img id="frame-list-user-avatar" src="http://blog.sumall.com/wp-content/uploads/2015/05/default-profile-01.png">
 
-		 <div class="col col-70">
-			  <div class="col">Michael Yu<br>test</div>
-		 </div>
+      <div class="row row-bottom">
+        <div class="col col-10">
+          
+        </div>
+        <div class="col col-70 col-frame-item">
+          <div class="col">{{frame.attributes.frameNickName}}<br>{{frame.attributes.frame.attributes.deviceIdShort}}</div>
+        </div>
+        <div class="col col-10">
+        </div>
+        <div class="col col-10">
+          <div class="spacer" style="height: 100px;"></div>
+          <div class="row">
+          </div>
+          <div class="row">
+            <div class="col col-frame-item">{{frame.attributes.totalImage}}张</div>
+          </div>
+        </div>
+      </div>
 
-		 <div class="col col-10">
+      <ion-option-button class="button-assertive" ng-click="edit(item)" style="width:110px;">
+      删除相框&nbsp;<i class="icon ion-trash-a"></i>
+      </ion-option-button>
 
-			</div>
+      <ion-delete-button class="ion-minus-circled" ng-click="items.splice($index, 1)">
+      </ion-delete-button>
 
-		  <div class="col col-10">
-		  	<div class="spacer" style="height: 120px;"></div>
-		  	<div class="row">
-			</div>
-			<div class="row">
-			  <div class="col">1234张</div>
-			</div>
-		  </div>
-		</div>
+      <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
+      </ion-reorder-button>
 
-		<ion-option-button class="button-assertive" ng-click="edit(item)" style="width:110px;">
-		删除相框&nbsp;<i class="icon ion-trash-a"></i>
-
-		</ion-option-button>
-
-		<ion-delete-button class="ion-minus-circled" ng-click="items.splice($index, 1)">
-		</ion-delete-button>
-		
-		<ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
-		</ion-reorder-button>
-
-      </ion-item>
+    </ion-item>
     </ion-list>
 
 
 
   </ion-content>
-      <div class="float-button">
-        <span class="height-fix">
-            <a ui-sref="tab.account" class="content">
-                <i class="ion-university"> </i>
-            </a>
-        </span>
-    </div>
+ <ion-footer-bar align-title="left" class="bar-energized">
+  <div class="buttons">
+    <button class="button" ng-click="cameraButton()"><i class="icon ion-camera"></i> 发照片</button>
+  </div>
+  <h1 class="title"></h1>
+  <div class="buttons" ng-click="doSomething()">
+    <button class="button"><i class="icon ion-person-add"></i> 加好友</button>
+  </div>
+</ion-footer-bar>
 </ion-view>
 
 
