@@ -74,21 +74,19 @@ $scope.shouldShowDelete = false;
       quality: 50,
       destinationType: Camera.DestinationType.DATA_URL,
       sourceType: Camera.PictureSourceType.CAMERA,
-      allowEdit: true,
+      allowEdit: false,
       encodingType: Camera.EncodingType.JPEG,
-      targetWidth: 100,
-      targetHeight: 100,
       popoverOptions: CameraPopoverOptions,
-      saveToPhotoAlbum: false,
-    correctOrientation:true
+      saveToPhotoAlbum: true,
+      correctOrientation:true
     };
 
     $cordovaCamera.getPicture(options).then(function(imageData) {
-      var base64 = "data:image/jpeg;base64," + imageData;
+      //var base64 = "data:image/jpeg;base64," + imageData;
       debugger;
 
       // var base64 = '6K+077yM5L2g5Li65LuA5LmI6KaB56C06Kej5oiR77yf';
-      var file = new AV.File('myfile.txt', { base64: base64 });
+      var file = new AV.File('myfile.jpeg', { base64: imageData });
       file.save().then(function(obj) {
         // 数据保存成功
         debugger;
@@ -102,31 +100,6 @@ $scope.shouldShowDelete = false;
       // error
     });
     });
-
-    // navigator.camera.getPicture(function(imageURI) {
-
-    // var image = new Image();
-
-    //     image.onload = function() {  // WE MUST WAIT FOR IMAGE TO LOAD BEFORE DRAWING
-
-    //        $scope.imageSRC = image ;
-    //         var canvas =  document.getElementById('myCanvas');
-    //         canvas.width = image.width;
-    //         canvas.height = image.height;
-
-    //         var ctx = canvas.getContext("2d");
-    //         ctx.drawImage(image, 0,0, image.width,image.height); // DRAW THE IMAGE ONTO CANVAS
-    //   };
-
-    //     image.src = imageURI; // SET THE IMAGE SOURCE
-
-    //   }, function(message) {
-    //       console.log("error " + message);
-    //       //error
-    //   }, {
-    //       quality:50,
-    //       sourceType: navigator.camera.PictureSourceType.CAMERA
-    //   });
   }
 
   $scope.imagePicker = function(){
@@ -144,6 +117,22 @@ $scope.shouldShowDelete = false;
         .then(function (results) {
           for (var i = 0; i < results.length; i++) {
             console.log('Image URI: ' + results[i]);
+            var filePath = results[i];
+            window.plugins.Base64.encodeFile(filePath, function(base64){
+              debugger;
+              base64 = base64.replace(/^data:image\/png;base64,/,''); //VERY QUESTIONABLE PERFORMANCE
+
+              var file = new AV.File('myfile.jpg', { base64: base64 });
+              file.save().then(function(obj) {
+                // 数据保存成功
+                debugger;
+                console.log(obj.url());
+              }, function(err) {
+                // 数据保存失败
+                console.log(err);
+              });
+              console.log('file base64 encoding: ' + base64);
+            });
           }
         }, function(error) {
           // error getting photos
