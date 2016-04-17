@@ -6,8 +6,10 @@ AV.initialize('g3MhlGPMjeDFBDn3d27Ho3Aw-gzGzoHsz', 'zeb5uU59kMmSpSkJPJybzxRm');
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', [
     'ionic', 
+    'ngCordova',
     'starter.controllers',
     'user.controllers',
+    'camera.controllers',
     'user.services'
     ]
   )
@@ -59,6 +61,15 @@ angular.module('starter', [
         'menuContent': {
           templateUrl: 'templates/playlists.html',
           controller: 'PlaylistsCtrl'
+        }
+      }
+    })
+    .state('app.camera', {
+      url: '/camera',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/camera.html',
+          controller: 'CameraCtrl'
         }
       }
     })

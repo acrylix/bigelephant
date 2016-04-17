@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ngCordova'])
 .directive('backImg', function(){
     return function(scope, element, attrs){
         var url = attrs.backImg;
@@ -56,7 +56,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope, $ionicActionSheet) {
+.controller('PlaylistsCtrl', function($scope, $ionicActionSheet, $cordovaFile, $ionicLoading, $cordovaImagePicker, $ionicPlatform, $cordovaCamera) {
 
 $scope.shouldShowDelete = false;
  $scope.shouldShowReorder = false;
@@ -66,6 +66,91 @@ $scope.shouldShowDelete = false;
     $scope.items.splice(fromIndex, 1);
     $scope.items.splice(toIndex, 0, item);
   };
+
+  $scope.takePic = function() {
+
+    $ionicPlatform.ready(function(){
+    var options = {
+      quality: 50,
+      destinationType: Camera.DestinationType.DATA_URL,
+      sourceType: Camera.PictureSourceType.CAMERA,
+      allowEdit: true,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth: 100,
+      targetHeight: 100,
+      popoverOptions: CameraPopoverOptions,
+      saveToPhotoAlbum: false,
+    correctOrientation:true
+    };
+
+    $cordovaCamera.getPicture(options).then(function(imageData) {
+      var base64 = "data:image/jpeg;base64," + imageData;
+      debugger;
+
+      // var base64 = '6K+077yM5L2g5Li65LuA5LmI6KaB56C06Kej5oiR77yf';
+      var file = new AV.File('myfile.txt', { base64: base64 });
+      file.save().then(function(obj) {
+        // 数据保存成功
+        debugger;
+        console.log(obj.url());
+      }, function(err) {
+        // 数据保存失败
+        console.log(err);
+      });
+
+    }, function(err) {
+      // error
+    });
+    });
+
+    // navigator.camera.getPicture(function(imageURI) {
+
+    // var image = new Image();
+
+    //     image.onload = function() {  // WE MUST WAIT FOR IMAGE TO LOAD BEFORE DRAWING
+
+    //        $scope.imageSRC = image ;
+    //         var canvas =  document.getElementById('myCanvas');
+    //         canvas.width = image.width;
+    //         canvas.height = image.height;
+
+    //         var ctx = canvas.getContext("2d");
+    //         ctx.drawImage(image, 0,0, image.width,image.height); // DRAW THE IMAGE ONTO CANVAS
+    //   };
+
+    //     image.src = imageURI; // SET THE IMAGE SOURCE
+
+    //   }, function(message) {
+    //       console.log("error " + message);
+    //       //error
+    //   }, {
+    //       quality:50,
+    //       sourceType: navigator.camera.PictureSourceType.CAMERA
+    //   });
+  }
+
+  $scope.imagePicker = function(){
+
+    var options = {
+     maximumImagesCount: 10,
+     width: 800,
+     height: 800,
+     quality: 80
+    };
+
+    $ionicPlatform.ready(function() {
+
+      $cordovaImagePicker.getPictures(options)
+        .then(function (results) {
+          for (var i = 0; i < results.length; i++) {
+            console.log('Image URI: ' + results[i]);
+          }
+        }, function(error) {
+          // error getting photos
+        });
+    });
+
+  }
 
   $scope.cameraButton = function() {
 
@@ -82,8 +167,16 @@ $scope.shouldShowDelete = false;
           // add cancel code..
         },
      buttonClicked: function(index) {
-       return true;
-     }
+        if(index == 0){
+          $scope.takePic();
+        }
+        else if(index == 1){
+          $scope.imagePicker();
+        }
+
+        return true;
+      }
+     
    });
 
   };
@@ -104,34 +197,72 @@ $scope.shouldShowDelete = false;
     console.log('Successfully retrieved ' + results.length + ' posts.');
     // 处理返回的结果数据
     debugger;
-    $scope.frames = results;
-    for (var i = $scope.frames.length - 1; i >= 0; i--) {
-      console.log($scope.frames[i].attributes.frame.id);
+    //$scope.frames = results;
+    for (var i = results.length - 1; i >= 0; i--) {
+      console.log(results[i].attributes.frame.id);
+      $scope.frames.push(results[i]);
+    }
+    $scope.$apply();
+    return results;
 
+  }, function(error) {
+    console.log('Error: ' + error.code + ' ' + error.message);
+  }).then(function(frames){
+    debugger;
+
+    for (var i = 0; i < frames.length; i++) {
       var query = new AV.Query('FileOfFrame');
-      // 最新的在前面
       query.addDescending('createdAt');
-      query.equalTo('frame', $scope.frames[i].attributes.frame);
-      query.limit(1);
-
-      query.find().then(function(data) {
-        $scope.frameImg[data[0].attributes.frame.id] = data[0].attributes.file._url;
+      query.equalTo('frame', frames[i].attributes.frame);
+      query.first().then(function(data) {
+        $scope.frameImg[data.attributes.frame.id] = data.attributes.file._url;
         $scope.$apply();
-        console.log(" + "+data[0].attributes.file._url);
+        console.log(" + "+data.attributes.file._url);
       }, function(error) {
         console.log(error);
       });
-
     }
-    $scope.$apply();
-    // for (var i = 0; i < results.length; i++) {
-    //   var object = results[i];
-    //   console.log(object.id + ' - ' + object.get('content'));
-    // }
-  }, function(error) {
-    console.log('Error: ' + error.code + ' ' + error.message);
+
   });
+
+  $scope.button = function(){
+    console.log($scope.frameImg);
+  }
+
+
+
+
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 });
+
+
+
+
+// var query = new AV.Query('FileOfFrame');
+//       // 最新的在前面
+//       query.addDescending('createdAt');
+//       query.equalTo('frame', $scope.frames[i].attributes.frame);
+//       query.limit(1);
+
+//       query.find().then(function(data) {
+//         $scope.frameImg[data[0].attributes.frame.id] = data[0].attributes.file._url;
+//         $scope.$apply();
+//         console.log(" + "+data[0].attributes.file._url);
+//       }, function(error) {
+//         console.log(error);
+//       });
+
+
+
+
+
+
+
+
+
+
+
+
+

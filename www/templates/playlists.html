@@ -5,13 +5,13 @@
 		show-delete="shouldShowDelete"
 		show-reorder="shouldShowReorder"
 		can-swipe="listCanSwipe">
-    <ion-item back-img="{{frameImg[frame.id]}}" ng-repeat="frame in frames" href="#/app/playlists/{{frame.id}}">
+    <ion-item back-img="http://ac-g3mhlgpm.clouddn.com/3la9waakJJcb9zwr5DQE4QS8GSU3AMbL9DDa5qIG.jpg" ng-repeat="frame in frames" href="#/app/playlists/{{frame.id}}">
       <!-- {{playlist.title}} -->
       <img id="frame-list-user-avatar" src="http://blog.sumall.com/wp-content/uploads/2015/05/default-profile-01.png">
 
       <div class="row row-bottom">
         <div class="col col-10">
-          
+          <!-- {{frameImg['56ab71ecd342d300543803ca']}} -->
         </div>
         <div class="col col-70 col-frame-item">
           <div class="col">{{frame.attributes.frameNickName}}<br>{{frame.attributes.frame.attributes.deviceIdShort}}</div>
@@ -49,7 +49,7 @@
     <button class="button" ng-click="cameraButton()"><i class="icon ion-camera"></i> 发照片</button>
   </div>
   <h1 class="title"></h1>
-  <div class="buttons" ng-click="doSomething()">
+  <div class="buttons" ng-click="button()">
     <button class="button"><i class="icon ion-person-add"></i> 加好友</button>
   </div>
 </ion-footer-bar>
