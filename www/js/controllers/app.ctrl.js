@@ -306,6 +306,8 @@ angular.module('starter.controllers', ['ngCordova'])
     // }
   }
 
+  $scope.imageWidth = window.innerWidth/4 + 'px';
+
   debugger;
   console.log($stateParams.playlistId);
 
