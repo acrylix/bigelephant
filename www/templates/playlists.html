@@ -1,13 +1,21 @@
 <ion-view view-title="相框">
 
   <ion-content>
+  <ion-refresher
+    pulling-text="使劲拉..."
+    on-refresh="listRefresh()">
+  </ion-refresher>
     <ion-list
 		show-delete="shouldShowDelete"
 		show-reorder="shouldShowReorder"
 		can-swipe="listCanSwipe">
-    <ion-item back-img="http://ac-g3mhlgpm.clouddn.com/3la9waakJJcb9zwr5DQE4QS8GSU3AMbL9DDa5qIG.jpg" ng-repeat="frame in frames" href="#/app/playlists/{{frame.id}}">
+    <ion-item back-img="" ng-repeat="frame in frames" href="#/app/playlists/{{frame.frame.id}}">
       <!-- {{playlist.title}} -->
       <img id="frame-list-user-avatar" src="http://blog.sumall.com/wp-content/uploads/2015/05/default-profile-01.png">
+      
+      <div class="test">
+        <img id="test" style="width: 100px; height:100px;"cache-src="http://ac-g3mhlgpm.clouddn.com/3la9waakJJcb9zwr5DQE4QS8GSU3AMbL9DDa5qIG.jpg">
+      </div>
 
       <div class="row row-bottom">
         <div class="col col-10">

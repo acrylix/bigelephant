@@ -9749,3 +9749,7 @@ a.button {
 
 .col-frame-item {
   margin-bottom: -20px; }
+
+.gallery {
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap; }

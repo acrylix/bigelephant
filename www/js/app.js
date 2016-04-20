@@ -8,6 +8,7 @@ angular.module('starter', [
     'ionic', 
     'ngStorage',
     'ngCordova',
+    'ionic-cache-src',
     'starter.controllers',
     'user.controllers',
     'camera.controllers',

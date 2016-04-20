@@ -1,19 +1,16 @@
 angular.module('starter.controllers', ['ngCordova'])
-.directive('backImg', function(){
-    return function(scope, element, attrs){
-        var url = attrs.backImg;
-        var content = element.find('a');
-        element.css({
-          // 'box-shadow': '10px -1px 200px rgba(0, 0, 0, 0.9)'
-          
-        });
-        content.css({
-          'box-shadow': 'rgba(0, 0, 0, 0.4) 0px -79px 55px -26px inset',
-            'background': 'url(' + url +')',
-            'background-size' : 'cover',
-            'color': 'white'
-        });
-    }})
+  .directive('backImg', function() {
+    return function(scope, element, attrs) {
+      var url = attrs.backImg;
+      var content = element.find('a');
+
+      content.css({
+        'box-shadow': 'rgba(0, 0, 0, 0.4) 0px -79px 55px -26px inset',
+
+        'color': 'white'
+      });
+    }
+  })
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
@@ -57,80 +54,84 @@ angular.module('starter.controllers', ['ngCordova'])
 })
 
 .controller('PlaylistsCtrl', function(
-  $scope, 
-  $state, 
-  $ionicActionSheet, 
-  $cordovaFile, 
-  $ionicLoading, 
-  $cordovaImagePicker, 
-  $ionicPlatform, 
+  $scope,
+  $state,
+  $ionicActionSheet,
+  $cordovaFile,
+  $ionicLoading,
+  $cordovaImagePicker,
+  $ionicPlatform,
   $cordovaCamera,
   StorageService) {
 
-$scope.shouldShowDelete = false;
- $scope.shouldShowReorder = false;
- $scope.listCanSwipe = true;
+  $scope.shouldShowDelete = false;
+  $scope.shouldShowReorder = false;
+  $scope.listCanSwipe = true;
 
- $scope.moveItem = function(item, fromIndex, toIndex) {
+  $scope.moveItem = function(item, fromIndex, toIndex) {
     $scope.items.splice(fromIndex, 1);
     $scope.items.splice(toIndex, 0, item);
   };
 
   $scope.takePic = function() {
 
-    $ionicPlatform.ready(function(){
-    var options = {
-      quality: 50,
-      destinationType: Camera.DestinationType.DATA_URL,
-      sourceType: Camera.PictureSourceType.CAMERA,
-      allowEdit: false,
-      encodingType: Camera.EncodingType.JPEG,
-      popoverOptions: CameraPopoverOptions,
-      saveToPhotoAlbum: true,
-      correctOrientation:true
-    };
+    $ionicPlatform.ready(function() {
+      var options = {
+        quality: 50,
+        destinationType: Camera.DestinationType.DATA_URL,
+        sourceType: Camera.PictureSourceType.CAMERA,
+        allowEdit: false,
+        encodingType: Camera.EncodingType.JPEG,
+        popoverOptions: CameraPopoverOptions,
+        saveToPhotoAlbum: true,
+        correctOrientation: true
+      };
 
-    $cordovaCamera.getPicture(options).then(function(imageData) {
-      //var base64 = "data:image/jpeg;base64," + imageData;
-      debugger;
-
-      var file = new AV.File('myfile.jpeg', { base64: imageData });
-      file.save().then(function(obj) {
-        // 数据保存成功
+      $cordovaCamera.getPicture(options).then(function(imageData) {
+        //var base64 = "data:image/jpeg;base64," + imageData;
         debugger;
-        console.log(obj.url());
-      }, function(err) {
-        // 数据保存失败
-        console.log(err);
-      });
 
-    }, function(err) {
-      // error
-    });
+        var file = new AV.File('myfile.jpeg', {
+          base64: imageData
+        });
+        file.save().then(function(obj) {
+          // 数据保存成功
+          debugger;
+          console.log(obj.url());
+        }, function(err) {
+          // 数据保存失败
+          console.log(err);
+        });
+
+      }, function(err) {
+        // error
+      });
     });
   }
 
-  $scope.imagePicker = function(){
+  $scope.imagePicker = function() {
 
     var options = {
-     maximumImagesCount: 10,
-     width: 800,
-     height: 800,
-     quality: 80
+      maximumImagesCount: 10,
+      width: 800,
+      height: 800,
+      quality: 80
     };
 
     $ionicPlatform.ready(function() {
 
       $cordovaImagePicker.getPictures(options)
-        .then(function (results) {
+        .then(function(results) {
           for (var i = 0; i < results.length; i++) {
             console.log('Image URI: ' + results[i]);
             var filePath = results[i];
-            window.plugins.Base64.encodeFile(filePath, function(base64){
+            window.plugins.Base64.encodeFile(filePath, function(base64) {
               debugger;
-              base64 = base64.replace(/^data:image\/png;base64,/,''); //VERY QUESTIONABLE PERFORMANCE
+              base64 = base64.replace(/^data:image\/png;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
 
-              var file = new AV.File('myfile.jpg', { base64: base64 });
+              var file = new AV.File('myfile.jpg', {
+                base64: base64
+              });
               file.save().then(function(obj) {
                 // 数据保存成功
                 debugger;
@@ -151,45 +152,65 @@ $scope.shouldShowDelete = false;
 
   $scope.cameraButton = function() {
 
-   // Show the action sheet
-   var hideSheet = $ionicActionSheet.show({
-     buttons: [
-       { text: '<b>拍照</b>' },
-       { text: '从手机相册选择' }
-     ],
-     // destructiveText: 'Delete',
-     titleText: '发照片',
-     cancelText: '取消',
-     cancel: function() {
-          // add cancel code..
-        },
-     buttonClicked: function(index) {
-        if(index == 0){
+    // Show the action sheet
+    var hideSheet = $ionicActionSheet.show({
+      buttons: [{
+        text: '<b>拍照</b>'
+      }, {
+        text: '从手机相册选择'
+      }],
+      // destructiveText: 'Delete',
+      titleText: '发照片',
+      cancelText: '取消',
+      cancel: function() {
+        // add cancel code..
+      },
+      buttonClicked: function(index) {
+        if (index == 0) {
           $scope.takePic();
-        }
-        else if(index == 1){
+        } else if (index == 1) {
           $scope.imagePicker();
         }
 
         return true;
       }
-     
-   });
+
+    });
 
   };
 
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 }
-  ];
+  $scope.playlists = [{
+    title: 'Reggae',
+    id: 1
+  }, {
+    title: 'Chill',
+    id: 2
+  }, {
+    title: 'Dubstep',
+    id: 3
+  }];
 
   $scope.frames = [];
   $scope.frameImg = {};
 
-var getFrame = function(){
+  var getLatestFrameImg = function(frameId) { ///
+    for (var i = 0; i < frames.length; i++) {
+      var query = new AV.Query('FileOfFrame');
+      query.addDescending('createdAt');
+      query.equalTo('frame', frames[i].attributes.frame);
+      query.first().then(function(data) {
+        $scope.frameImg[data.attributes.frame.id] = data.attributes.file._url;
+        $scope.$apply();
+        console.log(" + " + data.attributes.file._url);
+      }, function(error) {
+        console.log(error);
+      });
+    }
+  }
+  var getFrame = function() {
 
-  StorageService.clear();
+    StorageService.clear();
+    $scope.frames = [];
 
     var query = new AV.Query('MapUserFrame');
     query.include('frame');
@@ -209,11 +230,11 @@ var getFrame = function(){
           },
           frameDeviceId: results[i].attributes.frameDeviceId,
           frameNickName: results[i].attributes.frameNickName,
-          totalImage: results[i].attributes.totalImage, 
-          userNickName: results[i].attributes.userNickName, 
+          totalImage: results[i].attributes.totalImage,
+          userNickName: results[i].attributes.userNickName,
           user: {
             id: results[i].attributes.user.id,
-            cid: results[i].attributes.user.cid, 
+            cid: results[i].attributes.user.cid,
           }
 
         }
@@ -225,26 +246,15 @@ var getFrame = function(){
 
     }, function(error) {
       console.log('Error: ' + error.code + ' ' + error.message);
-    }).then(function(frames){
+    }).then(function(frames) {
       debugger;
 
-      for (var i = 0; i < frames.length; i++) {
-        var query = new AV.Query('FileOfFrame');
-        query.addDescending('createdAt');
-        query.equalTo('frame', frames[i].attributes.frame);
-        query.first().then(function(data) {
-          $scope.frameImg[data.attributes.frame.id] = data.attributes.file._url;
-          $scope.$apply();
-          console.log(" + "+data.attributes.file._url);
-        }, function(error) {
-          console.log(error);
-        });
-      }
+
 
     });
   }
 
-  $scope.button = function(){
+  $scope.button = function() {
     // console.log($scope.frameImg);
     var temp = StorageService.get('56ab71ecd342d300543803ca');
     console.log(temp);
@@ -263,10 +273,20 @@ var getFrame = function(){
 
   }
 
-  if(StorageService.isEmpty()){
+  $scope.listRefresh = function() {
+    $http.get('/new-items')
+      .success(function(newItems) {
+        $scope.items = newItems;
+      })
+      .finally(function() {
+        // Stop the ion-refresher from spinning
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+  };
+
+  if (StorageService.isEmpty()) {
     getFrame();
-  }
-  else{
+  } else {
     $scope.frames = StorageService.getAll();
     debugger;
   }
@@ -275,23 +295,45 @@ var getFrame = function(){
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 
-    debugger;
-    console.log($stateParams.playlistId);
+  $scope.images = [];
 
-    var query = new AV.Query('FileOfFrame');
-      query.addDescending('createdAt');
-      query.equalTo('frame', $stateParams.playlistId);
-      query.first().then(function(data) {
-        $scope.frameImg[data.attributes.frame.id] = data.attributes.file._url;
-        $scope.$apply();
-        console.log(" + "+data.attributes.file._url);
-      }, function(error) {
-        console.log(error);
+  $scope.loadImages = function() {
+    // for (var i = 0; i < 100; i++) {
+    //   $scope.images.push({
+    //     id: i,
+    //     src: "http://placehold.it/50x50"
+    //   });
+    // }
+  }
+
+  debugger;
+  console.log($stateParams.playlistId);
+
+  var query = new AV.Query('FileOfFrame');
+  query.addDescending('createdAt');
+  query.include('_File');
+
+  var frame = AV.Object.createWithoutData('frame', $stateParams.playlistId);
+
+  query.equalTo('frame', frame);
+  query.find().then(function(pictures) {
+    console.log(pictures);
+    for (var i = 0; i < pictures.length; i++) {
+      var file = pictures[i].get('file');
+      var url = file.thumbnailURL(200, 200);
+      $scope.images.push({
+        id: i,
+        src: url
       });
+      $scope.$apply();
+      debugger;
+    }
+
+  }, function(error) {
+    console.log(error);
+  });
 
 });
-
-
 
 
 // var query = new AV.Query('FileOfFrame');
@@ -307,16 +349,3 @@ var getFrame = function(){
 //       }, function(error) {
 //         console.log(error);
 //       });
-
-
-
-
-
-
-
-
-
-
-
-
-
