@@ -9750,6 +9750,8 @@ a.button {
 .col-frame-item {
   margin-bottom: -20px; }
 
-.gallery {
-  -webkit-flex-wrap: wrap;
-  flex-wrap: wrap; }
+.gallery-img {
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px; }

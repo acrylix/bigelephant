@@ -320,7 +320,7 @@ angular.module('starter.controllers', ['ngCordova'])
     console.log(pictures);
     for (var i = 0; i < pictures.length; i++) {
       var file = pictures[i].get('file');
-      var url = file.thumbnailURL(200, 200);
+      var url = file.thumbnailURL(150, 150, 30);
       $scope.images.push({
         id: i,
         src: url

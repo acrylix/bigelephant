@@ -1,6 +1,6 @@
 <ion-view view-title="Playlist">
 
-<ion-content ng-init="loadImages()">
+<!-- <ion-content ng-init="loadImages()">
     <div class="row" ng-repeat="image in images" ng-if="$index % 4 === 0">
         <div class="col col-25" ng-if="$index < images.length">
             <img ng-src="{{images[$index].src}}" width="100%" height="100px"/>
@@ -15,5 +15,14 @@
             <img ng-src="{{images[$index + 3].src}}" width="100%" height="100px"/>
         </div>
     </div>
+</ion-content> -->
+
+<ion-content>
+  <img class="gallery-img" ng-repeat="image in images"
+    width="25%"
+    height="150px"
+    ng-src="{{image.src}}">
 </ion-content>
+
+
 </ion-view>
