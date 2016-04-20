@@ -6,11 +6,13 @@ AV.initialize('g3MhlGPMjeDFBDn3d27Ho3Aw-gzGzoHsz', 'zeb5uU59kMmSpSkJPJybzxRm');
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', [
     'ionic', 
+    'ngStorage',
     'ngCordova',
     'starter.controllers',
     'user.controllers',
     'camera.controllers',
-    'user.services'
+    'user.services',
+    'frame.services'
     ]
   )
 

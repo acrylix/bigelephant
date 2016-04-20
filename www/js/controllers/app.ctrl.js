@@ -56,7 +56,16 @@ angular.module('starter.controllers', ['ngCordova'])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope, $ionicActionSheet, $cordovaFile, $ionicLoading, $cordovaImagePicker, $ionicPlatform, $cordovaCamera) {
+.controller('PlaylistsCtrl', function(
+  $scope, 
+  $state, 
+  $ionicActionSheet, 
+  $cordovaFile, 
+  $ionicLoading, 
+  $cordovaImagePicker, 
+  $ionicPlatform, 
+  $cordovaCamera,
+  StorageService) {
 
 $scope.shouldShowDelete = false;
  $scope.shouldShowReorder = false;
@@ -85,7 +94,6 @@ $scope.shouldShowDelete = false;
       //var base64 = "data:image/jpeg;base64," + imageData;
       debugger;
 
-      // var base64 = '6K+077yM5L2g5Li65LuA5LmI6KaB56C06Kej5oiR77yf';
       var file = new AV.File('myfile.jpeg', { base64: imageData });
       file.save().then(function(obj) {
         // 数据保存成功
@@ -179,30 +187,100 @@ $scope.shouldShowDelete = false;
   $scope.frames = [];
   $scope.frameImg = {};
 
-  var query = new AV.Query('MapUserFrame');
-  query.include('frame');
-  query.equalTo('user', AV.User.current());
-  query.find().then(function(results) {
-    console.log('Successfully retrieved ' + results.length + ' posts.');
-    // 处理返回的结果数据
-    debugger;
-    //$scope.frames = results;
-    for (var i = results.length - 1; i >= 0; i--) {
-      console.log(results[i].attributes.frame.id);
-      $scope.frames.push(results[i]);
-    }
-    $scope.$apply();
-    return results;
+var getFrame = function(){
 
-  }, function(error) {
-    console.log('Error: ' + error.code + ' ' + error.message);
-  }).then(function(frames){
-    debugger;
+  StorageService.clear();
 
-    for (var i = 0; i < frames.length; i++) {
-      var query = new AV.Query('FileOfFrame');
+    var query = new AV.Query('MapUserFrame');
+    query.include('frame');
+    query.equalTo('user', AV.User.current());
+    query.find().then(function(results) {
+      console.log('Successfully retrieved ' + results.length + ' posts.');
+      // 处理返回的结果数据
+      debugger;
+      //$scope.frames = results;
+      for (var i = results.length - 1; i >= 0; i--) {
+        console.log(results[i].attributes.frame.id);
+        debugger;
+        var frameItem = {
+          frame: {
+            id: results[i].attributes.frame.id,
+            deviceIdShort: results[i].attributes.frame.attributes.deviceIdShort
+          },
+          frameDeviceId: results[i].attributes.frameDeviceId,
+          frameNickName: results[i].attributes.frameNickName,
+          totalImage: results[i].attributes.totalImage, 
+          userNickName: results[i].attributes.userNickName, 
+          user: {
+            id: results[i].attributes.user.id,
+            cid: results[i].attributes.user.cid, 
+          }
+
+        }
+        StorageService.add(frameItem);
+      }
+      $scope.frames = StorageService.getAll();
+      $scope.$apply();
+      return results;
+
+    }, function(error) {
+      console.log('Error: ' + error.code + ' ' + error.message);
+    }).then(function(frames){
+      debugger;
+
+      for (var i = 0; i < frames.length; i++) {
+        var query = new AV.Query('FileOfFrame');
+        query.addDescending('createdAt');
+        query.equalTo('frame', frames[i].attributes.frame);
+        query.first().then(function(data) {
+          $scope.frameImg[data.attributes.frame.id] = data.attributes.file._url;
+          $scope.$apply();
+          console.log(" + "+data.attributes.file._url);
+        }, function(error) {
+          console.log(error);
+        });
+      }
+
+    });
+  }
+
+  $scope.button = function(){
+    // console.log($scope.frameImg);
+    var temp = StorageService.get('56ab71ecd342d300543803ca');
+    console.log(temp);
+
+    // var frame = AV.Object.createWithoutData('frame', '56ab71ecd342d300543803ca');
+
+    // var query = new AV.Query('FileOfFrame');
+    //   query.equalTo('frame', frame);
+    //   query.find().then(function(data) {
+    //     debugger;
+    //     console.log(" + "+data.attributes.file._url);
+    //   }, function(error) {
+    //     console.log(error);
+    //   });
+
+
+  }
+
+  if(StorageService.isEmpty()){
+    getFrame();
+  }
+  else{
+    $scope.frames = StorageService.getAll();
+    debugger;
+  }
+
+})
+
+.controller('PlaylistCtrl', function($scope, $stateParams) {
+
+    debugger;
+    console.log($stateParams.playlistId);
+
+    var query = new AV.Query('FileOfFrame');
       query.addDescending('createdAt');
-      query.equalTo('frame', frames[i].attributes.frame);
+      query.equalTo('frame', $stateParams.playlistId);
       query.first().then(function(data) {
         $scope.frameImg[data.attributes.frame.id] = data.attributes.file._url;
         $scope.$apply();
@@ -210,20 +288,7 @@ $scope.shouldShowDelete = false;
       }, function(error) {
         console.log(error);
       });
-    }
 
-  });
-
-  $scope.button = function(){
-    console.log($scope.frameImg);
-  }
-
-
-
-
-})
-
-.controller('PlaylistCtrl', function($scope, $stateParams) {
 });
 
 
