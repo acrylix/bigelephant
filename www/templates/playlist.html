@@ -21,7 +21,8 @@
   <img class="gallery-img" ng-repeat="image in images"
     width="25%"
     height="{{imageWidth}}"
-    ng-src="{{image.src}}">
+    ng-src="{{image.src}}"
+    ng-click="showImages($index)">
 </ion-content>
 
 

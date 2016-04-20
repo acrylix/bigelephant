@@ -292,13 +292,33 @@ angular.module('starter.controllers', ['ngCordova'])
   }
 
 })
-
-.controller('PlaylistCtrl', function($scope, $stateParams, StorageService) {
+.controller('PlaylistCtrl', function($scope, $stateParams, StorageService, $ionicModal) {
 
   $scope.images = [];
 
   $scope.frame = StorageService.get($stateParams.playlistId);
   debugger;
+
+  $scope.showImages = function(index) {
+    $scope.activeSlide = index;
+    $scope.showModal('templates/image-popover.html');
+  }
+
+  $scope.showModal = function(templateUrl) {
+    $ionicModal.fromTemplateUrl(templateUrl, {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+      $scope.modal.show();
+    });
+  }
+
+  // Close the modal
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+    $scope.modal.remove()
+  };
 
   $scope.loadImages = function() {
     // for (var i = 0; i < 100; i++) {
@@ -309,7 +329,7 @@ angular.module('starter.controllers', ['ngCordova'])
     // }
   }
 
-  $scope.imageWidth = window.innerWidth/4 + 'px';
+  $scope.imageWidth = window.innerWidth / 4 + 'px';
 
   debugger;
   console.log($stateParams.playlistId);
