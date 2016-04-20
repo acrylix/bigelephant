@@ -293,9 +293,12 @@ angular.module('starter.controllers', ['ngCordova'])
 
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.controller('PlaylistCtrl', function($scope, $stateParams, StorageService) {
 
   $scope.images = [];
+
+  $scope.frame = StorageService.get($stateParams.playlistId);
+  debugger;
 
   $scope.loadImages = function() {
     // for (var i = 0; i < 100; i++) {
