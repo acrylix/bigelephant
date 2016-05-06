@@ -292,7 +292,7 @@ angular.module('starter.controllers', ['ngCordova'])
   }
 
 })
-.controller('PlaylistCtrl', function($scope, $stateParams, StorageService, $ionicModal) {
+.controller('PlaylistCtrl', function($scope, $stateParams, StorageService, $ionicModal, $ionicScrollDelegate) {
 
   $scope.images = [];
 
@@ -320,43 +320,53 @@ angular.module('starter.controllers', ['ngCordova'])
     $scope.modal.remove()
   };
 
+  $scope.skip = 0;
+
+  $scope.$on('$stateChangeSuccess', function() {
+    $scope.loadImages();
+  });
+
   $scope.loadImages = function() {
-    // for (var i = 0; i < 100; i++) {
-    //   $scope.images.push({
-    //     id: i,
-    //     src: "http://placehold.it/50x50"
-    //   });
-    // }
+    var query = new AV.Query('FileOfFrame');
+    query.addDescending('createdAt');
+    query.include('_File');
+
+    var frame = AV.Object.createWithoutData('frame', $stateParams.playlistId);
+
+    query.equalTo('frame', frame);
+    query.skip($scope.skip);
+    query.limit(30);
+    query.find().then(function(pictures) {
+      console.log(pictures);
+      for (var i = 0; i < pictures.length; i++) {
+        var file = pictures[i].get('file');
+        var url = file.thumbnailURL(150, 150, 30);
+        var full = file.thumbnailURL(500, 500, 100);
+        $scope.images.push({
+          id: i,
+          src: url,
+          full: full
+        });
+        $scope.$apply();
+        debugger;
+      }
+      debugger;
+      $scope.$broadcast('scroll.infiniteScrollComplete');
+      $scope.skip+=30;
+      console.log($scope.skip);
+
+    }, function(error) {
+      console.log(error);
+    });
   }
+
 
   $scope.imageWidth = window.innerWidth / 4 + 'px';
 
   debugger;
   console.log($stateParams.playlistId);
 
-  var query = new AV.Query('FileOfFrame');
-  query.addDescending('createdAt');
-  query.include('_File');
 
-  var frame = AV.Object.createWithoutData('frame', $stateParams.playlistId);
-
-  query.equalTo('frame', frame);
-  query.find().then(function(pictures) {
-    console.log(pictures);
-    for (var i = 0; i < pictures.length; i++) {
-      var file = pictures[i].get('file');
-      var url = file.thumbnailURL(150, 150, 30);
-      $scope.images.push({
-        id: i,
-        src: url
-      });
-      $scope.$apply();
-      debugger;
-    }
-
-  }, function(error) {
-    console.log(error);
-  });
 
 });
 

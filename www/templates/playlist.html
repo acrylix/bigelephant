@@ -17,12 +17,27 @@
     </div>
 </ion-content> -->
 
+<div class="spacer" style="height: 100px;"></div>
+	<div style="height: 200px;">
+		
+
+	</div>
+
 <ion-content>
-  <img class="gallery-img" ng-repeat="image in images"
+
+
+	<img class="gallery-img" ng-repeat="image in images"
     width="25%"
     height="{{imageWidth}}"
     ng-src="{{image.src}}"
     ng-click="showImages($index)">
+
+
+	  <ion-infinite-scroll
+    on-infinite="loadImages()"
+    distance="30%">
+  </ion-infinite-scroll>
+
 </ion-content>
 
 
