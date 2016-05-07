@@ -63,6 +63,11 @@
 </ion-footer-bar>
 </ion-view>
 
+    <div class="bar bar-footer bar-balanced" ng-controller="UploadingController" ng-show="showUpload" ng-cloak>
+    <ion-spinner icon="lines"></ion-spinner>
+      <div class="title">正在上传 {{current}}/{{total}}</div>
+    </div>
+
 
 <!-- 
 <ion-list ng-controller="MyCtrl"

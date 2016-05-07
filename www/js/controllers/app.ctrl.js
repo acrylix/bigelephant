@@ -59,11 +59,32 @@ angular.module('starter.controllers', ['ngCordova'])
   $ionicActionSheet,
   $cordovaFile,
   $ionicLoading,
+  $rootScope,
   $cordovaImagePicker,
   $ionicPlatform,
   $cordovaCamera,
   StorageService,
   PictureService) {
+
+  $scope.showUpload = false;
+
+  $rootScope.$on('upload-started', function(event, args) {
+
+    // do what you want to do
+    $scope.showUpload = true;
+    $scope.total = args.total;
+    $scope.current = 0;
+
+    debugger;
+  });
+  $rootScope.$on('upload-increment', function(event, args) {
+    if ($scope.current < $scope.total) {
+      $scope.current++;
+    }
+  });
+  $rootScope.$on('upload-completed', function(event, args) {
+    $scope.showUpload = false;
+  });
 
   $scope.shouldShowDelete = false;
   $scope.shouldShowReorder = false;
@@ -342,7 +363,7 @@ angular.module('starter.controllers', ['ngCordova'])
     query.find().then(function(pictures) {
       console.log(pictures.length);
       for (var i = 0; i < pictures.length; i++) {
-        console.log(pictures[i].id+' '+i);
+        console.log(pictures[i].id + ' ' + i);
         var file = pictures[i].get('file');
         var url = file.thumbnailURL(150, 150, 30);
         var full = file.thumbnailURL(500, 500, 100);

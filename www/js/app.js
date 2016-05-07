@@ -116,11 +116,11 @@ angular.module('starter', [
     $ionicLoading.hide();
   };   
 
-  $rootScope.uploading = true;
-  $rootScope.uploadingInfo = {
-    total: 0,
-    current: 0
-  };
+  // $rootScope.uploading = true;
+  // $rootScope.uploadingInfo = {
+  //   total: 0,
+  //   current: 0
+  // };
 
   //catch error routes
   $rootScope.$on('$stateChangeError',

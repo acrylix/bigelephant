@@ -8,9 +8,10 @@ angular.module('upload.controllers', [])
 	'UserService',
 	'StorageService',
 	'PictureService',
+	'$ionicPopup',
 	'$ionicNavBarDelegate',
 	'$q',
-	function($state, $scope, $rootScope, $ionicPopup, UserService, StorageService, PictureService, $ionicNavBarDelegate, $q) {
+	function($state, $scope, $rootScope, $ionicPopup, UserService, StorageService, PictureService, $ionicPopup, $ionicNavBarDelegate, $q) {
 
 		$ionicNavBarDelegate.showBackButton(false);
 
@@ -40,21 +41,21 @@ angular.module('upload.controllers', [])
 
 				var d = new Date();
 				var n = d.getTime();
-				console.log("Got Encode for "+ 'pic' + n + '.jpg');
+				console.log("Got Encode for " + 'pic' + n + '.jpg');
 				var file = new AV.File('pic' + n + '.jpg', {
 					base64: base64
 				});
 				file.save().then(function(obj) {
-				  // 数据保存成功
-				  console.log("file SAVED");
-				  $rootScope.uploadingInfo.current = index;
-				  console.log(obj.url());
-				  defer.resolve(obj);
+					// 数据保存成功
+					console.log("file SAVED");
+					$rootScope.$broadcast('upload-increment');
+					console.log(obj.url());
+					defer.resolve(obj);
 				}, function(err) {
-				  // 数据保存失败
-				  console.log(err);
-				  defer.reject(err);
-				});				
+					// 数据保存失败
+					console.log(err);
+					defer.reject(err);
+				});
 
 			});
 			return defer.promise;
@@ -68,7 +69,7 @@ angular.module('upload.controllers', [])
 			for (var i = 0; i < $scope.frames.length; i++) {
 				if ($scope.frames[i].checked) {
 					// frameIds.push($scope.frames[i].frame.id);
-					for (var j = 0; j < files.length-1; j++) {
+					for (var j = 0; j < files.length - 1; j++) {
 						var frameId = $scope.frames[i].frame.id;
 
 						console.log("Saving FOF");
@@ -79,11 +80,21 @@ angular.module('upload.controllers', [])
 
 			$q.all(promises).then(function(files) {
 				//NICE!
-				console.log("END HERE");
-				$rootScope.uploading = true;
-				debugger;
-			}).catch(function (error) {
-				console.log("FOF batch err: "+error);
+				console.log("END");
+				$rootScope.$broadcast('upload-completed');
+
+				var myPopup = $ionicPopup.show({
+
+					title: '上传结束',
+					subTitle: '用时秒',
+					buttons: [{
+						text: 'Cancel',
+						type: 'button-energized'
+					}, ]
+				});
+
+			}).catch(function(error) {
+				console.log("FOF batch err: " + error);
 			});
 
 		}
@@ -109,7 +120,6 @@ angular.module('upload.controllers', [])
 		}
 
 		$scope.send = function() {
-			$rootScope.uploading = false;
 
 			debugger;
 
@@ -117,12 +127,14 @@ angular.module('upload.controllers', [])
 			var promises = [];
 			var imageUris = PictureService.getAll();
 
-			$rootScope.uploadingInfo.total = imageUris.length;
+			$rootScope.$broadcast('upload-started', {
+				total: imageUris.length
+			});
 
 			console.log("Start");
 			for (var i = 0; i < imageUris.length; i++) {
-				console.log("URI: "+imageUris[i]);
-				promises.push(encodeFile(imageUris[i], i+1));
+				console.log("URI: " + imageUris[i]);
+				promises.push(encodeFile(imageUris[i], i + 1));
 			}
 
 			$q.all(promises).then(function(files) {
@@ -133,7 +145,7 @@ angular.module('upload.controllers', [])
 			});
 
 			debugger;
-
+			$state.go('app.playlists');
 
 		}
 
