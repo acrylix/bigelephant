@@ -62,7 +62,8 @@ angular.module('starter.controllers', ['ngCordova'])
   $cordovaImagePicker,
   $ionicPlatform,
   $cordovaCamera,
-  StorageService) {
+  StorageService,
+  PictureService) {
 
   $scope.shouldShowDelete = false;
   $scope.shouldShowReorder = false;
@@ -75,10 +76,12 @@ angular.module('starter.controllers', ['ngCordova'])
 
   $scope.takePic = function() {
 
+    PictureService.clearFileCache(); //REMOVE THIS BEFORE FLIGHT!!!!
+
     $ionicPlatform.ready(function() {
       var options = {
         quality: 50,
-        destinationType: Camera.DestinationType.DATA_URL,
+        destinationType: Camera.DestinationType.FILE_URI,
         sourceType: Camera.PictureSourceType.CAMERA,
         allowEdit: false,
         encodingType: Camera.EncodingType.JPEG,
@@ -87,21 +90,43 @@ angular.module('starter.controllers', ['ngCordova'])
         correctOrientation: true
       };
 
-      $cordovaCamera.getPicture(options).then(function(imageData) {
+      $cordovaCamera.getPicture(options).then(function(imageURI) {
         //var base64 = "data:image/jpeg;base64," + imageData;
         debugger;
 
-        var file = new AV.File('myfile.jpeg', {
-          base64: imageData
-        });
-        file.save().then(function(obj) {
-          // 数据保存成功
-          debugger;
-          console.log(obj.url());
-        }, function(err) {
-          // 数据保存失败
-          console.log(err);
-        });
+        var url;
+        
+        var tempFileName = imageURI.replace(/^.*[\\\/]/, '');
+
+        PictureService.copyToMem(tempFileName);
+
+        // PictureService.space().then(function(success){
+
+        // $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.documentsDirectory, "ElephantPics/" + tempFileName)
+        //   .then(function(success) {
+        //     // success
+        //     PictureService.clear();
+        //     PictureService.add(cordova.file.documentsDirectory + "ElephantPics/" + tempFileName);
+
+        //     alert("copied");
+        //   }, function(error) {
+        //     // error
+        //     alert("failed");
+        //   });
+
+        // });
+
+        // var file = new AV.File('myfile.jpeg', {
+        //   base64: imageData
+        // });
+        // file.save().then(function(obj) {
+        //   // 数据保存成功
+        //   debugger;
+        //   console.log(obj.url());
+        // }, function(err) {
+        //   // 数据保存失败
+        //   console.log(err);
+        // });
 
       }, function(err) {
         // error
@@ -110,6 +135,8 @@ angular.module('starter.controllers', ['ngCordova'])
   }
 
   $scope.imagePicker = function() {
+
+    PictureService.clearFileCache(); //REMOVE THIS BEFORE FLIGHT!!!!
 
     var options = {
       maximumImagesCount: 10,
@@ -125,23 +152,28 @@ angular.module('starter.controllers', ['ngCordova'])
           for (var i = 0; i < results.length; i++) {
             console.log('Image URI: ' + results[i]);
             var filePath = results[i];
-            window.plugins.Base64.encodeFile(filePath, function(base64) {
-              debugger;
-              base64 = base64.replace(/^data:image\/png;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
 
-              var file = new AV.File('myfile.jpg', {
-                base64: base64
-              });
-              file.save().then(function(obj) {
-                // 数据保存成功
-                debugger;
-                console.log(obj.url());
-              }, function(err) {
-                // 数据保存失败
-                console.log(err);
-              });
-              console.log('file base64 encoding: ' + base64);
-            });
+            var tempFileName = filePath.replace(/^.*[\\\/]/, '');
+
+            PictureService.copyToMem(tempFileName);
+
+            // window.plugins.Base64.encodeFile(filePath, function(base64) {
+            //   debugger;
+            //   base64 = base64.replace(/^data:image\/png;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
+
+            //   var file = new AV.File('myfile.jpg', {
+            //     base64: base64
+            //   });
+            //   file.save().then(function(obj) {
+            //     // 数据保存成功
+            //     debugger;
+            //     console.log(obj.url());
+            //   }, function(err) {
+            //     // 数据保存失败
+            //     console.log(err);
+            //   });
+            //   console.log('file base64 encoding: ' + base64);
+            // });
           }
         }, function(error) {
           // error getting photos
@@ -178,17 +210,6 @@ angular.module('starter.controllers', ['ngCordova'])
     });
 
   };
-
-  $scope.playlists = [{
-    title: 'Reggae',
-    id: 1
-  }, {
-    title: 'Chill',
-    id: 2
-  }, {
-    title: 'Dubstep',
-    id: 3
-  }];
 
   $scope.frames = [];
   $scope.frameImg = {};
@@ -252,24 +273,31 @@ angular.module('starter.controllers', ['ngCordova'])
 
 
     });
-  }
-
+}
   $scope.button = function() {
-    // console.log($scope.frameImg);
-    var temp = StorageService.get('56ab71ecd342d300543803ca');
-    console.log(temp);
+      // console.log($scope.frameImg);
+      var temp = StorageService.get('56ab71ecd342d300543803ca');
+      console.log(temp);
 
-    // var frame = AV.Object.createWithoutData('frame', '56ab71ecd342d300543803ca');
+      var imageUri = PictureService.getAll()[0];
 
-    // var query = new AV.Query('FileOfFrame');
-    //   query.equalTo('frame', frame);
-    //   query.find().then(function(data) {
-    //     debugger;
-    //     console.log(" + "+data.attributes.file._url);
-    //   }, function(error) {
-    //     console.log(error);
-    //   });
+      window.plugins.Base64.encodeFile(imageUri, function(base64) {
+        debugger;
+        base64 = base64.replace(/^data:image\/png;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
 
+        var file = new AV.File('myfileNew.jpg', {
+          base64: base64
+        });
+        file.save().then(function(obj) {
+          // 数据保存成功
+          debugger;
+          console.log("IMG SAVED TO AV:" + obj.url());
+        }, function(err) {
+          // 数据保存失败
+          console.log("ERR:" + err);
+        });
+        
+      });
 
   }
 
@@ -288,7 +316,6 @@ angular.module('starter.controllers', ['ngCordova'])
     getFrame();
   } else {
     $scope.frames = StorageService.getAll();
-    debugger;
   }
 
 })

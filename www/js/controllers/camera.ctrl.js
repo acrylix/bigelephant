@@ -1,6 +1,6 @@
 angular.module('camera.controllers', ['ngCordova'])
 
-// CAMERA VIEW CONTROLLER
+// CAMERA VIEW CONTROLLER deprecated...
 .controller('CameraCtrl', function($scope, $cordovaFile, $ionicLoading, $cordovaSocialSharing, $ionicHistory, $ionicLoading) {
 
 

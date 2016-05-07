@@ -1,0 +1,836 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"for",
+				"for	for (…) {…}"
+			],
+			[
+				"padding",
+				"padding-left"
+			],
+			[
+				"margin",
+				"margin-top"
+			],
+			[
+				"ionicside",
+				"ion-js-$ionicSideMenuDelegate-html	ion-js-$ionicSideMenuDelegate-html"
+			],
+			[
+				"ionicsidemen",
+				"ion-js-$ionicSideMenuDelegate-ng	ion-js-$ionicSideMenuDelegate-ng"
+			],
+			[
+				"border",
+				"border-left"
+			],
+			[
+				"translate",
+				"translateProvider"
+			],
+			[
+				"backgroun",
+				"background-image"
+			],
+			[
+				"back",
+				"background"
+			],
+			[
+				"shortlist",
+				"shortlistJson"
+			],
+			[
+				"checklist",
+				"checklistmodule"
+			],
+			[
+				"constraint",
+				"constraint_range"
+			],
+			[
+				"course_",
+				"course_list"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "form",
+		"selected_items":
+		[
+			[
+				"form",
+				"Format: Javascript"
+			],
+			[
+				"for",
+				"Format: Javascript"
+			],
+			[
+				"format",
+				"Format: Javascript"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"jsli",
+				"JSLint"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"package in",
+				"Package Control: Install Package"
+			],
+			[
+				"status",
+				"Git: Status"
+			],
+			[
+				"pull",
+				"Git: Pull Current Branch"
+			],
+			[
+				"git",
+				"Git: Diff"
+			],
+			[
+				"git branch ",
+				"Legit: Branches"
+			],
+			[
+				"log",
+				"Git: Log"
+			],
+			[
+				"git log",
+				"Git: Log"
+			],
+			[
+				"git: status",
+				"Git: Status"
+			],
+			[
+				"git: sta",
+				"Git: Stash"
+			],
+			[
+				"git: stat",
+				"Git: Status"
+			],
+			[
+				"package",
+				"Package Control: List Packages"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 593.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"Git: status",
+			"git: status",
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/Michael/.zshrc",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/bower.json",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/scss/ionic.app.scss",
+		"/Users/Michael/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
+		"/Users/Michael/Library/Application Support/Sublime Text 3/Packages/Default/Default (OSX).sublime-keymap",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/index.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/services/user.service.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/playlists.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/user.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start/login.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/camera.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/app.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/camera.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start/signup.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/menu.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/.bowerrc",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/.gitignore",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/scss/ionic.app.scss",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/user/user-inbox.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/invoice.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/mentor-chat.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/payment.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/tab-list.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/list-detail.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/js/app.js",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/tabs.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/mentor/tabs.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/js/controllers/user.ctrl.js",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/config.xml",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/mentor/account/profile.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/mentor/inbox.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/mentor/account/offerings.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/user/login.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/js/controllers/app.ctrl.js",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/js/controllers/mentor.ctrl.js",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/schedule-picker.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/scss/chat.scss",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/tab-account.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/css/style.css",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/js/services/user.service.js",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/js/services/app.service.js",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/mentor/profile.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/mentor/personal-info.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/mentor/calendar.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/js/services/mentor.service.js",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/mentor/appointment.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/js/services/firebase.service.js",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/index.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/css/ionic.app.css",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/.gitignore",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/node_modules/bower/lib/core/resolvers/GitResolver.js",
+		"/Users/Michael/.bash_profile",
+		"/Users/Michael/Library/Application Support/Sublime Text 3/Packages/HTMLBeautify/HTMLBeautify.sublime-settings",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/mentor/appointments.html",
+		"/Users/Michael/Library/Application Support/Sublime Text 3/Packages/User/mavensmate.sublime-settings",
+		"/Users/Michael/Library/Application Support/Sublime Text 3/Packages/MavensMate/mavensmate.sublime-settings",
+		"/Users/Michael/Documents/bashPref/.bash_profile",
+		"/Users/Michael/Documents/bashPref/.git/MERGE_MSG",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/plugins/ios.json",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/templates/mentor/home.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/ionic.project",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/bower.json",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/.bowerrc",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/insider.sublime-project",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/Insider.sublime-project",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/js/locales/angular-locale_zh-cn.js",
+		"/Users/Michael/Documents/INSIDER/Mobile/isdr/www/js/locales/angular-locale_en-us.js",
+		"/Users/Michael/Documents/INSIDER/Mobile/www/js/user/controllers.js",
+		"/Users/Michael/Documents/INSIDER/Mobile/www/templates/user/login.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/www/lib/ionic/scss/_variables.scss",
+		"/Users/Michael/Documents/INSIDER/Mobile/config.xml",
+		"/Users/Michael/Documents/INSIDER/Mobile/www/index.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/www/css/style.css",
+		"/Users/Michael/Documents/INSIDER/Mobile/.gitignore",
+		"/Users/Michael/Documents/INSIDER/Mobile/www/templates/user/signup.html",
+		"/Users/Michael/Documents/INSIDER/Mobile/www/js/user/services.js",
+		"/Users/Michael/Documents/ECE/Weighted_graph_tester.h",
+		"/Users/Michael/Documents/ECE/Weighted_graph_driver.cpp",
+		"/Users/Michael/Documents/ECE/Weighted_graph.h",
+		"/Users/Michael/Documents/ECE/Tester.h",
+		"/Users/Michael/Documents/ECE/Exception.h",
+		"/Users/Michael/Documents/ECE/test.out.txt",
+		"/Users/Michael/Documents/ECE/test.in.txt",
+		"/Users/Michael/Documents/ECE/ece250.h",
+		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/js/buyer/controllers.js",
+		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/js/app.js",
+		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/js/controllers.js",
+		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/templates/buyer/request.html",
+		"/Users/Michael/Desktop/test.js",
+		"/Users/Michael/Documents/blog/blog/ghost-0.6.4/config.js",
+		"/Users/Michael/Documents/blog/blog/ghost-0.6.4/.git/COMMIT_EDITMSG",
+		"/Users/Michael/Documents/ALGO/AlgoMobile/ParseCloudCode/AlgoBasket/cloud/main.js",
+		"/Users/Michael/Documents/ALGO/AlgoMobile/ParseCloudCode/AlgoBasket/cloud/driver.js",
+		"/Users/Michael/Documents/ALGO/AlgoMobile/ParseCloudCode/AlgoBasket/cloud/user.js",
+		"/Users/Michael/Documents/ALGO/AlgoMobile/ParseCloudCode/AlgoBasket/cloud/buyer.js",
+		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/package.json",
+		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/templates/menu.html",
+		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/index.html",
+		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/css/app.css",
+		"/Users/Michael/bash_profile",
+		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/templates/login.html",
+		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/config.xml",
+		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/.bowerrc",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/js/app.js",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/index.html",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/js/buyer/controllers.js",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/.bowerrc",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/templates/buyer/driverTripDetail.html",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/.io-config.json",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/css/app.css",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/templates/home.html",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/templates/buyer/tripDetail.html",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/templates/login.html",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/js/controllers.js",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/templates/register.html",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/bower_components/parse/parse.js",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/platforms/ios/build/emulator/AlgoBasket.app/www/js/controllers.js",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/lib/ionic-timepicker/src/ionic-timepicker.js",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/package.json",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/platforms/ios/build/emulator/AlgoBasket.app/www/js/driver/controllers.js",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/js/driver/controllers.js",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/templates/driver/trip.html",
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/lib/ionic-timepicker/dist/templates.js",
+		"/Users/Michael/Desktop/teststripe.html",
+		"/Users/Michael/Documents/Algo/test/PushNotificationSample-master/www/js/services.js",
+		"/Users/Michael/Documents/Algo/test/PushNotificationSample-master/www/index.html",
+		"/Users/Michael/Documents/Algo/test/PushNotificationSample-master/www/js/controllers.js",
+		"/Users/Michael/Documents/Algo/test/algopp/AlgoMobile/.gitignore"
+	],
+	"find":
+	{
+		"height": 22.0
+	},
+	"find_in_files":
+	{
+		"height": 100.0,
+		"where_history":
+		[
+			"<open folders>",
+			"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"    // query.skip($scope.skip);\n    // query.limit(5);",
+			"150",
+			"file",
+			"window.locals",
+			"camera.controllers",
+			"user.controllers",
+			"profile-info",
+			"addUserToFire",
+			"resources",
+			"mentor.inbox",
+			"Woody Wu",
+			"doLogoutAction",
+			"Mentor Detail",
+			"schedulepickerctrl",
+			"account",
+			"MentorChatCtrl",
+			"HEAD",
+			"ParseConfiguration",
+			"ng-hide",
+			"ng-visible",
+			"parse",
+			"firebase.services",
+			"user.services",
+			"mentor.services",
+			"app-login",
+			"login",
+			"currentUser",
+			"attributes",
+			"signUpUser",
+			"then",
+			"Chats",
+			"ParseConfiguration",
+			"mentor.services",
+			"facebookSignIn",
+			"ser",
+			"ui-sref",
+			"ui-",
+			"pom",
+			"mentor.home",
+			"home",
+			"doLogoutAction",
+			"logout",
+			"debugger",
+			"doSomeAction",
+			"dosomething",
+			"debugger",
+			"rootscope",
+			"starter",
+			"allow",
+			"myapp613931",
+			"ion-social-facebook",
+			"login",
+			"parse.initialize",
+			"Error Creating User Accoun",
+			"ParseConfiguration",
+			"error logging in invalid login parameters",
+			"parse",
+			"<<",
+			"insert(",
+			"process",
+			"mapview",
+			"creditCardRegister",
+			"payment",
+			"Promocode",
+			"first_name",
+			"additional_tix",
+			"step2data",
+			"phone",
+			"logout",
+			".logout()",
+			"$scope.pushRegister();",
+			"se't",
+			"toState",
+			"buyerReque",
+			"notification.alert",
+			"Oaci",
+			"oaci",
+			"2368",
+			"port",
+			"result",
+			"getDriverList",
+			"setUserToRegisteredDevices",
+			"role",
+			"scope.token",
+			"app_id",
+			"com.",
+			"storeDeviceToken",
+			"buyerReq",
+			"ionicParseApp",
+			"storeDeviceToken",
+			"home",
+			"$rootScope.user",
+			"isLoggedIn(",
+			"isLogg",
+			"side-menu",
+			"signUp(",
+			"register",
+			"driverGoOnline",
+			"12-Hour Format",
+			"showConfirm(",
+			"showConfirm",
+			"Are you",
+			"isDriverOn",
+			"isDriver",
+			"isDriverOnline",
+			"driverGoOnline",
+			"parse.",
+			"require",
+			"requireJS",
+			"require",
+			"require(",
+			"Register success",
+			"storeDeviceToken",
+			"cordovaPush",
+			"promise",
+			"services.js",
+			"services",
+			"services.js",
+			"ionPlatform",
+			"$state.go",
+			"user.controllers",
+			"UserService",
+			"userservice",
+			"StarterApp",
+			"parse",
+			"HEAD",
+			"1009",
+			"tab-role"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"100",
+			"inbox"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 22.0
+	},
+	"input":
+	{
+		"height": 29.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.MavensMate-OutputPanel":
+	{
+		"height": 94.0
+	},
+	"output.exec":
+	{
+		"height": 303.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git-pull":
+	{
+		"height": 92.0
+	},
+	"pinned_build_system": "",
+	"project": "package.sublime-project",
+	"replace":
+	{
+		"height": 40.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"app",
+				"www/js/app.js"
+			],
+			[
+				"in",
+				"www/index.html"
+			],
+			[
+				"inde",
+				"www/index.html"
+			],
+			[
+				"ins",
+				"insider.sublime-project"
+			],
+			[
+				"git",
+				".gitignore"
+			],
+			[
+				"profil",
+				"www/templates/mentor/account/profile.html"
+			],
+			[
+				"login",
+				"www/templates/user/login.html"
+			],
+			[
+				"mentorctr",
+				"www/js/controllers/mentor.ctrl.js"
+			],
+			[
+				"profile",
+				"www/templates/mentor/account/profile.html"
+			],
+			[
+				"con",
+				"config.xml"
+			],
+			[
+				"coni",
+				"config.xml"
+			],
+			[
+				"tabs",
+				"www/templates/mentor/tabs.html"
+			],
+			[
+				"userin",
+				"www/templates/user/user-inbox.html"
+			],
+			[
+				"lo",
+				"www/templates/user/login.html"
+			],
+			[
+				"inbox",
+				"www/templates/mentor/inbox.html"
+			],
+			[
+				"log",
+				"www/templates/user/login.html"
+			],
+			[
+				"chat",
+				"www/templates/mentor-chat.html"
+			],
+			[
+				"tab",
+				"www/templates/tab-account.html"
+			],
+			[
+				"ta",
+				"www/templates/mentor/tabs.html"
+			],
+			[
+				"style",
+				"www/css/style.css"
+			],
+			[
+				"app.",
+				"www/js/app.js"
+			],
+			[
+				"tab-list",
+				"www/templates/tab-list.html"
+			],
+			[
+				"mentor",
+				"www/js/controllers/mentor.ctrl.js"
+			],
+			[
+				"appo",
+				"www/templates/mentor/appointment.html"
+			],
+			[
+				"conf",
+				"config.xml"
+			],
+			[
+				"gitig",
+				".gitignore"
+			],
+			[
+				"pro",
+				"www/templates/mentor/profile.html"
+			],
+			[
+				"h",
+				"www/templates/mentor/home.html"
+			],
+			[
+				"app.js",
+				"www/js/app.js"
+			],
+			[
+				"_vari",
+				"www/lib/ionic/scss/_variables.scss"
+			],
+			[
+				"_var",
+				"www/lib/ionic/scss/_variables.scss"
+			],
+			[
+				"ser",
+				"www/js/user/services.js"
+			],
+			[
+				"service",
+				"www/js/user/services.js"
+			],
+			[
+				"config",
+				"config.xml"
+			],
+			[
+				"request",
+				"www/templates/buyer/request.html"
+			],
+			[
+				"mapvi",
+				"www/templates/buyer/mapView.html"
+			],
+			[
+				"menu",
+				"www/templates/menu.html"
+			],
+			[
+				"core.js",
+				"www/lib/ionic-service-core/ionic-core.js"
+			],
+			[
+				".b",
+				".bowerrc"
+			],
+			[
+				"bo",
+				"bower.json"
+			],
+			[
+				".io",
+				".io-config.json"
+			],
+			[
+				"ios.js",
+				"plugins/ios.json"
+			],
+			[
+				"step1",
+				"Step1fields.html"
+			],
+			[
+				"step3",
+				"Step3fields.html"
+			],
+			[
+				"regis",
+				"registration.php"
+			],
+			[
+				".js",
+				"js/registration.js"
+			],
+			[
+				"php",
+				"test.php"
+			],
+			[
+				"home",
+				"home.html"
+			],
+			[
+				"step",
+				"Step3fields.html"
+			],
+			[
+				"css",
+				"css/registration.css"
+			],
+			[
+				"ste",
+				"Step1fields.html"
+			],
+			[
+				"regi",
+				"js/registration.js"
+			],
+			[
+				"re",
+				"js/registration.js"
+			],
+			[
+				"app.jsx",
+				"app/components/App.jsx"
+			],
+			[
+				"",
+				"app/components/App.jsx"
+			],
+			[
+				"request.dus",
+				"views/requestForm.dust"
+			],
+			[
+				"nav",
+				"views/includes/navbar.dust"
+			],
+			[
+				"style.",
+				"public/stylesheets/style.css"
+			],
+			[
+				"dbtria",
+				"views/dbtrial.dust"
+			],
+			[
+				"reque",
+				"node_modules/passport/lib/http/request.js"
+			],
+			[
+				"head",
+				"views/includes/header.dust"
+			],
+			[
+				"index.js",
+				"routes/index.js"
+			],
+			[
+				"login.pro",
+				"locales/US/en/login.properties"
+			],
+			[
+				"pack",
+				"package.json"
+			],
+			[
+				"li",
+				"License.txt"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 292.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

@@ -19,7 +19,7 @@ angular.module('frame.services', ['ngStorage'])
     $localStorage.frames.push(frame);
   }
   var _remove = function (frame) {
-    $localStorage.frame.splice($localStorage.things.indexOf(thing), 1);
+    $localStorage.frames.splice($localStorage.things.indexOf(thing), 1);
   }
   var _addLatestImg = function(frameId, url){
     for (var i = 0; i < $localStorage.frames.length; i++) {

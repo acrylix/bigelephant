@@ -13,7 +13,8 @@ angular.module('starter', [
     'user.controllers',
     'camera.controllers',
     'user.services',
-    'frame.services'
+    'frame.services',
+    'picture.services'
     ]
   )
 
