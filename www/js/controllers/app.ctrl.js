@@ -340,9 +340,9 @@ angular.module('starter.controllers', ['ngCordova'])
     // query.skip($scope.skip);
     // query.limit(30);
     query.find().then(function(pictures) {
-      // console.log(pictures.length);
+      console.log(pictures.length);
       for (var i = 0; i < pictures.length; i++) {
-        console.log(pictures[i].id);
+        console.log(pictures[i].id+' '+i);
         var file = pictures[i].get('file');
         var url = file.thumbnailURL(150, 150, 30);
         var full = file.thumbnailURL(500, 500, 100);

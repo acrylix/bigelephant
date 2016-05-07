@@ -117,6 +117,10 @@ angular.module('starter', [
   };   
 
   $rootScope.uploading = true;
+  $rootScope.uploadingInfo = {
+    total: 0,
+    current: 0
+  };
 
   //catch error routes
   $rootScope.$on('$stateChangeError',

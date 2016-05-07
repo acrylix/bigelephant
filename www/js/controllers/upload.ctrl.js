@@ -29,22 +29,25 @@ angular.module('upload.controllers', [])
 			$state.go('app.playlists');
 		}
 
-		function encodeFile(imageURI) {
+		function encodeFile(imageURI, index) {
 			debugger;
-			var defer = $q.defer();
 
+			var defer = $q.defer();
+			console.log("Begin Encode");
 			window.plugins.Base64.encodeFile(imageURI, function(base64) {
 
 				base64 = base64.replace(/^data:image\/png;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
 
 				var d = new Date();
 				var n = d.getTime();
-
+				console.log("Got Encode for "+ 'pic' + n + '.jpg');
 				var file = new AV.File('pic' + n + '.jpg', {
 					base64: base64
 				});
 				file.save().then(function(obj) {
 				  // 数据保存成功
+				  console.log("file SAVED");
+				  $rootScope.uploadingInfo.current = index;
 				  console.log(obj.url());
 				  defer.resolve(obj);
 				}, function(err) {
@@ -60,12 +63,15 @@ angular.module('upload.controllers', [])
 		function fileOfFrameEntry(files) {
 			var promises = [];
 
+			console.log("FOF Entry");
+
 			for (var i = 0; i < $scope.frames.length; i++) {
 				if ($scope.frames[i].checked) {
 					// frameIds.push($scope.frames[i].frame.id);
-					for (var j = 0; j < files.length; j++) {
+					for (var j = 0; j < files.length-1; j++) {
 						var frameId = $scope.frames[i].frame.id;
 
+						console.log("Saving FOF");
 						promises.push(saveFileOfFrameItem(frameId, files[j]));
 					}
 				}
@@ -73,6 +79,8 @@ angular.module('upload.controllers', [])
 
 			$q.all(promises).then(function(files) {
 				//NICE!
+				console.log("END HERE");
+				$rootScope.uploading = true;
 				debugger;
 			}).catch(function (error) {
 				console.log("FOF batch err: "+error);
@@ -101,20 +109,26 @@ angular.module('upload.controllers', [])
 		}
 
 		$scope.send = function() {
-			// $rootScope.uploading ? $rootScope.uploading = false : $rootScope.uploading = true;
+			$rootScope.uploading = false;
+
 			debugger;
 
 			var files = [];
 			var promises = [];
 			var imageUris = PictureService.getAll();
 
+			$rootScope.uploadingInfo.total = imageUris.length;
+
+			console.log("Start");
 			for (var i = 0; i < imageUris.length; i++) {
-				promises.push(encodeFile(imageUris[i]));
+				console.log("URI: "+imageUris[i]);
+				promises.push(encodeFile(imageUris[i], i+1));
 			}
 
 			$q.all(promises).then(function(files) {
 				files.push(files);
 				fileOfFrameEntry(files);
+				$rootScope.uploading = true;
 				debugger;
 			});
 
