@@ -95,43 +95,19 @@ angular.module('starter.controllers', ['ngCordova'])
         debugger;
 
         var url;
-        
+
         var tempFileName = imageURI.replace(/^.*[\\\/]/, '');
 
-        PictureService.copyToMem(tempFileName);
+        PictureService.prepDir().then(function(success) {
+          PictureService.copyToMem(tempFileName);
+        });
 
         $state.go('app.selectFrame', {});
 
-        // PictureService.space().then(function(success){
-
-        // $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.documentsDirectory, "ElephantPics/" + tempFileName)
-        //   .then(function(success) {
-        //     // success
-        //     PictureService.clear();
-        //     PictureService.add(cordova.file.documentsDirectory + "ElephantPics/" + tempFileName);
-
-        //     alert("copied");
-        //   }, function(error) {
-        //     // error
-        //     alert("failed");
-        //   });
-
-        // });
-
-        // var file = new AV.File('myfile.jpeg', {
-        //   base64: imageData
-        // });
-        // file.save().then(function(obj) {
-        //   // 数据保存成功
-        //   debugger;
-        //   console.log(obj.url());
-        // }, function(err) {
-        //   // 数据保存失败
-        //   console.log(err);
-        // });
 
       }, function(err) {
         // error
+        console.log(error);
       });
     });
   }
@@ -151,36 +127,26 @@ angular.module('starter.controllers', ['ngCordova'])
 
       $cordovaImagePicker.getPictures(options)
         .then(function(results) {
-          for (var i = 0; i < results.length; i++) {
-            console.log('Image URI: ' + results[i]);
-            var filePath = results[i];
 
-            var tempFileName = filePath.replace(/^.*[\\\/]/, '');
+          PictureService.prepDir().then(function(success) {
 
-            PictureService.copyToMem(tempFileName);
+            for (var i = 0; i < results.length; i++) {
+              console.log('Image URI: ' + results[i]);
+              var filePath = results[i];
 
-            $state.go('app.selectFrame', {});
+              var tempFileName = filePath.replace(/^.*[\\\/]/, '');
 
-            // window.plugins.Base64.encodeFile(filePath, function(base64) {
-            //   debugger;
-            //   base64 = base64.replace(/^data:image\/png;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
+              PictureService.copyToMem(tempFileName);
 
-            //   var file = new AV.File('myfile.jpg', {
-            //     base64: base64
-            //   });
-            //   file.save().then(function(obj) {
-            //     // 数据保存成功
-            //     debugger;
-            //     console.log(obj.url());
-            //   }, function(err) {
-            //     // 数据保存失败
-            //     console.log(err);
-            //   });
-            //   console.log('file base64 encoding: ' + base64);
-            // });
-          }
+              $state.go('app.selectFrame', {});
+
+            }
+
+          });
+
         }, function(error) {
           // error getting photos
+          console.log(error);
         });
     });
 
@@ -277,31 +243,31 @@ angular.module('starter.controllers', ['ngCordova'])
 
 
     });
-}
+  }
   $scope.button = function() {
-      // console.log($scope.frameImg);
-      var temp = StorageService.get('56ab71ecd342d300543803ca');
-      console.log(temp);
+    // console.log($scope.frameImg);
+    var temp = StorageService.get('56ab71ecd342d300543803ca');
+    console.log(temp);
 
-      var imageUri = PictureService.getAll()[0];
+    var imageUri = PictureService.getAll()[0];
 
-      window.plugins.Base64.encodeFile(imageUri, function(base64) {
-        debugger;
-        base64 = base64.replace(/^data:image\/png;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
+    window.plugins.Base64.encodeFile(imageUri, function(base64) {
+      debugger;
+      base64 = base64.replace(/^data:image\/png;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
 
-        var file = new AV.File('myfileNew.jpg', {
-          base64: base64
-        });
-        file.save().then(function(obj) {
-          // 数据保存成功
-          debugger;
-          console.log("IMG SAVED TO AV:" + obj.url());
-        }, function(err) {
-          // 数据保存失败
-          console.log("ERR:" + err);
-        });
-        
+      var file = new AV.File('myfileNew.jpg', {
+        base64: base64
       });
+      file.save().then(function(obj) {
+        // 数据保存成功
+        debugger;
+        console.log("IMG SAVED TO AV:" + obj.url());
+      }, function(err) {
+        // 数据保存失败
+        console.log("ERR:" + err);
+      });
+
+    });
 
   }
 
@@ -371,11 +337,12 @@ angular.module('starter.controllers', ['ngCordova'])
     var frame = AV.Object.createWithoutData('frame', $stateParams.playlistId);
 
     query.equalTo('frame', frame);
-    query.skip($scope.skip);
-    query.limit(30);
+    // query.skip($scope.skip);
+    // query.limit(30);
     query.find().then(function(pictures) {
-      console.log(pictures);
+      // console.log(pictures.length);
       for (var i = 0; i < pictures.length; i++) {
+        console.log(pictures[i].id);
         var file = pictures[i].get('file');
         var url = file.thumbnailURL(150, 150, 30);
         var full = file.thumbnailURL(500, 500, 100);
@@ -385,11 +352,10 @@ angular.module('starter.controllers', ['ngCordova'])
           full: full
         });
         $scope.$apply();
-        debugger;
       }
       debugger;
       $scope.$broadcast('scroll.infiniteScrollComplete');
-      $scope.skip+=30;
+      $scope.skip += 30;
       console.log($scope.skip);
 
     }, function(error) {

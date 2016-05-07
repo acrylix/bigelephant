@@ -71,6 +71,7 @@ angular.module('picture.services', ['ngStorage'])
       }
 
       var prepDir = function() {
+        _clear();
         var defer = $q.defer();
 
         checkDir().then(function(result) {
@@ -120,12 +121,10 @@ angular.module('picture.services', ['ngStorage'])
 
 
       var copyImgToMem = function(tempFileName) {
-        prepDir().then(function(success) {
 
           $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.documentsDirectory, "ElephantPics/" + tempFileName)
             .then(function(success) {
               // success
-              _clear();
               _add(cordova.file.documentsDirectory + "ElephantPics/" + tempFileName);
 
             }, function(error) {
@@ -133,7 +132,6 @@ angular.module('picture.services', ['ngStorage'])
               alert("failed");
             });
 
-        });
       }
 
       return {
@@ -142,7 +140,7 @@ angular.module('picture.services', ['ngStorage'])
         remove: _remove,
         isEmpty: _isEmpty,
         clear: _clear,
-        space: prepDir,
+        prepDir: prepDir,
         clearFileCache: clearPicCacheDir,
         copyToMem: copyImgToMem
       };
