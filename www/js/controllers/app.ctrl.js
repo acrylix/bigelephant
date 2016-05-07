@@ -66,16 +66,13 @@ angular.module('starter.controllers', ['ngCordova'])
   StorageService,
   PictureService) {
 
+  //background loader//
   $scope.showUpload = false;
 
   $rootScope.$on('upload-started', function(event, args) {
-
-    // do what you want to do
     $scope.showUpload = true;
     $scope.total = args.total;
     $scope.current = 0;
-
-    debugger;
   });
   $rootScope.$on('upload-increment', function(event, args) {
     if ($scope.current < $scope.total) {
@@ -85,6 +82,7 @@ angular.module('starter.controllers', ['ngCordova'])
   $rootScope.$on('upload-completed', function(event, args) {
     $scope.showUpload = false;
   });
+  //background loader//
 
   $scope.shouldShowDelete = false;
   $scope.shouldShowReorder = false;
@@ -316,7 +314,7 @@ angular.module('starter.controllers', ['ngCordova'])
 })
 
 
-.controller('PlaylistCtrl', function($scope, $stateParams, StorageService, $ionicModal, $ionicScrollDelegate) {
+.controller('PlaylistCtrl', function($scope, $rootScope, $state, $stateParams, StorageService, $ionicModal, $ionicScrollDelegate) {
 
   $scope.images = [];
 
@@ -347,6 +345,7 @@ angular.module('starter.controllers', ['ngCordova'])
   $scope.skip = 0;
 
   $scope.$on('$stateChangeSuccess', function() {
+    $rootScope.show();
     $scope.loadImages();
   });
 
@@ -362,6 +361,7 @@ angular.module('starter.controllers', ['ngCordova'])
     // query.limit(30);
     query.find().then(function(pictures) {
       console.log(pictures.length);
+      $rootScope.hide();
       for (var i = 0; i < pictures.length; i++) {
         console.log(pictures[i].id + ' ' + i);
         var file = pictures[i].get('file');
