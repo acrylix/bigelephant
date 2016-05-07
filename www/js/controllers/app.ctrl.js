@@ -100,6 +100,8 @@ angular.module('starter.controllers', ['ngCordova'])
 
         PictureService.copyToMem(tempFileName);
 
+        $state.go('app.selectFrame', {});
+
         // PictureService.space().then(function(success){
 
         // $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.documentsDirectory, "ElephantPics/" + tempFileName)
@@ -156,6 +158,8 @@ angular.module('starter.controllers', ['ngCordova'])
             var tempFileName = filePath.replace(/^.*[\\\/]/, '');
 
             PictureService.copyToMem(tempFileName);
+
+            $state.go('app.selectFrame', {});
 
             // window.plugins.Base64.encodeFile(filePath, function(base64) {
             //   debugger;
@@ -319,6 +323,12 @@ angular.module('starter.controllers', ['ngCordova'])
   }
 
 })
+
+.controller('UploadingController', function($scope, $stateParams, StorageService, $ionicModal, $ionicScrollDelegate) {
+  $scope.upload = false;
+})
+
+
 .controller('PlaylistCtrl', function($scope, $stateParams, StorageService, $ionicModal, $ionicScrollDelegate) {
 
   $scope.images = [];

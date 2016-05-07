@@ -12,6 +12,7 @@ angular.module('starter', [
     'starter.controllers',
     'user.controllers',
     'camera.controllers',
+    'upload.controllers',
     'user.services',
     'frame.services',
     'picture.services'
@@ -68,6 +69,15 @@ angular.module('starter', [
         }
       }
     })
+    .state('app.selectFrame', {
+      url: '/selectFrame',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/pictureUpload/selectFrame.html',
+          controller: 'FrameSelectController'
+        }
+      }
+    })
     .state('app.camera', {
       url: '/camera',
       views: {
@@ -105,6 +115,8 @@ angular.module('starter', [
   $rootScope.hide = function(){
     $ionicLoading.hide();
   };   
+
+  $rootScope.uploading = true;
 
   //catch error routes
   $rootScope.$on('$stateChangeError',

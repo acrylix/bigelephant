@@ -48,7 +48,6 @@ angular.module('picture.services', ['ngStorage'])
         $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.documentsDirectory, "ElephantPics/" + tempFileName)
           .then(function(success) {
             // success
-            alert("copied");
           }, function(error) {
             // error
             alert("failed");
@@ -61,7 +60,6 @@ angular.module('picture.services', ['ngStorage'])
           .then(function(success) {
             // success
             defer.resolve(success);
-            alert('cache cleared');
 
           }, function(error) {
             // error
@@ -130,7 +128,6 @@ angular.module('picture.services', ['ngStorage'])
               _clear();
               _add(cordova.file.documentsDirectory + "ElephantPics/" + tempFileName);
 
-              alert("copied");
             }, function(error) {
               // error
               alert("failed");
