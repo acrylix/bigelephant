@@ -11,6 +11,8 @@ angular.module('starter', [
     'ionic-cache-src',
     'starter.controllers',
     'user.controllers',
+    'album.controllers',
+    'gallery.controllers',
     'camera.controllers',
     'upload.controllers',
     'user.services',
@@ -65,7 +67,7 @@ angular.module('starter', [
       views: {
         'menuContent': {
           templateUrl: 'templates/playlists.html',
-          controller: 'PlaylistsCtrl'
+          controller: 'AlbumController'
         }
       }
     })
@@ -93,7 +95,7 @@ angular.module('starter', [
     views: {
       'menuContent': {
         templateUrl: 'templates/playlist.html',
-        controller: 'PlaylistCtrl'
+        controller: 'GalleryController'
       }
     }
   });
