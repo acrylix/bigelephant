@@ -12,7 +12,7 @@ angular.module('starter.controllers', ['ngCordova'])
     }
   })
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $state, $ionicModal, $timeout, UserService) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -41,6 +41,13 @@ angular.module('starter.controllers', ['ngCordova'])
     $scope.modal.show();
   };
 
+  $scope.logout = function(){
+    UserService.logout().then(function(done){
+      $state.go('app-login');
+    }, function(error){
+      $state.go('app-login');
+    })
+  };
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);

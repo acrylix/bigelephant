@@ -1,4 +1,4 @@
-angular.module('album.controllers', [])
+angular.module('album.controllers', ['ionic'])
 
 .controller('AlbumController', function(
 	$scope,

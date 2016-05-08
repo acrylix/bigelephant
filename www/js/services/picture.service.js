@@ -19,7 +19,7 @@ angular.module('picture.services', ['ngStorage'])
       var checkDir = function() {
         var defer = $q.defer();
 
-        $cordovaFile.checkDir(cordova.file.documentsDirectory, "ElephantPics")
+        $cordovaFile.checkDir(cordova.file.dataDirectory, "ElephantPics")
           .then(function(success) {
             defer.resolve(success);
           }, function(error) {
@@ -32,7 +32,7 @@ angular.module('picture.services', ['ngStorage'])
       var createDir = function() {
 
         var defer = $q.defer();
-        $cordovaFile.createDir(cordova.file.documentsDirectory, "ElephantPics", false)
+        $cordovaFile.createDir(cordova.file.dataDirectory, "ElephantPics", false)
           .then(function(success) {
             // success
             defer.resolve(success);
@@ -45,7 +45,7 @@ angular.module('picture.services', ['ngStorage'])
       }
 
       var copyImg = function(tempFileName) { //with extension
-        $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.documentsDirectory, "ElephantPics/" + tempFileName)
+        $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.dataDirectory, "ElephantPics/" + tempFileName)
           .then(function(success) {
             // success
           }, function(error) {
@@ -56,7 +56,7 @@ angular.module('picture.services', ['ngStorage'])
 
       var clearPicCacheDir = function() {
         var defer = $q.defer();
-        $cordovaFile.removeRecursively(cordova.file.documentsDirectory, "ElephantPics") //Dangerous
+        $cordovaFile.removeRecursively(cordova.file.dataDirectory, "ElephantPics") //Dangerous
           .then(function(success) {
             // success
             defer.resolve(success);
@@ -122,10 +122,10 @@ angular.module('picture.services', ['ngStorage'])
 
       var copyImgToMem = function(tempFileName) {
 
-          $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.documentsDirectory, "ElephantPics/" + tempFileName)
+          $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.dataDirectory, "ElephantPics/" + tempFileName)
             .then(function(success) {
               // success
-              _add(cordova.file.documentsDirectory + "ElephantPics/" + tempFileName);
+              _add(cordova.file.dataDirectory + "ElephantPics/" + tempFileName);
 
             }, function(error) {
               // error
