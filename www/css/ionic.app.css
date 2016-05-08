@@ -9753,6 +9753,15 @@ a.button {
 .album-top {
   z-index: 2; }
 
+.round-progress-wrapper {
+  background: white;
+  padding-left: 50%;
+  padding-top: 10%; }
+
+.round-progress {
+  width: 50px;
+  height: 37px; }
+
 #frame-list-user-avatar {
   display: block;
   border-radius: 100px;
