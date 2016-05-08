@@ -281,28 +281,29 @@ angular.module('album.controllers', ['ionic'])
 	}
 	$scope.button = function() {
 		// console.log($scope.frameImg);
-		var temp = StorageService.get('56ab71ecd342d300543803ca');
-		console.log(temp);
+		alert('available in next version');
+		// var temp = StorageService.get('56ab71ecd342d300543803ca');
+		// console.log(temp);
 
-		var imageUri = PictureService.getAll()[0];
+		// var imageUri = PictureService.getAll()[0];
 
-		window.plugins.Base64.encodeFile(imageUri, function(base64) {
-			debugger;
-			base64 = base64.replace(/^data:image\/png;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
+		// window.plugins.Base64.encodeFile(imageUri, function(base64) {
+		// 	debugger;
+		// 	base64 = base64.replace(/^data:image\/png;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
 
-			var file = new AV.File('myfileNew.jpg', {
-				base64: base64
-			});
-			file.save().then(function(obj) {
-				// 数据保存成功
-				debugger;
-				console.log("IMG SAVED TO AV:" + obj.url());
-			}, function(err) {
-				// 数据保存失败
-				console.log("ERR:" + err);
-			});
+		// 	var file = new AV.File('myfileNew.jpg', {
+		// 		base64: base64
+		// 	});
+		// 	file.save().then(function(obj) {
+		// 		// 数据保存成功
+		// 		debugger;
+		// 		console.log("IMG SAVED TO AV:" + obj.url());
+		// 	}, function(err) {
+		// 		// 数据保存失败
+		// 		console.log("ERR:" + err);
+		// 	});
 
-		});
+		// });
 
 	}
 

@@ -64,7 +64,7 @@ angular.module('picture.services', ['ngStorage'])
           }, function(error) {
             // error
             defer.reject(error);
-            alert('cache clear failed');
+            console.log('clear dir failed: already empty its ok');
           });
 
         return defer.promise;

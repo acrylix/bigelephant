@@ -86,9 +86,9 @@ angular.module('upload.controllers', [])
 				var myPopup = $ionicPopup.show({
 
 					title: '上传结束',
-					subTitle: '用时秒',
+					subTitle: '用时 x 秒',
 					buttons: [{
-						text: 'Cancel',
+						text: 'Ok',
 						type: 'button-energized'
 					}, ]
 				});
