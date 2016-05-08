@@ -225,8 +225,7 @@ angular.module('album.controllers', [])
 			for (var i = 0; i < $scope.frames.length; i++) {
 				$scope.frames[i]
 				getLatestFrameImg($scope.frames[i].frame.id).then(function(url) {
-					frameItem.latestImg = url;
-					debugger;
+
 				}, function(error) {
 					console.log("album cover err: " + error);
 				});
