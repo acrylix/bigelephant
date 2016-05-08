@@ -12,6 +12,7 @@ angular.module('album.controllers', [])
 	$ionicPlatform,
 	$cordovaCamera,
 	StorageService,
+	$ionicPopup,
 	PictureService) {
 
 	//background loader//
@@ -35,6 +36,29 @@ angular.module('album.controllers', [])
 	$scope.shouldShowDelete = false;
 	$scope.shouldShowReorder = false;
 	$scope.listCanSwipe = true;
+	
+
+	//Smart Search
+	$scope.myPopup = function() {
+		$scope.data = {};
+
+		$ionicPopup.show({
+			template: '<input type="text" ng-model="data.searchKeyWord">',
+			title: '智能搜索',
+			subTitle: 'ex. 美食',
+			scope: $scope,
+			buttons: [{
+				text: '取消'
+			}, {
+				text: '<b>搜索</b>',
+				type: 'button-energized',
+				onTap: function(e) {
+					alert($scope.data.searchKeyWord);
+				}
+			}]
+		})
+	};
+	//Smart Search
 
 	$scope.moveItem = function(item, fromIndex, toIndex) {
 		$scope.items.splice(fromIndex, 1);
@@ -151,16 +175,16 @@ angular.module('album.controllers', [])
 	$scope.frames = [];
 	$scope.frameImg = {};
 
-	var fillFramesArrayURL = function(frameId, URL){
+	var fillFramesArrayURL = function(frameId, URL) {
 		for (var i = 0; i < $scope.frames.length; i++) {
-			if($scope.frames[i].frame.id == frameId){
+			if ($scope.frames[i].frame.id == frameId) {
 				$scope.frames[i].latestImg = URL;
 				break;
 			}
 		}
 	}
 
-	$scope.test = function(){
+	$scope.test = function() {
 		debugger;
 	}
 
@@ -173,9 +197,9 @@ angular.module('album.controllers', [])
 		query.equalTo('sender', AV.User.current());
 		query.descending('createdAt');
 		query.first().then(function(data) {
-			console.log(" + " + data.attributes.file._url + " "+ frameId);
+			console.log(" + " + data.attributes.file._url + " " + frameId);
 
-			var thumbnail = data.attributes.file.thumbnailURL(500, 500,50);
+			var thumbnail = data.attributes.file.thumbnailURL(500, 500, 50);
 			fillFramesArrayURL(frameId, thumbnail);
 
 			defer.resolve(data.attributes.file._url);
@@ -272,17 +296,19 @@ angular.module('album.controllers', [])
 	$scope.listRefresh = function() {
 		StorageService.clear();
 
-		getFrame().then(function(success){
+		getFrame().then(function(success) {
 			$scope.$broadcast('scroll.refreshComplete');
-		},function(error){
+		}, function(error) {
 			$scope.$broadcast('scroll.refreshComplete');
 		});
 	};
 
-	if (StorageService.isEmpty()) {
-		getFrame();
-	} else {
-		$scope.frames = StorageService.getAll();
-	}
+	// if (StorageService.isEmpty()) {
+	// 	getFrame();
+	// } else {
+	// 	$scope.frames = StorageService.getAll();
+	// }
+
+	getFrame();
 
 })

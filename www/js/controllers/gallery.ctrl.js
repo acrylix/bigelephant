@@ -1,4 +1,18 @@
 angular.module('gallery.controllers', [])
+.directive('imageonload', function($rootScope) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            element.bind('load', function() {
+                $rootScope.hide();
+            });
+            element.bind('error', function(){
+                $rootScope.hide();
+                alert('image load failed');
+            });
+        }
+    };
+})
 
 .controller('GalleryController', function($scope, $rootScope, $state, $stateParams, StorageService, $ionicModal, $ionicScrollDelegate) {
 
@@ -9,6 +23,8 @@ angular.module('gallery.controllers', [])
 
   $scope.showImages = function(index) {
     $scope.activeSlide = index;
+    $scope.img = $scope.images[index];
+    $rootScope.show();
     $scope.showModal('templates/image-popover.html');
   }
 
@@ -49,7 +65,7 @@ angular.module('gallery.controllers', [])
         console.log(pictures[i].id + ' ' + i);
         var file = pictures[i].get('file');
         var url = file.thumbnailURL(150, 150, 30);
-        var full = file.thumbnailURL(500, 500, 100);
+        var full = file.thumbnailURL(1000, 1000, 10);
         $scope.images.push({
           id: i,
           src: url,
