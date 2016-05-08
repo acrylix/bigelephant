@@ -102,8 +102,12 @@ angular.module('gallery.controllers', [])
     .success(function(data, status, headers, config) {
       //success
       debugger;
-      $rootScope.hide();
+      
       console.log(data);
+
+      if(data.length == 0){
+        $scope.noResults = true;
+      }
 
       var promises = [];
 
@@ -113,6 +117,7 @@ angular.module('gallery.controllers', [])
 
       $q.all(promises).then(function(files) {
          //NICE!
+         $rootScope.hide();
          console.log("displaying smart search results");
 
        });

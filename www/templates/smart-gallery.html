@@ -7,6 +7,15 @@
 
 <ion-content>
 
+	<div class="card" style="margin-top: 62%;" ng-show="noResults">
+	  <div class="item item-text-wrap">
+	     <i class="icon ion-android-warning"></i> 智能搜索没有识别出这类的照片, 多上传一些吧!
+	     <button class="button button-block button-energized" ui-sref="app.playlists">
+		  返回
+		</button>
+	  </div>
+	</div>
+
 
 	<img class="gallery-img" ng-repeat="image in images"
     width="25%"
