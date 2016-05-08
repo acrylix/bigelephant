@@ -33,6 +33,7 @@ angular.module('gallery.controllers', [])
   $scope.loadImages = function() {
   	$rootScope.show();
     var query = new AV.Query('FileOfFrame');
+    query.equalTo('sender', AV.User.current());
     query.addDescending('createdAt');
     query.include('_File');
 

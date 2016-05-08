@@ -6,7 +6,7 @@ angular.module('starter.controllers', ['ngCordova'])
 
       content.css({
         'box-shadow': 'rgba(0, 0, 0, 0.4) 0px -79px 55px -26px inset',
-
+        'z-index': '100',
         'color': 'white'
       });
     }

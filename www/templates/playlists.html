@@ -1,4 +1,10 @@
-<ion-view view-title="相框">
+<ion-view view-title="大象框">
+
+<ion-nav-buttons side="right">
+        <button class="button" ng-click="test()">
+            TEST
+        </button>
+    </ion-nav-buttons>
 
   <ion-content>
   <ion-refresher
@@ -11,17 +17,17 @@
 		can-swipe="listCanSwipe">
     <ion-item back-img="" ng-repeat="frame in frames" href="#/app/playlists/{{frame.frame.id}}">
       <!-- {{playlist.title}} -->
-      <img id="frame-list-user-avatar" src="http://blog.sumall.com/wp-content/uploads/2015/05/default-profile-01.png">
+      <img id="frame-list-user-avatar" class="album-top" src="http://blog.sumall.com/wp-content/uploads/2015/05/default-profile-01.png">
       
-<!--       <div class="test">
-        <img id="test" style="width: 100px; height:100px;"cache-src="http://ac-g3mhlgpm.clouddn.com/3la9waakJJcb9zwr5DQE4QS8GSU3AMbL9DDa5qIG.jpg">
-      </div> -->
+      <div class="album-cover">
+        <img id="test" ng-src="{{frame.latestImg}}">
+      </div>
 
       <div class="row row-bottom">
         <div class="col col-10">
           <!-- {{frameImg['56ab71ecd342d300543803ca']}} -->
         </div>
-        <div class="col col-70 col-frame-item">
+        <div class="col col-70 col-frame-item album-top">
           <div class="col">{{frame.frameNickName}}<br>{{frame.frame.deviceIdShort}}</div>
         </div>
         <div class="col col-10">
@@ -31,7 +37,7 @@
           <div class="row">
           </div>
           <div class="row">
-            <div class="col col-frame-item">{{frame.totalImage}}张</div>
+            <div class="col col-frame-item album-top">{{frame.totalImage}}张</div>
           </div>
         </div>
       </div>
