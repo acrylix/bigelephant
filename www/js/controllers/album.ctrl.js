@@ -43,7 +43,7 @@ angular.module('album.controllers', [])
 		$scope.data = {};
 
 		$ionicPopup.show({
-			template: '<input type="text" ng-model="data.searchKeyWord">',
+			template: '<input type="text" class="smart-search-input" ng-model="data.searchKeyWord">',
 			title: '智能搜索',
 			subTitle: 'ex. 美食',
 			scope: $scope,
@@ -53,7 +53,7 @@ angular.module('album.controllers', [])
 				text: '<b>搜索</b>',
 				type: 'button-energized',
 				onTap: function(e) {
-					alert($scope.data.searchKeyWord);
+					$state.go('app.smartGallery', {key: $scope.data.searchKeyWord})
 				}
 			}]
 		})
@@ -186,6 +186,19 @@ angular.module('album.controllers', [])
 
 	$scope.test = function() {
 		debugger;
+		var query = new AV.Query('PhotoTag');
+
+		query.equalTo('objectId', '572e454479df540060b962df');
+		query.include('fileOfFrame');
+		query.first().then(function(data) {
+			debugger;
+			var file = data.attributes.fileOfFrame.attributes.file;
+			
+		}, function(error) {
+			console.log(error);
+
+		});
+
 	}
 
 	var getLatestFrameImg = function(frameId) { ///

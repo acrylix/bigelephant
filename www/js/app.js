@@ -71,6 +71,15 @@ angular.module('starter', [
         }
       }
     })
+    .state('app.smartGallery', {
+      url: '/smartGallery/:key',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/smart-gallery.html',
+          controller: 'SmartSearchController'
+        }
+      }
+    })
     .state('app.selectFrame', {
       url: '/selectFrame',
       views: {
@@ -107,7 +116,7 @@ angular.module('starter', [
   // loading helpers
   $rootScope.show = function() {
     $ionicLoading.show({
-          content: 'ripple',
+          content: 'dots',
           animation: 'fade-in',
           showBackdrop: true,
           maxWidth: 200,
