@@ -175,7 +175,8 @@ angular.module('album.controllers', [])
 		query.first().then(function(data) {
 			console.log(" + " + data.attributes.file._url + " "+ frameId);
 
-			fillFramesArrayURL(frameId, data.attributes.file._url);
+			var thumbnail = data.attributes.file.thumbnailURL(500, 500,50);
+			fillFramesArrayURL(frameId, thumbnail);
 
 			defer.resolve(data.attributes.file._url);
 		}, function(error) {

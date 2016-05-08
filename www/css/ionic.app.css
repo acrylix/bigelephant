@@ -9743,13 +9743,12 @@ a.button {
 
 .album-cover img {
   display: block;
-  height: 100%;
-  margin-left: -17px;
-  margin-top: -70px;
-  width: 115%;
+  margin-left: -19px;
+  margin-top: -97px;
+  width: 145%;
   position: relative;
   z-index: -1;
-  zoom: 3; }
+  zoom: 2; }
 
 .album-top {
   z-index: 2; }
