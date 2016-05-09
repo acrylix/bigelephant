@@ -37,7 +37,11 @@ angular.module('upload.controllers', [])
 			console.log("Begin Encode");
 			window.plugins.Base64.encodeFile(imageURI, function(base64) {
 
-				base64 = base64.replace(/^data:image\/png;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
+				if (ionic.Platform.isIOS()) {
+					base64 = base64.replace(/^data:image\/png;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
+				} else if (ionic.Platform.isAndroid()) {
+					base64 = base64.repace(/^data:image\/*;charset=utf-8;base64,/, '');
+				}
 
 				var d = new Date();
 				var n = d.getTime();

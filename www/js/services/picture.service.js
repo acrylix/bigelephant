@@ -45,7 +45,7 @@ angular.module('picture.services', ['ngStorage'])
       }
 
       var copyImg = function(tempFileName) { //with extension
-        $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.dataDirectory, "ElephantPics/" + tempFileName)
+        $cordovaFile.copyFile(ionic.Platform.isIOS() ? cordova.file.tempDirectory : cordova.file.externalCacheDirectory, tempFileName, cordova.file.dataDirectory, "ElephantPics/" + tempFileName)
           .then(function(success) {
             // success
           }, function(error) {
@@ -122,7 +122,7 @@ angular.module('picture.services', ['ngStorage'])
 
       var copyImgToMem = function(tempFileName) {
 
-          $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.dataDirectory, "ElephantPics/" + tempFileName)
+          $cordovaFile.copyFile(ionic.Platform.isIOS() ? cordova.file.tempDirectory : cordova.file.externalCacheDirectory, tempFileName, cordova.file.dataDirectory, "ElephantPics/" + tempFileName)
             .then(function(success) {
               // success
               _add(cordova.file.dataDirectory + "ElephantPics/" + tempFileName);
