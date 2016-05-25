@@ -104,6 +104,12 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 .transparent {
     background: transparent !important;
 }
+
+.image-loading-spinner{
+  position: fixed; /* or absolute */
+  top: 50%;
+  left: 50%;
+}
  
 .fullscreen-image {
     max-width: 100%;
@@ -115,6 +121,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     position: fixed;
     right: 0;
     top: 0;
+    z-index: -1;
 }
  
 .slider {

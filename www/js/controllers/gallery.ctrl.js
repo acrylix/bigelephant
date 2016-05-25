@@ -4,10 +4,15 @@ angular.module('gallery.controllers', [])
       restrict: 'A',
       link: function(scope, element, attrs) {
         element.bind('load', function() {
-          $rootScope.hide();
+
+          scope.loading = false;
+          scope.$apply();
         });
         element.bind('error', function() {
-          $rootScope.hide();
+
+          scope.loading = false;
+          scope.$apply();
+
           alert('image load failed');
         });
       }
@@ -146,7 +151,8 @@ angular.module('gallery.controllers', [])
   $scope.showImages = function(index) {
     $scope.activeSlide = index;
     $scope.img = $scope.images[index];
-    $rootScope.show();
+    // $rootScope.show();
+    $scope.loading = true;
     $scope.showModal('templates/image-popover.html');
   }
 
@@ -186,8 +192,8 @@ angular.module('gallery.controllers', [])
       for (var i = 0; i < pictures.length; i++) {
         console.log(pictures[i].id + ' ' + i);
         var file = pictures[i].get('file');
-        var url = file.thumbnailURL(150, 150, 30);
-        var full = file.thumbnailURL(1000, 1000, 10);
+        var url = file.thumbnailURL(150, 150, 10);
+        var full = file.thumbnailURL(800, 800, 10);
         $scope.images.push({
           id: i,
           src: url,
