@@ -57,8 +57,8 @@ angular.module('gallery.controllers', [])
     query.first().then(function(data) {
       debugger;
       var file = data.attributes.fileOfFrame.attributes.file;
-        var url = file.thumbnailURL(150, 150, 30);
-        var full = file.thumbnailURL(1000, 1000, 10);
+        var url = file.thumbnailURL(10, 10, 10); 
+        var full = file.thumbnailURL(667, 375, 10);
         $scope.images.push({
           id: index,
           src: url,

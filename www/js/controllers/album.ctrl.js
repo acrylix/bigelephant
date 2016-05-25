@@ -11,6 +11,7 @@ angular.module('album.controllers', ['ionic'])
 	$cordovaImagePicker,
 	$ionicPlatform,
 	$cordovaCamera,
+	$cordovaBarcodeScanner,
 	StorageService,
 	$ionicPopup,
 	PictureService) {
@@ -185,13 +186,13 @@ angular.module('album.controllers', ['ionic'])
 	}
 
 	$scope.test = function() {
-		debugger;
+		// debugger;
 		var query = new AV.Query('PhotoTag');
 
 		query.equalTo('objectId', '572e454479df540060b962df');
 		query.include('fileOfFrame');
 		query.first().then(function(data) {
-			debugger;
+			// debugger;
 			var file = data.attributes.fileOfFrame.attributes.file;
 			
 		}, function(error) {
@@ -212,7 +213,7 @@ angular.module('album.controllers', ['ionic'])
 		query.first().then(function(data) {
 			console.log(" + " + data.attributes.file._url + " " + frameId);
 
-			var thumbnail = data.attributes.file.thumbnailURL(500, 500, 50);
+			var thumbnail = data.attributes.file.thumbnailURL(300, 300, 10);
 			fillFramesArrayURL(frameId, thumbnail);
 
 			defer.resolve(data.attributes.file._url);
@@ -236,11 +237,11 @@ angular.module('album.controllers', ['ionic'])
 		query.find().then(function(results) {
 			console.log('Successfully retrieved ' + results.length + ' posts.');
 			// 处理返回的结果数据
-			debugger;
+			// debugger;
 			//$scope.frames = results;
 			for (var i = results.length - 1; i >= 0; i--) {
 				console.log(results[i].attributes.frame.id);
-				debugger;
+				// debugger;
 				var frameItem = {
 					frame: {
 						id: results[i].attributes.frame.id,
@@ -280,8 +281,18 @@ angular.module('album.controllers', ['ionic'])
 		return defer.promise;
 	}
 	$scope.button = function() {
+
+		$cordovaBarcodeScanner
+			.scan()
+			.then(function(barcodeData) {
+				// Success! Barcode data is here
+				console.log(barcodeData);
+
+			}, function(error) {
+				// An error occurred
+			});
+
 		// console.log($scope.frameImg);
-		alert('available in next version');
 		// var temp = StorageService.get('56ab71ecd342d300543803ca');
 		// console.log(temp);
 
@@ -317,12 +328,14 @@ angular.module('album.controllers', ['ionic'])
 		});
 	};
 
-	// if (StorageService.isEmpty()) {
-	// 	getFrame();
-	// } else {
-	// 	$scope.frames = StorageService.getAll();
-	// }
-
-	getFrame();
+	$scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+		// console.log('*****'+fromState.url);
+		if (StorageService.isEmpty() || fromState.url=="^") {
+			getFrame();
+		} else {
+			$scope.frames = StorageService.getAll();
+		}
+	});
+	
 
 })
