@@ -194,10 +194,12 @@ angular.module('gallery.controllers', [])
         var file = pictures[i].get('file');
         var url = file.thumbnailURL(150, 150, 10);
         var full = file.thumbnailURL(800, 800, 10);
+        var fuzzy = file.thumbnailURL(50, 50, 1);
         $scope.images.push({
           id: i,
           src: url,
-          full: full
+          full: full,
+          fuzzy: fuzzy
         });
         $scope.$apply();
       }

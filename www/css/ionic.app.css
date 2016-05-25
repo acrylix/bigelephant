@@ -9803,7 +9803,21 @@ a.button {
   position: fixed;
   /* or absolute */
   top: 50%;
-  left: 50%; }
+  left: 50%;
+  z-index: 5; }
+
+.fullscreen-image-fuzzy {
+  max-width: 100%;
+  max-height: 100%;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  overflow: auto;
+  position: fixed;
+  right: 0;
+  top: 0;
+  zoom: 50;
+  z-index: 1; }
 
 .fullscreen-image {
   max-width: 100%;
