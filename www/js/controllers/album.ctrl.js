@@ -13,6 +13,7 @@ angular.module('album.controllers', ['ionic'])
 	$cordovaCamera,
 	$cordovaBarcodeScanner,
 	StorageService,
+	$ionicModal,
 	$ionicPopup,
 	PictureService) {
 
@@ -37,7 +38,7 @@ angular.module('album.controllers', ['ionic'])
 	$scope.shouldShowDelete = false;
 	$scope.shouldShowReorder = false;
 	$scope.listCanSwipe = true;
-	
+
 
 	//Smart Search
 	$scope.myPopup = function() {
@@ -54,7 +55,9 @@ angular.module('album.controllers', ['ionic'])
 				text: '<b>搜索</b>',
 				type: 'button-energized',
 				onTap: function(e) {
-					$state.go('app.smartGallery', {key: $scope.data.searchKeyWord})
+					$state.go('app.smartGallery', {
+						key: $scope.data.searchKeyWord
+					})
 				}
 			}]
 		})
@@ -194,7 +197,7 @@ angular.module('album.controllers', ['ionic'])
 		query.first().then(function(data) {
 			// debugger;
 			var file = data.attributes.fileOfFrame.attributes.file;
-			
+
 		}, function(error) {
 			console.log(error);
 
@@ -280,13 +283,91 @@ angular.module('album.controllers', ['ionic'])
 
 		return defer.promise;
 	}
+
+	var checkFrame = function(id) {
+		var defer = $q.defer();
+
+		var query = new AV.Query('Frame');
+		query.equalTo('deviceIdShort', id);
+		query.first().then(function(data) {
+			console.log('frame found');
+			defer.resolve(data);
+		}, function(error) {
+			console.log('frame not found');
+			defer.reject();
+		});
+
+		return defer.promise;
+	}
+
+	var addFriendFrame = function(qr) {
+		checkFrame(qr).then(function(frame) {
+			if (!frame) {
+				alert('没有找到相框');
+			} else {
+				$scope.frameData = {};
+				$scope.frameData.id = frame.id;
+				$scope.frameData.deviceIdShort = frame.attributes.deviceIdShort;
+				$scope.frameData.deviceId = frame.attributes.deviceId;
+
+				$scope.modal.show();
+			}
+		}, function(error) {
+			alert('frame not found');
+		})
+	}
+
+	$ionicModal.fromTemplateUrl('templates/addFrame.html', {
+		scope: $scope
+	}).then(function(modal) {
+		$scope.modal = modal;
+	});
+
+	$scope.closeAddFrame = function() {
+		$scope.modal.hide();
+	};
+
+	function saveMapUserFrame() {
+		var defer = $q.defer();
+
+		var MUF = AV.Object.extend('MapUserFrame');
+		var muf = new MUF();
+		var frame = AV.Object.createWithoutData('Frame', $scope.frameData.id);
+		muf.set('frame', frame);
+		muf.set('frameDeviceId', $scope.frameData.deviceId);
+		muf.set('userNickName', $scope.frameData.userNickName);
+		muf.set('frameNickName', $scope.frameData.frameNickName);
+		muf.set('user', AV.User.current());
+
+		muf.save().then(function(muf) {
+			defer.resolve(muf.id);
+		}, function(err) {
+			console.log('Failed to create new muf, with error message: ' + err.message);
+			defer.reject();
+		});
+
+		return defer.promise;
+	}
+
+	$scope.addFriendFrameSave = function() {
+		debugger;
+		saveMapUserFrame().then(function(id) {
+			console.log('LINKED MUF ID: ' + id);
+			$scope.modal.hide();
+		}, function(error) {
+
+		});
+	}
+
 	$scope.button = function() {
 
 		$cordovaBarcodeScanner
 			.scan()
 			.then(function(barcodeData) {
-				// Success! Barcode data is here
+
 				console.log(barcodeData);
+
+				addFriendFrame(barcodeData.text);
 
 			}, function(error) {
 				// An error occurred
@@ -306,12 +387,12 @@ angular.module('album.controllers', ['ionic'])
 
 	$scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
 		// console.log('*****'+fromState.url);
-		if (StorageService.isEmpty() || fromState.url=="^") {
+		if (StorageService.isEmpty() || fromState.url == "^") {
 			getFrame();
 		} else {
 			$scope.frames = StorageService.getAll();
 		}
 	});
-	
+
 
 })
