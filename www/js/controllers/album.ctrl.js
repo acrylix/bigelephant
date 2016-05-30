@@ -246,6 +246,7 @@ angular.module('album.controllers', ['ionic'])
 				console.log(results[i].attributes.frame.id);
 				// debugger;
 				var frameItem = {
+					id: results[i].id,
 					frame: {
 						id: results[i].attributes.frame.id,
 						deviceIdShort: results[i].attributes.frame.attributes.deviceIdShort
@@ -282,6 +283,17 @@ angular.module('album.controllers', ['ionic'])
 		});
 
 		return defer.promise;
+	}
+
+	$scope.deteleFrame = function(frame, index){
+		
+		this.frames.splice(index, 1);
+		var frame = AV.Object.createWithoutData('MapUserFrame', frame.id);
+		frame.destroy().then(function() {
+		  	console.log('destroyed MUF '+frame.id);
+		}, function(error) {
+		  	console.log('destroyed MUF failed '+error);
+		});
 	}
 
 	var checkFrame = function(id) {
