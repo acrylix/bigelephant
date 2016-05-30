@@ -47,7 +47,9 @@ angular.module('gallery.controllers', [])
   // Close the modal
   $scope.closeModal = function() {
     $scope.modal.hide();
+    $scope.loading = false;
     $scope.modal.remove()
+    $scope.$apply();
   };
 
   $scope.skip = 0;
