@@ -30,7 +30,7 @@ angular.module('gallery.controllers', [])
   $scope.showImages = function(index) {
     $scope.activeSlide = index;
     $scope.img = $scope.images[index];
-    $rootScope.show();
+    $scope.loading = true;
     $scope.showModal('templates/image-popover.html');
   }
 
@@ -60,10 +60,11 @@ angular.module('gallery.controllers', [])
     query.equalTo('objectId', PhotoTagId);
     query.include('fileOfFrame');
     query.first().then(function(data) {
-      debugger;
-      var file = data.attributes.fileOfFrame.attributes.file;
-        var url = file.thumbnailURL(10, 10, 10); 
-        var full = file.thumbnailURL(667, 375, 10);
+
+      //var file = data.attributes.fileOfFrame.attributes.file;
+      if(data.get('fileOfFrame')){
+        var url = data.get('fileOfFrame').get('file').thumbnailURL(100, 100, 10); 
+        var full = data.get('fileOfFrame').get('file').thumbnailURL(800, 800, 10);
         $scope.images.push({
           id: index,
           src: url,
@@ -71,6 +72,10 @@ angular.module('gallery.controllers', [])
         });
         //$scope.$apply();
         defer.resolve();
+      }
+      else{
+        defer.reject();
+      }
 
     }, function(error) {
       console.log(error);
@@ -81,7 +86,8 @@ angular.module('gallery.controllers', [])
   }
 
   $scope.loadImages = function() {
-    $rootScope.show();
+    // $rootScope.show();
+    $scope.loading = true;
 
     myobject = {
       key: $stateParams.key,
@@ -122,15 +128,25 @@ angular.module('gallery.controllers', [])
 
       $q.all(promises).then(function(files) {
          //NICE!
-         $rootScope.hide();
+         // $rootScope.hide();
+         debugger;
+         $scope.loading = false;
+         $scope.$apply();
          console.log("displaying smart search results");
 
+       }, function(error){
+        debugger;
+         $scope.loading = false;
+         $scope.$apply();
+         console.log("displaying smart search results with err");
        });
 
     })
     .error(function(data, status, headers, config) {
       //error
-      $rootScope.hide();
+      // $rootScope.hide();
+      $scope.loading = false;
+      $scope.$apply();
       console.log('smart search ERROR');
     });
 
