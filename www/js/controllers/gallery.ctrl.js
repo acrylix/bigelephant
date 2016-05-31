@@ -164,7 +164,11 @@ angular.module('gallery.controllers', [])
   $scope.images = [];
 
   $scope.frame = StorageService.get($stateParams.playlistId);
-  debugger;
+
+  if($stateParams.playlistId == "cloud"){
+    $scope.frame = {};
+    $scope.frame.frameNickName = "云相册";
+  }
 
   $scope.showImages = function(index) {
     $scope.activeSlide = index;
@@ -199,9 +203,11 @@ angular.module('gallery.controllers', [])
     query.addDescending('createdAt');
     query.include('_File');
 
-    var frame = AV.Object.createWithoutData('frame', $stateParams.playlistId);
+    if($stateParams.playlistId != "cloud"){
+      var frame = AV.Object.createWithoutData('frame', $stateParams.playlistId);
 
-    query.equalTo('frame', frame);
+      query.equalTo('frame', frame);
+    }
     // query.skip($scope.skip);
     // query.limit(30);
     query.find().then(function(pictures) {

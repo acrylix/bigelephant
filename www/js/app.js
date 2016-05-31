@@ -15,6 +15,7 @@ angular.module('starter', [
     'gallery.controllers',
     'camera.controllers',
     'upload.controllers',
+    'album-cloud.controllers',
     'user.services',
     'frame.services',
     'picture.services'
@@ -68,6 +69,15 @@ angular.module('starter', [
         'menuContent': {
           templateUrl: 'templates/playlists.html',
           controller: 'AlbumController'
+        }
+      }
+    })
+    .state('app.album', {
+      url: '/album',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/album-cloud.html',
+          controller: 'CloudAlbumController'
         }
       }
     })

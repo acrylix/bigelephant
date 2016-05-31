@@ -9778,6 +9778,9 @@ a.button {
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.7);
   margin-bottom: -20px; }
 
+.cloud-album {
+  margin-top: 16px; }
+
 .col-frame-item {
   margin-bottom: -20px; }
 
