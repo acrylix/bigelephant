@@ -64,6 +64,48 @@ angular.module('album.controllers', ['ionic'])
 	};
 	//Smart Search
 
+	var renameFrameAction = function(frame, newName) {
+		console.log(frame.id + '- ' + newName);
+		$rootScope.show();
+
+		var Muf = AV.Object.extend('MapUserFrame');
+		var query = new AV.Query(Muf);
+
+		query.get(frame.id).then(function(muf) {
+			muf.set('frameNickName', newName);
+			muf.save().then(function() {
+				$rootScope.hide();
+				$scope.listRefresh();
+			}, function(error) {
+				$rootScope.hide();
+				console.log('error '+ error);
+			});
+
+		}, function(error) {
+			$rootScope.hide();
+			console.log('error '+ error);
+		});
+	}
+
+	$scope.renameFrame = function(frame) {
+		$scope.data = {};
+
+		$ionicPopup.show({
+			template: '<input type="text" class="smart-search-input" ng-model="data.newName">',
+			title: '修改备注',
+			scope: $scope,
+			buttons: [{
+				text: '取消'
+			}, {
+				text: '<b>确定</b>',
+				type: 'button-energized',
+				onTap: function(e) {
+					renameFrameAction(frame, $scope.data.newName);
+				}
+			}]
+		})
+	};
+
 	$scope.moveItem = function(item, fromIndex, toIndex) {
 		$scope.items.splice(fromIndex, 1);
 		$scope.items.splice(toIndex, 0, item);
@@ -285,14 +327,14 @@ angular.module('album.controllers', ['ionic'])
 		return defer.promise;
 	}
 
-	$scope.deteleFrame = function(frame, index){
-		
+	$scope.deteleFrame = function(frame, index) {
+
 		this.frames.splice(index, 1);
 		var frame = AV.Object.createWithoutData('MapUserFrame', frame.id);
 		frame.destroy().then(function() {
-		  	console.log('destroyed MUF '+frame.id);
+			console.log('destroyed MUF ' + frame.id);
 		}, function(error) {
-		  	console.log('destroyed MUF failed '+error);
+			console.log('destroyed MUF failed ' + error);
 		});
 	}
 

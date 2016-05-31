@@ -45,6 +45,10 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   z-index: 2;
 }
 
+.popup{
+  border-radius:10px !important;
+}
+
 .round-progress-wrapper{
     background: white;
     padding-left: 50%;
