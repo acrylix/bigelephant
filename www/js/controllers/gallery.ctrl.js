@@ -170,9 +170,9 @@ angular.module('gallery.controllers', [])
     $scope.frame.frameNickName = "云相册";
   }
 
-  $scope.showImages = function(index) {
+  $scope.showImages = function(index, date) {
     $scope.activeSlide = index;
-    $scope.img = $scope.images[index];
+    $scope.img = $scope.imgp[date][1][index];
     // $rootScope.show();
     $scope.loading = true;
     $scope.showModal('templates/image-popover.html');
