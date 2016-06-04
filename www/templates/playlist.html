@@ -27,14 +27,14 @@
 	<a class="item item-thumbnail-left album-detail" href="">
 		<img id="frame-list-user-avatar" class="album-top album-big-avatar" src="http://blog.sumall.com/wp-content/uploads/2015/05/default-profile-01.png">
 		<div class="cloud-album">
-		<h2 >name</h2>
-		<p>1234张</p>
+		<h2 >{{frame.frameNickName}}</h2>
+		<p>已分享 1234 张</p>
 		</div>
 	</a>
 
 
 		<div ng-repeat="groupedPair in imgp track by groupedPair[0]">
-		        <ion-item class="item-divider">
+		        <ion-item class="item-divider gallery-divider">
 		            {{groupedPair[0]}}
 		        </ion-item>
 						<img class="gallery-img" ng-repeat="item in groupedPair[1] track by item.id"
