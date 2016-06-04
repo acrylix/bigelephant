@@ -44,6 +44,17 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 .album-top {
   z-index: 2;
 }
+.album-detail{
+	padding-top: 0px !important;
+	height: 70px !important;
+	min-height: 0px !important;
+	padding-left: 80px;
+}
+
+.album-big-avatar{
+	height: 50px !important;
+	width: 50px !important;
+}
 
 .popup{
   border-radius:10px !important;
@@ -90,9 +101,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 }
 
 .gallery-img{
-    padding-top: 5px;
-    padding-right: 5px;
-    padding-left: 5px;
+    padding-top: 3px;
+    padding-right: 3px;
+    padding-left: 3px;
 }
 
 // popover
@@ -101,14 +112,14 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     padding: 2px 2px 2px 2px;
     height: 100px;
 }
- 
+
 .image-modal {
     width: 100% !important;
     height: 100%;
     top: 0 !important;
     left: 0 !important;
 }
- 
+
 .transparent {
     background: transparent !important;
 }
@@ -138,7 +149,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     zoom: 50;
     z-index: 1;
 }
- 
+
 .fullscreen-image {
     max-width: 100%;
     max-height: 100%;
@@ -151,7 +162,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     top: 0;
     z-index: -1;
 }
- 
+
 .slider {
     width: 100%;
     height: 100%;

@@ -5,7 +5,8 @@ AV.initialize('g3MhlGPMjeDFBDn3d27Ho3Aw-gzGzoHsz', 'zeb5uU59kMmSpSkJPJybzxRm');
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', [
-    'ionic', 
+    'ionic',
+    'underscore',
     'ngStorage',
     'ngCordova',
     'ionic-cache-src',
@@ -135,7 +136,7 @@ angular.module('starter', [
   };
   $rootScope.hide = function(){
     $ionicLoading.hide();
-  };   
+  };
 
   //catch error routes
   $rootScope.$on('$stateChangeError',
@@ -150,10 +151,10 @@ angular.module('starter', [
             $state.go('app-login', {});
         }
     });
-  
+
   //device settings
   $ionicPlatform.ready(function() {
-    
+
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins.Keyboard) {

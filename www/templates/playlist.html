@@ -19,18 +19,30 @@
 
 <div class="spacer" style="height: 100px;"></div>
 	<div style="height: 200px;">
-		
+
 
 	</div>
 
 <ion-content>
+	<a class="item item-thumbnail-left album-detail" href="">
+		<img id="frame-list-user-avatar" class="album-top album-big-avatar" src="http://blog.sumall.com/wp-content/uploads/2015/05/default-profile-01.png">
+		<div class="cloud-album">
+		<h2 >name</h2>
+		<p>1234张</p>
+		</div>
+	</a>
 
 
-	<img class="gallery-img" ng-repeat="image in images"
-    width="25%"
-    height="{{imageWidth}}"
-    ng-src="{{image.src}}"
-    ng-click="showImages($index)">
+		<div ng-repeat="groupedPair in imgp track by groupedPair[0]">
+		        <ion-item class="item-divider">
+		            {{groupedPair[0]}}
+		        </ion-item>
+						<img class="gallery-img" ng-repeat="item in groupedPair[1] track by item.id"
+							width="25%"
+							height="{{imageWidth}}"
+							ng-src="{{item.src}}"
+							ng-click="showImages($index)">
+		    </div>
 
 
 <!-- 	  <ion-infinite-scroll
