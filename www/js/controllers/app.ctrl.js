@@ -20,6 +20,7 @@ angular.module('starter.controllers', ['ngCordova'])
   // listen for the $ionicView.enter event:
   //$scope.$on('$ionicView.enter', function(e) {
   //});
+  $scope.nickName = AV.User.current().attributes.nickName;
 
   // Form data for the login modal
   $scope.loginData = {};
@@ -59,8 +60,3 @@ angular.module('starter.controllers', ['ngCordova'])
     }, 1000);
   };
 })
-
-
-
-
-

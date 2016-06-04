@@ -18,11 +18,20 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
+        <a class="item item-thumbnail-left album-detail" href="">
+      		<img id="frame-list-user-avatar" class="album-top album-big-avatar" src="http://blog.sumall.com/wp-content/uploads/2015/05/default-profile-01.png">
+      		<div class="cloud-album">
+      		<p>{{nickName}}</p>
+      		</div>
+      	</a>
         <ion-item menu-close href="#/app/playlists">
           主页
         </ion-item>
         <ion-item menu-close href="#/app/album">
           相册
+        </ion-item>
+        <ion-item menu-close href="">
+          设置
         </ion-item>
         <ion-item menu-close ng-click="logout()">
           登出
