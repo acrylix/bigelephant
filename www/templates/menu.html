@@ -18,23 +18,23 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
-        <a class="item item-thumbnail-left album-detail" href="">
-      		<img id="frame-list-user-avatar" class="album-top album-big-avatar" src="http://blog.sumall.com/wp-content/uploads/2015/05/default-profile-01.png">
-      		<div class="cloud-album">
-      		<p>{{nickName}}</p>
+        <a class="item item-thumbnail-left album-menu-detail" href="">
+      		<img id="frame-list-user-avatar" class="album-top album-menu-avatar" src="http://blog.sumall.com/wp-content/uploads/2015/05/default-profile-01.png">
+      		<div class="menu-avatar">
+      		<h2>{{nickName}}</h2>
       		</div>
       	</a>
-        <ion-item menu-close href="#/app/playlists">
-          主页
+        <ion-item class="menu-item" menu-close href="#/app/playlists">
+          <i class="icon ion-home"></i>  主页
         </ion-item>
-        <ion-item menu-close href="#/app/album">
-          相册
+        <ion-item class="menu-item" menu-close href="#/app/album">
+          <i class="icon ion-image"></i>  相册
         </ion-item>
-        <ion-item menu-close href="">
-          设置
+        <ion-item class="menu-item" menu-close href="">
+          <i class="icon ion-gear-a"></i>  设置
         </ion-item>
-        <ion-item menu-close ng-click="logout()">
-          登出
+        <ion-item class="menu-item" menu-close ng-click="logout()">
+          <i class="icon ion-power"></i>  登出
         </ion-item>
       </ion-list>
     </ion-content>

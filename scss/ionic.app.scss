@@ -56,6 +56,18 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 	width: 50px !important;
 }
 
+.album-menu-detail{
+	padding-top: 0px !important;
+	height: 100px !important;
+	min-height: 0px !important;
+	padding-left: 105px;
+}
+
+.album-menu-avatar{
+	height: 80px !important;
+	width: 80px !important;
+}
+
 .popup{
   border-radius:10px !important;
 }
@@ -94,6 +106,14 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 .cloud-album{
   margin-top: 16px;
+}
+
+.menu-avatar{
+  margin-top: 38px;
+}
+
+.menu-item{
+	border-color: #fafafa !important;
 }
 
 .gallery-divider{
