@@ -6,7 +6,7 @@
         </button>
     </ion-nav-buttons>
 
-    
+
 
   <ion-content>
   <ion-refresher
@@ -20,7 +20,7 @@
     <ion-item back-img="" ng-repeat="frame in frames" href="#/app/playlists/{{frame.frame.id}}">
       <!-- {{playlist.title}} -->
       <img id="frame-list-user-avatar" class="album-top" src="http://blog.sumall.com/wp-content/uploads/2015/05/default-profile-01.png">
-      
+
       <div class="album-cover">
         <img id="test" cache-src="{{frame.latestImg}}">
       </div>
@@ -79,34 +79,3 @@
     <ion-spinner icon="lines"></ion-spinner>
       <div class="title">正在上传 {{current}}/{{total}} </div>
     </div>
-
-
-<!-- 
-<ion-list ng-controller="MyCtrl"
-          show-delete="shouldShowDelete"
-          show-reorder="shouldShowReorder"
-          can-swipe="listCanSwipe">
-  <ion-item ng-repeat="item in items"
-            class="item-thumbnail-left">
-
-    <img ng-src="{{item.img}}">
-    <h2>{{item.title}}</h2>
-    <p>{{item.description}}</p>
-    <ion-option-button class="button-positive"
-                       ng-click="share(item)">
-      Share
-    </ion-option-button>
-    <ion-option-button class="button-assertive"
-                       ng-click="edit(item)">
-      Edit
-    </ion-option-button>
-    <ion-delete-button class="ion-minus-circled"
-                       ng-click="items.splice($index, 1)">
-    </ion-delete-button>
-    <ion-reorder-button class="ion-navicon"
-                        on-reorder="reorderItem(item, $fromIndex, $toIndex)">
-    </ion-reorder-button>
-
-  </ion-item>
-</ion-list>
- -->

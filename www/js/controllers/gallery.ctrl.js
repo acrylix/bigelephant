@@ -164,10 +164,12 @@ angular.module('gallery.controllers', [])
   $scope.images = [];
 
   $scope.frame = StorageService.get($stateParams.playlistId);
+  $scope.isNormalGallery = true;
 
   if($stateParams.playlistId == "cloud"){
     $scope.frame = {};
     $scope.frame.frameNickName = "云相册";
+    $scope.isNormalGallery = false;
   }
 
   $scope.showImages = function(index, date) {

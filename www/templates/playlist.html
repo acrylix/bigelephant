@@ -1,5 +1,11 @@
 <ion-view view-title="{{frame.frameNickName}}">
 
+	<ion-nav-buttons side="right">
+	        <button class="button" ng-click="myPopup()">
+	            <i class="icon ion-archive"></i>
+	        </button>
+	    </ion-nav-buttons>
+
 <!-- <ion-content ng-init="loadImages()">
     <div class="row" ng-repeat="image in images" ng-if="$index % 4 === 0">
         <div class="col col-25" ng-if="$index < images.length">
@@ -17,18 +23,13 @@
     </div>
 </ion-content> -->
 
-<div class="spacer" style="height: 100px;"></div>
-	<div style="height: 200px;">
-
-
-	</div>
-
 <ion-content>
-	<a class="item item-thumbnail-left album-detail" href="">
+	
+	<a class="item item-thumbnail-left album-detail" href="" ng-show="isNormalGallery">
 		<img id="frame-list-user-avatar" class="album-top album-big-avatar" src="http://blog.sumall.com/wp-content/uploads/2015/05/default-profile-01.png">
 		<div class="cloud-album">
 		<h2 >{{frame.frameNickName}}</h2>
-		<p>已分享 1234 张</p>
+		<p>已分享 {{frame.totalImage}} 张</p>
 		</div>
 	</a>
 
