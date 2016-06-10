@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "ngstorage": "^0.3.10",
-    "ionic-cache-src": "^0.7.3",
     "ngCordova": "^0.1.26-alpha"
   },
   "resolutions": {

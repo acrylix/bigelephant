@@ -9,7 +9,6 @@ angular.module('starter', [
     'underscore',
     'ngStorage',
     'ngCordova',
-    'ionic-cache-src',
     'starter.controllers',
     'user.controllers',
     'test.controllers',

@@ -8,8 +8,7 @@
 			"hooks",
 			"resources",
 			"node_modules",
-			"plugins",
-			"lib"
+			"plugins"
 	 	],
 		}
 	]
