@@ -9875,3 +9875,10 @@ a.button {
 .slider {
   width: 100%;
   height: 100%; }
+
+.recording-icon {
+  height: 100px;
+  margin: auto; }
+
+.recording-center {
+  margin: auto; }

@@ -1,4 +1,4 @@
-<ion-view view-title="test page">
+<ion-view view-title="test page" > 
 
 	<ion-nav-buttons side="right">
 	        <button class="button" ng-click="myPopup()">
@@ -23,11 +23,32 @@
     </div>
 </ion-content> -->
 
-<ion-content>
-	
-<button class="button button-stable" on-tap="alert('test')">
-  button-stable
-</button>
+<ion-content scroll="false">
+
+
+ <div class="spacer" style="height: 70px;"></div>
+<div class="row">
+    <h2 class="recording-center">&nbsp;{{timeDisp}}&nbsp;</h2>
+</div>
+ <div class="spacer" style="height: 20px;"></div>
+
+<div class="row">
+ <img class="recording-icon" src="img/audio.png" ng-hide="recording">
+ <img class="recording-icon" src="img/audio-pause.png" ng-show="recording">
+</div>
+
+ <div class="spacer" style="height: 150px;"></div>
+<div class="row">
+<button class="button button-large button-energized recording-center" gesture-on-hold="startTimer()" >
+      按住说话
+    </button>
+</div>
+ <div class="spacer" style="height: 10px;"></div>
+<div class="row">
+<button class="button button-large button-energized recording-center" gesture-on-hold="startTimer()">
+      直接发送
+    </button>
+</div>
 
 </ion-content>
 

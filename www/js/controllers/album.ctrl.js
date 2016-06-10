@@ -15,6 +15,7 @@ angular.module('album.controllers', ['ionic'])
 	StorageService,
 	$ionicModal,
 	$ionicPopup,
+	$interval,
 	PictureService) {
 
 	//background loader//
