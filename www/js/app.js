@@ -12,6 +12,7 @@ angular.module('starter', [
     'ionic-cache-src',
     'starter.controllers',
     'user.controllers',
+    'test.controllers',
     'album.controllers',
     'gallery.controllers',
     'camera.controllers',
@@ -106,6 +107,16 @@ angular.module('starter', [
         'menuContent': {
           templateUrl: 'templates/camera.html',
           controller: 'CameraCtrl'
+        }
+      }
+    })
+
+    .state('app.test', {
+      url: '/test',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/test-page.html',
+          controller: 'TestController'
         }
       }
     })
