@@ -17,6 +17,7 @@ angular.module('test.controllers', ['ionic'])
 	$ionicPopup,
 	$cordovaMedia,
 	PictureService,
+	$cordovaFile,
 	PictureService) {
 
 	// $scope.record = function() {
@@ -57,7 +58,7 @@ angular.module('test.controllers', ['ionic'])
 		if (angular.isDefined(timer)) return;
 		$scope.time = 0;
 		$scope.recordingExists = false;
-		$scope.$apply();
+
 		PictureService.deleteRecording("recording.wav").then(function(success) {
 
 
@@ -74,8 +75,7 @@ angular.module('test.controllers', ['ionic'])
 
 			mediaRec.startRecord();
 			$scope.timeDisp = Math.floor($scope.time / 1000 / 60) + ':' + pad(Math.floor($scope.time / 1000 % 60), 2);
-			$scope.$apply();
-			
+
 			timer = setInterval(function() {
 				$scope.recording = true;
 				$scope.time += 100;
@@ -103,6 +103,36 @@ angular.module('test.controllers', ['ionic'])
 
 	$scope.playRecording = function() {
 		mediaRec.play();
+	}
+
+	$scope.saveFile = function() {
+		var recordingUri = PictureService.getRecordingUri();
+
+		console.log(recordingUri);
+
+		$cordovaFile.readAsDataURL(cordova.file.dataDirectory + "ElephantPics/", "recording.wav")
+			.then(function(data) {
+				// success
+
+				data = data.replace(/^data:audio\/wav;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
+
+				var file = new AV.File('recording.wav', {
+					base64: data
+				});
+				file.save().then(function(obj) {
+					// 数据保存成功
+					console.log("file SAVED");
+
+				}, function(err) {
+					// 数据保存失败
+					console.log(err);
+
+				});
+			}, function(error) {
+				// error
+			});
+
+
 	}
 
 	var pad = function(n, width, z) {

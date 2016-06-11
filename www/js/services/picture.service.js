@@ -118,6 +118,9 @@ angular.module('picture.services', ['ngStorage'])
       var _remove = function(frame) {
         $localStorage.pictures.splice($localStorage.things.indexOf(thing), 1);
       }
+      var _getRecording = function(){
+        return $localStorage.recordings[0];
+      }
 
 
 
@@ -160,17 +163,17 @@ angular.module('picture.services', ['ngStorage'])
               .then(function(success) {
                 // success
                 $localStorage.recordings = [];
-                defer.resolve(success);
+                defer.resolve();
               }, function(error) {
                 // error
-                alert('delete recording failed');
-                defer.reject(error);
+                console.log('delete temp recording failed');
+                defer.resolve();
               });
 
           }, function(error) {
             // error
-            alert('delete recording failed');
-            defer.reject(error);
+            console.log('delete perm recording failed');
+            defer.resolve();
           });
 
         return defer.promise;
@@ -187,7 +190,8 @@ angular.module('picture.services', ['ngStorage'])
         copyToMem: copyImgToMem,
 
         copyRecordingToMem: copyRecordingToMem,
-        deleteRecording: deleteRecording
+        deleteRecording: deleteRecording,
+        getRecordingUri: _getRecording
       };
     }
   ]);

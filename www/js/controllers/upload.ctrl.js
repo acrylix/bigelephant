@@ -15,17 +15,6 @@ angular.module('upload.controllers', [])
 
 		$ionicNavBarDelegate.showBackButton(false);
 
-		$scope.devList = [{
-			text: "HTML5",
-			checked: true
-		}, {
-			text: "CSS3",
-			checked: false
-		}, {
-			text: "JavaScript",
-			checked: false
-		}];
-
 		$scope.cancel = function() {
 			$state.go('app.playlists');
 		}
