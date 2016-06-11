@@ -99,7 +99,8 @@ angular.module('picture.services', ['ngStorage'])
       //get setters
 
       $localStorage = $localStorage.$default({
-        pictures: []
+        pictures: [],
+        recordings: []
       });
 
       var _getAll = function() {
@@ -122,16 +123,57 @@ angular.module('picture.services', ['ngStorage'])
 
       var copyImgToMem = function(tempFileName) {
 
-          $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.dataDirectory, "ElephantPics/" + tempFileName)
-            .then(function(success) {
-              // success
-              _add(cordova.file.dataDirectory + "ElephantPics/" + tempFileName);
+        $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.dataDirectory, "ElephantPics/" + tempFileName)
+          .then(function(success) {
+            // success
+            _add(cordova.file.dataDirectory + "ElephantPics/" + tempFileName);
 
-            }, function(error) {
-              // error
-              alert("failed");
-            });
+          }, function(error) {
+            // error
+            alert("mem copy failed");
+          });
 
+      }
+
+      var copyRecordingToMem = function(recordingFileName) {
+
+        $cordovaFile.copyFile(cordova.file.tempDirectory, recordingFileName, cordova.file.dataDirectory, "ElephantPics/" + recordingFileName)
+          .then(function(success) {
+            // success
+            $localStorage.recordings.push(cordova.file.dataDirectory + "ElephantPics/" + recordingFileName);
+            console.log('recording copied to perm location');
+          }, function(error) {
+            // error
+            alert("rec mem copy failed");
+          });
+
+      }
+
+      var deleteRecording = function(recordingFileName) {
+        var defer = $q.defer();
+
+        $cordovaFile.removeFile(cordova.file.dataDirectory + "ElephantPics/", recordingFileName)
+          .then(function(success) {
+            // success
+
+            $cordovaFile.removeFile(cordova.file.tempDirectory, recordingFileName)
+              .then(function(success) {
+                // success
+                $localStorage.recordings = [];
+                defer.resolve(success);
+              }, function(error) {
+                // error
+                alert('delete recording failed');
+                defer.reject(error);
+              });
+
+          }, function(error) {
+            // error
+            alert('delete recording failed');
+            defer.reject(error);
+          });
+
+        return defer.promise;
       }
 
       return {
@@ -142,7 +184,10 @@ angular.module('picture.services', ['ngStorage'])
         clear: _clear,
         prepDir: prepDir,
         clearFileCache: clearPicCacheDir,
-        copyToMem: copyImgToMem
+        copyToMem: copyImgToMem,
+
+        copyRecordingToMem: copyRecordingToMem,
+        deleteRecording: deleteRecording
       };
     }
   ]);

@@ -26,7 +26,7 @@
 <ion-content scroll="false">
 
 
- <div class="spacer" style="height: 70px;"></div>
+ <div class="spacer" style="height: 40px;"></div>
 <div class="row">
     <h2 class="recording-center">&nbsp;{{timeDisp}}&nbsp;</h2>
 </div>
@@ -37,7 +37,7 @@
  <img class="recording-icon" src="img/audio-pause.png" ng-show="recording">
 </div>
 
- <div class="spacer" style="height: 150px;"></div>
+ <div class="spacer" style="height: 120px;"></div>
 <div class="row">
 <button class="button button-large button-energized recording-center" gesture-on-hold="startTimer()" >
       按住说话
@@ -50,10 +50,11 @@
     </button>
 </div>
  <div class="spacer" style="height: 10px;"></div>
-<div class="row">
-<button class="button button button-balanced recording-center" ng-click="playRecording()">
+<div class="row" ng-show="recordingExists">
+<button class="button button button-balanced recording-center" ng-click="playRecording()" >
       <i class="icon ion-play"></i>
     </button>
+
 </div>
 
 </ion-content>

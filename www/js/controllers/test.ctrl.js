@@ -16,6 +16,7 @@ angular.module('test.controllers', ['ionic'])
 	$ionicModal,
 	$ionicPopup,
 	$cordovaMedia,
+	PictureService,
 	PictureService) {
 
 	// $scope.record = function() {
@@ -43,47 +44,64 @@ angular.module('test.controllers', ['ionic'])
 
 	// }
 
-	var mediaRec = new Media("recording.wav", ///var/mobile/Applications/<UUID>/tmp/myrecording.wav
-		// success callback
-		function() {
-			console.log("recordAudio():Audio Success");
-		},
-
-		// error callback
-		function(err) {
-			console.log("recordAudio():Audio Error: " + err.code);
-		});
+	var mediaRec;
 
 	//timer
 	var timer;
 	$scope.time = 0;
 	$scope.recording = false;
+	$scope.recordingExists = false;
 
 	$scope.startTimer = function() {
 		// Don't start a new fight if we are already fighting
 		if (angular.isDefined(timer)) return;
+		$scope.time = 0;
+		$scope.recordingExists = false;
+		$scope.$apply();
+		PictureService.deleteRecording("recording.wav").then(function(success) {
 
-		mediaRec.startRecord();
-		timer = setInterval(function() {
-			$scope.recording = true;
-			$scope.time += 100;
+
+			mediaRec = new Media("recording.wav", ///var/mobile/Applications/<UUID>/tmp/myrecording.wav
+				// success callback
+				function() {
+					console.log("recordAudio():Audio Success");
+				},
+
+				// error callback
+				function(err) {
+					console.log("recordAudio():Audio Error: " + err.code);
+				});
+
+			mediaRec.startRecord();
 			$scope.timeDisp = Math.floor($scope.time / 1000 / 60) + ':' + pad(Math.floor($scope.time / 1000 % 60), 2);
 			$scope.$apply();
-			// console.log($scope.time);
-		}, 100);
+			
+			timer = setInterval(function() {
+				$scope.recording = true;
+				$scope.time += 100;
+				$scope.timeDisp = Math.floor($scope.time / 1000 / 60) + ':' + pad(Math.floor($scope.time / 1000 % 60), 2);
+				$scope.$apply();
+				// console.log($scope.time);
+			}, 100);
+
+		}, function(error) {
+			alert('cannot start recording');
+		});
 	};
 
 	$scope.stopTimer = function() {
 		if (angular.isDefined(timer)) {
 			mediaRec.stopRecord();
+			PictureService.copyRecordingToMem("recording.wav");
 			clearInterval(timer);
 			$scope.recording = false;
-			$scope.time = 0;
+			$scope.recordingExists = true;
 			timer = undefined;
+			$scope.$apply();
 		}
 	};
 
-	$scope.playRecording = function(){
+	$scope.playRecording = function() {
 		mediaRec.play();
 	}
 
