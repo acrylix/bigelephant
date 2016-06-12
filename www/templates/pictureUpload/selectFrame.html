@@ -1,8 +1,8 @@
 <ion-view view-title="选择相框">
 
 <ion-nav-buttons side="right">
-        <button class="button" ui-sref="app.test">
-            发送
+        <button class="button" ng-click="send()">
+            下一步
         </button>
     </ion-nav-buttons>
 
@@ -19,7 +19,7 @@
 <ion-checkbox class="checkbox-energized" ng-repeat="item in frames"
                       ng-model="item.checked" 
                       ng-checked="item.checked">
-          {{ item.frameNickName }}
+          {{ item.frameNickName }}<br><h4>ID: {{ item.frame.deviceIdShort }}</h4>
         </ion-checkbox>
 
 </ion-list>

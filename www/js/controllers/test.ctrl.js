@@ -1,115 +1,274 @@
 angular.module('test.controllers', ['ionic'])
-.controller('TestController', function(
-	$scope,
-	$state,
-	$q,
-	$cordovaFile,
-	$rootScope,
-	StorageService,
-	$cordovaMedia,
-	PictureService,
-	$cordovaFile) {
+	.controller('TestController', function(
+		$scope,
+		$state,
+		$rootScope,
+		$q,
+		$cordovaFile,
+		$rootScope,
+		$cordovaMedia,
+		PictureService,
+		$ionicHistory,
+		$ionicPopup,
+		$cordovaFile) {
 
-	var mediaRec;
+		$scope.frames = $rootScope.selectedFrames;
 
-	//timer
-	var timer;
-	$scope.time = 0;
-	$scope.recording = false;
-	$scope.recordingExists = false;
+		function encodeFile(imageURI, index) {
+			debugger;
 
-	$scope.startTimer = function() {
-		console.log('started');
+			var defer = $q.defer();
+			console.log("Begin Encode");
+			window.plugins.Base64.encodeFile(imageURI, function(base64) {
 
-		if (angular.isDefined(timer)) return;
-		$scope.time = 0;
-		$scope.recordingExists = false;
+				base64 = base64.replace(/^data:image\/png;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
 
-		PictureService.deleteRecording("recording.wav").then(function(success) {
-
-
-			mediaRec = new Media("recording.wav", ///var/mobile/Applications/<UUID>/tmp/myrecording.wav
-				// success callback
-				function() {
-					console.log("recordAudio():Audio Success");
-				},
-
-				// error callback
-				function(err) {
-					console.log("recordAudio():Audio Error: " + err.code);
-				});
-
-			mediaRec.startRecord();
-			$scope.timeDisp = Math.floor($scope.time / 1000 / 60) + ':' + pad(Math.floor($scope.time / 1000 % 60), 2);
-
-			timer = setInterval(function() {
-				$scope.recording = true;
-				$scope.time += 100;
-				$scope.timeDisp = Math.floor($scope.time / 1000 / 60) + ':' + pad(Math.floor($scope.time / 1000 % 60), 2);
-				$scope.$apply();
-				// console.log($scope.time);
-			}, 100);
-
-		}, function(error) {
-			alert('cannot start recording');
-		});
-	};
-
-	$scope.stopTimer = function() {
-		console.log('stopped');
-		if (angular.isDefined(timer)) {
-			mediaRec.stopRecord();
-			
-			$scope.timeDisp = '';
-			clearInterval(timer);
-			$scope.recording = false;
-			$scope.recordingExists = true;
-			timer = undefined;
-			$scope.$apply();
-
-			PictureService.copyRecordingToMem("recording.wav");
-		}
-	};
-
-	$scope.playRecording = function() {
-		mediaRec.play();
-	}
-
-	$scope.saveFile = function() {
-		var recordingUri = PictureService.getRecordingUri();
-
-		console.log(recordingUri);
-
-		$cordovaFile.readAsDataURL(cordova.file.dataDirectory + "ElephantPics/", "recording.wav")
-			.then(function(data) {
-				// success
-
-				data = data.replace(/^data:audio\/wav;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
-
-				var file = new AV.File('recording.wav', {
-					base64: data
+				var d = new Date();
+				var n = d.getTime();
+				console.log("Got Encode for " + 'pic' + n + '.jpg');
+				var file = new AV.File('pic' + n + '.jpg', {
+					base64: base64
 				});
 				file.save().then(function(obj) {
 					// 数据保存成功
 					console.log("file SAVED");
-
+					$rootScope.$broadcast('upload-increment');
+					console.log(obj.url());
+					defer.resolve(obj);
 				}, function(err) {
 					// 数据保存失败
 					console.log(err);
-
+					defer.reject(err);
 				});
-			}, function(error) {
-				// error
+
+			});
+			return defer.promise;
+		}
+
+		function fileOfFrameEntry(files, rec) {
+			var promises = [];
+
+			console.log("FOF Entry");
+
+			for (var i = 0; i < $scope.frames.length; i++) {
+				if ($scope.frames[i].checked) {
+					// frameIds.push($scope.frames[i].frame.id);
+					for (var j = 0; j < files.length - 1; j++) {
+						var frameId = $scope.frames[i].frame.id;
+
+						console.log("Saving FOF");
+						promises.push(saveFileOfFrameItem(frameId, files[j], rec));
+					}
+				}
+			}
+
+			$q.all(promises).then(function(files) {
+				//NICE!
+				console.log("END");
+				$rootScope.$broadcast('upload-completed');
+
+				var myPopup = $ionicPopup.show({
+
+					title: '上传结束',
+					subTitle: '用时 x 秒',
+					buttons: [{
+						text: 'Ok',
+						type: 'button-energized'
+					}, ]
+				});
+
+			}).catch(function(error) {
+				console.log("FOF batch err: " + error);
 			});
 
+		}
 
-	}
+		function saveFileOfFrameItem(frameId, file, rec) {
+			var defer = $q.defer();
 
-	var pad = function(n, width, z) {
-		z = z || '0';
-		n = n + '';
-		return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-	}
+			var FOF = AV.Object.extend('FileOfFrame');
+			var fof = new FOF();
+			var frame = AV.Object.createWithoutData('Frame', frameId);
+			fof.set('frame', frame);
+			fof.set('sender', AV.User.current());
+			fof.set('file', file);
+			if(rec != null){
+				fof.set('record', rec);
+			}
+			fof.save().then(function(fof) {
+				console.log('New FOF created with objectId: ' + fof.id);
+				defer.resolve(fof.id);
+			}, function(err) {
+				console.log('Failed to create new FOF, with error message: ' + err.message);
+				defer.reject();
+			});
+
+			return defer.promise;
+		}
+
+		function uploadRecordingFile() {
+
+			var defer = $q.defer();
+
+			if(!$scope.recordingExists){
+				defer.resolve(null);
+			};
+
+			var recordingUri = PictureService.getRecordingUri();
+
+			console.log(recordingUri);
+
+			$cordovaFile.readAsDataURL(cordova.file.dataDirectory + "ElephantPics/", "recording.wav")
+				.then(function(data) {
+					// success
+
+					data = data.replace(/^data:audio\/wav;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
+
+					var file = new AV.File('recording.wav', {
+						base64: data
+					});
+					file.save().then(function(obj) {
+						// 数据保存成功
+						console.log("file SAVED");
+						defer.resolve(obj);
+
+					}, function(err) {
+						// 数据保存失败
+						console.log(err);
+						defer.reject(err);
+
+					});
+				}, function(error) {
+					// error
+				});
+
+			return defer.promise;
+
+		}
+
+		$scope.send = function() {
+
+			var files = [];
+			var promises = [];
+			var imageUris = PictureService.getAll();
+
+			$rootScope.$broadcast('upload-started', {
+				total: imageUris.length
+			});
+
+			console.log("Start");
+			for (var i = 0; i < imageUris.length; i++) {
+				console.log("URI: " + imageUris[i]);
+				promises.push(encodeFile(imageUris[i], i + 1));
+			}
+
+			$q.all(promises).then(function(files) {
+				files.push(files);
+
+				uploadRecordingFile().then(function(rec){
+					fileOfFrameEntry(files, rec);
+				}, function(err){
+					fileOfFrameEntry(files, null);
+				})
+				
+				$rootScope.uploading = true;
+				debugger;
+			});
+
+			$ionicHistory.nextViewOptions({
+				disableAnimate: true,
+				disableBack: true
+			});
+
+			$state.go('app.playlists');
+
+		}
+
+		// |
+		// |
+		// |
+		// |
+		// |
+		// |
+
+		$scope.cancel = function() {
+			$ionicHistory.nextViewOptions({
+				disableBack: true
+			});
+
+			$state.go('app.playlists');
+		}
+
+		var mediaRec;
+
+		//timer
+		var timer;
+		$scope.time = 0;
+		$scope.recording = false;
+		$scope.recordingExists = false;
+
+		$scope.startTimer = function() {
+			console.log('started');
+
+			if (angular.isDefined(timer)) return;
+			$scope.time = 0;
+			$scope.recordingExists = false;
+
+			PictureService.deleteRecording("recording.wav").then(function(success) {
 
 
-});
+				mediaRec = new Media("recording.wav", ///var/mobile/Applications/<UUID>/tmp/myrecording.wav
+					// success callback
+					function() {
+						console.log("recordAudio():Audio Success");
+					},
+
+					// error callback
+					function(err) {
+						console.log("recordAudio():Audio Error: " + err.code);
+					});
+
+				mediaRec.startRecord();
+				$scope.timeDisp = Math.floor($scope.time / 1000 / 60) + ':' + pad(Math.floor($scope.time / 1000 % 60), 2);
+
+				timer = setInterval(function() {
+					$scope.recording = true;
+					$scope.time += 100;
+					$scope.timeDisp = Math.floor($scope.time / 1000 / 60) + ':' + pad(Math.floor($scope.time / 1000 % 60), 2);
+					$scope.$apply();
+					// console.log($scope.time);
+				}, 100);
+
+			}, function(error) {
+				alert('cannot start recording');
+			});
+		};
+
+		$scope.stopTimer = function() {
+			console.log('stopped');
+			if (angular.isDefined(timer)) {
+				mediaRec.stopRecord();
+
+				$scope.timeDisp = '';
+				clearInterval(timer);
+				$scope.recording = false;
+				$scope.recordingExists = true;
+				timer = undefined;
+				$scope.$apply();
+
+				PictureService.copyRecordingToMem("recording.wav");
+			}
+		};
+
+		$scope.playRecording = function() {
+			mediaRec.play();
+		}
+
+		var pad = function(n, width, z) {
+			z = z || '0';
+			n = n + '';
+			return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+		}
+
+
+	});

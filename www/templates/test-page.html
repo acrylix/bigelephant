@@ -1,10 +1,16 @@
-<ion-view view-title="test page" > 
+<ion-view view-title="录语音" > 
 
 	<ion-nav-buttons side="right">
-	        <button class="button" ng-click="saveFile()">
-	            <i class="icon ion-archive"></i>
+	        <button class="button" ng-click="send()">
+	            <i class="icon ion-ios-cloud-upload-outline"></i> 上传
 	        </button>
 	    </ion-nav-buttons>
+
+    <ion-nav-buttons side="left">
+    <button class="button" ng-click="cancel()">
+        取消
+    </button>
+    </ion-nav-buttons>
 
 
 <ion-content scroll="false">
@@ -29,8 +35,8 @@
 </div>
  <div class="spacer" style="height: 10px;"></div>
 <div class="row">
-<button class="button button-large button-energized recording-center">
-      直接发送
+<button class="button button-large button-energized recording-center" ng-click="send()">
+      <i class="icon ion-ios-cloud-upload-outline"></i> 直接发送
     </button>
 </div>
  <div class="spacer" style="height: 10px;"></div>
