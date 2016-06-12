@@ -1,49 +1,14 @@
 angular.module('test.controllers', ['ionic'])
-
 .controller('TestController', function(
 	$scope,
 	$state,
 	$q,
-	$ionicActionSheet,
 	$cordovaFile,
-	$ionicLoading,
 	$rootScope,
-	$cordovaImagePicker,
-	$ionicPlatform,
-	$cordovaCamera,
-	$cordovaBarcodeScanner,
 	StorageService,
-	$ionicModal,
-	$ionicPopup,
 	$cordovaMedia,
 	PictureService,
-	$cordovaFile,
-	PictureService) {
-
-	// $scope.record = function() {
-	// 	var src = "myrecording.wav";
-	// 	var mediaRec = new Media(src, ///var/mobile/Applications/<UUID>/tmp/myrecording.wav
-	// 		// success callback
-	// 		function() {
-	// 			console.log("recordAudio():Audio Success");
-	// 		},
-
-	// 		// error callback
-	// 		function(err) {
-	// 			console.log("recordAudio():Audio Error: " + err.code);
-	// 		});
-
-	// 	// Record audio
-	// 	mediaRec.startRecord();
-
-	// 	// Pause Recording after 5 seconds
-	// 	setTimeout(function() {
-	// 		mediaRec.stopRecord();
-	// 		console.log('paused');
-	// 		mediaRec.play();
-	// 	}, 5000);
-
-	// }
+	$cordovaFile) {
 
 	var mediaRec;
 
@@ -54,7 +19,8 @@ angular.module('test.controllers', ['ionic'])
 	$scope.recordingExists = false;
 
 	$scope.startTimer = function() {
-		// Don't start a new fight if we are already fighting
+		console.log('started');
+
 		if (angular.isDefined(timer)) return;
 		$scope.time = 0;
 		$scope.recordingExists = false;
@@ -90,14 +56,18 @@ angular.module('test.controllers', ['ionic'])
 	};
 
 	$scope.stopTimer = function() {
+		console.log('stopped');
 		if (angular.isDefined(timer)) {
 			mediaRec.stopRecord();
-			PictureService.copyRecordingToMem("recording.wav");
+			
+			$scope.timeDisp = '';
 			clearInterval(timer);
 			$scope.recording = false;
 			$scope.recordingExists = true;
 			timer = undefined;
 			$scope.$apply();
+
+			PictureService.copyRecordingToMem("recording.wav");
 		}
 	};
 
@@ -142,26 +112,4 @@ angular.module('test.controllers', ['ionic'])
 	}
 
 
-	$rootScope.$on('stop-timer', function(event, args) {
-		console.log('timer stopped');
-		$scope.timeDisp = '';
-		$scope.stopTimer();
-	});
-
-}).directive('gestureOnHold', function($ionicGesture, $rootScope) {
-	return function(scope, element, attrs) {
-		$ionicGesture.on('hold', function() {
-			scope.$apply(function() {
-				console.log("held");
-				scope.$eval(attrs.gestureOnHold)
-			});
-		}, element);
-		$ionicGesture.on('release', function() {
-			scope.$apply(function() {
-				console.log("released");
-				$rootScope.$broadcast('stop-timer');
-				//scope.$eval(attrs.gestureOnHold)
-			});
-		}, element);
-	}
 });
