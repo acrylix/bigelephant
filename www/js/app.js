@@ -5,110 +5,119 @@ AV.initialize('g3MhlGPMjeDFBDn3d27Ho3Aw-gzGzoHsz', 'zeb5uU59kMmSpSkJPJybzxRm');
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', [
-    'ionic',
-    'underscore',
-    'ngStorage',
-    'ngCordova',
-    'starter.controllers',
-    'user.controllers',
-    'test.controllers',
-    'album.controllers',
-    'gallery.controllers',
-    'camera.controllers',
-    'upload.controllers',
-    'album-cloud.controllers',
-    'user.services',
-    'frame.services',
-    'picture.services'
-    ]
-  )
+  'ionic',
+  'underscore',
+  'ngStorage',
+  'ngCordova',
+  'starter.controllers',
+  'user.controllers',
+  'intro.controllers',
+  'test.controllers',
+  'album.controllers',
+  'gallery.controllers',
+  'camera.controllers',
+  'upload.controllers',
+  'album-cloud.controllers',
+  'user.services',
+  'frame.services',
+  'picture.services'
+])
 
 .config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider
+    $stateProvider
 
 
-  //***Sign Up***
-  .state('app-login', {
+    //***Sign Up***
+      .state('app-login', {
       url: "/login",
       templateUrl: "templates/start/login.html",
       controller: "LogInController"
-  })
+    })
 
     .state('app', {
-    url: '/app',
-    abstract: true,
-    templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl',
-    resolve: {
-        user: function (UserService) {
-            var value = UserService.init();
-            return value;
+      url: '/app',
+      abstract: true,
+      templateUrl: 'templates/menu.html',
+      controller: 'AppCtrl',
+      resolve: {
+        user: function(UserService) {
+          var value = UserService.init();
+          return value;
         }
-    }
-  })
+      }
+    })
 
-  .state('app.search', {
-    url: '/search',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/search.html'
+    .state('app.search', {
+      url: '/search',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/search.html'
+        }
       }
-    }
-  })
+    })
 
-  .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
+    .state('app.browse', {
+        url: '/browse',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/browse.html'
+          }
         }
-      }
-    })
-    .state('app.playlists', {
-      url: '/playlists',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/playlists.html',
-          controller: 'AlbumController'
+      })
+      .state('app.intro', {
+        url: '/intro',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/intro.html',
+            controller: 'IntroController'
+          }
         }
-      }
-    })
-    .state('app.album', {
-      url: '/album',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/album-cloud.html',
-          controller: 'CloudAlbumController'
+      })
+      .state('app.playlists', {
+        url: '/playlists',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/playlists.html',
+            controller: 'AlbumController'
+          }
         }
-      }
-    })
-    .state('app.smartGallery', {
-      url: '/smartGallery/:key',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/smart-gallery.html',
-          controller: 'SmartSearchController'
+      })
+      .state('app.album', {
+        url: '/album',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/album-cloud.html',
+            controller: 'CloudAlbumController'
+          }
         }
-      }
-    })
-    .state('app.selectFrame', {
-      url: '/selectFrame',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/pictureUpload/selectFrame.html',
-          controller: 'FrameSelectController'
+      })
+      .state('app.smartGallery', {
+        url: '/smartGallery/:key',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/smart-gallery.html',
+            controller: 'SmartSearchController'
+          }
         }
-      }
-    })
-    .state('app.camera', {
-      url: '/camera',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/camera.html',
-          controller: 'CameraCtrl'
+      })
+      .state('app.selectFrame', {
+        url: '/selectFrame',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/pictureUpload/selectFrame.html',
+            controller: 'FrameSelectController'
+          }
         }
-      }
-    })
+      })
+      .state('app.camera', {
+        url: '/camera',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/camera.html',
+            controller: 'CameraCtrl'
+          }
+        }
+      })
 
     .state('app.test', {
       url: '/test',
@@ -120,61 +129,61 @@ angular.module('starter', [
       }
     })
 
-  .state('app.single', {
-    url: '/playlists/:playlistId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/playlist.html',
-        controller: 'GalleryController'
+    .state('app.single', {
+      url: '/playlists/:playlistId',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/playlist.html',
+          controller: 'GalleryController'
+        }
       }
-    }
-  });
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
-})
-.run(function($ionicPlatform, $rootScope, $state, $ionicLoading) {
+    });
+    // if none of the above states are matched, use this as the fallback
+    $urlRouterProvider.otherwise('/app/playlists');
+  })
+  .run(function($ionicPlatform, $rootScope, $state, $ionicLoading) {
 
-  // loading helpers
-  $rootScope.show = function() {
-    $ionicLoading.show({
-          content: 'dots',
-          animation: 'fade-in',
-          showBackdrop: true,
-          maxWidth: 200,
-          showDelay: 0
-     });
-  };
-  $rootScope.hide = function(){
-    $ionicLoading.hide();
-  };
+    // loading helpers
+    $rootScope.show = function() {
+      $ionicLoading.show({
+        content: 'dots',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+      });
+    };
+    $rootScope.hide = function() {
+      $ionicLoading.hide();
+    };
 
-  //catch error routes
-  $rootScope.$on('$stateChangeError',
-    function (event, toState, toParams, fromState, fromParams, error) {
+    //catch error routes
+    $rootScope.$on('$stateChangeError',
+      function(event, toState, toParams, fromState, fromParams, error) {
 
         console.log('$stateChangeError ' + error && (error.debug || error.message || error));
 
         // if the error is "noUser" the go to login state
         if (error && error.error === "noUser") {
-            event.preventDefault();
+          event.preventDefault();
 
-            $state.go('app-login', {});
+          $state.go('app-login', {});
         }
+      });
+
+    //device settings
+    $ionicPlatform.ready(function() {
+
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if (window.cordova && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        cordova.plugins.Keyboard.disableScroll(true);
+
+      }
+      if (window.StatusBar) {
+        // org.apache.cordova.statusbar required
+        StatusBar.styleDefault();
+      }
     });
-
-  //device settings
-  $ionicPlatform.ready(function() {
-
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
-
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
   });
-});

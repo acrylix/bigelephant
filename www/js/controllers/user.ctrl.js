@@ -19,7 +19,7 @@ angular.module('user.controllers', [])
                     .then(function (user) {
                         $rootScope.hide();
                         console.log(user);
-                        $state.go('app.playlists');
+                        $state.go('app.intro');
 
                     }, function (error) {
                         $rootScope.hide();

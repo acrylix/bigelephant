@@ -16,6 +16,7 @@ angular.module('album.controllers', ['ionic'])
 	$ionicModal,
 	$ionicPopup,
 	$interval,
+	$cordovaToast,
 	PictureService) {
 
 	//background loader//
@@ -79,12 +80,12 @@ angular.module('album.controllers', ['ionic'])
 				$scope.listRefresh();
 			}, function(error) {
 				$rootScope.hide();
-				console.log('error '+ error);
+				console.log('error ' + error);
 			});
 
 		}, function(error) {
 			$rootScope.hide();
-			console.log('error '+ error);
+			console.log('error ' + error);
 		});
 	}
 
@@ -358,7 +359,14 @@ angular.module('album.controllers', ['ionic'])
 	var addFriendFrame = function(qr) {
 		checkFrame(qr).then(function(frame) {
 			if (!frame) {
-				alert('没有找到相框');
+				var myPopup = $ionicPopup.show({
+
+					title: '没有找到可添加相框',
+					buttons: [{
+						text: 'Ok',
+						type: 'button-energized'
+					}, ]
+				});
 			} else {
 				$scope.frameData = {};
 				$scope.frameData.id = frame.id;

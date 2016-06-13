@@ -1,0 +1,33 @@
+
+<ion-view hide-nav-bar="true">
+
+<button class="button button-clear button-positive intro-skip" ng-click="go()">
+  跳过
+</button>
+
+<ion-slide-box on-slide-changed="slideHasChanged($index)">
+
+  <ion-slide>
+    <div class="box blue"><img class="intro-img" src="img/intro1.png"></div>
+  </ion-slide>
+  <ion-slide>
+    <div class="box yellow"><img class="intro-img" src="img/intro2.png"></div>
+  </ion-slide>
+  <ion-slide>
+    <div class="box pink"><img class="intro-img" src="img/intro3.png"></div>
+  </ion-slide>
+  <ion-slide>
+    <div class="box pink">
+    	<img class="intro-img" src="img/intro4.png">
+    	<div class="row">
+		<button class="button button-large button-energized recording-center" style="margin-top: 20px; border-radius: 50px; background-color: #1D1F20" ng-click="go()">
+		开启体验
+		</button>
+    </div>
+	</div>
+  </ion-slide>
+</ion-slide-box>
+
+
+</ion-view>
+ 
