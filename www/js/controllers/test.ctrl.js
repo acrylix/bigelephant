@@ -19,27 +19,38 @@ angular.module('test.controllers', ['ionic'])
 
 			var defer = $q.defer();
 			console.log("Begin Encode");
-			window.plugins.Base64.encodeFile(imageURI, function(base64) {
+			var filename = imageURI.replace(/^.*[\\\/]/, '');
+			var path = imageURI.replace(/[^\/]*$/, '');
 
-				base64 = base64.replace(/^data:image\/png;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
+			$cordovaFile.readAsDataURL(path, filename).then(function(data) {
 
-				var d = new Date();
-				var n = d.getTime();
-				console.log("Got Encode for " + 'pic' + n + '.jpg');
-				var file = new AV.File('pic' + n + '.jpg', {
-					base64: base64
-				});
-				file.save().then(function(obj) {
-					// 数据保存成功
-					console.log("file SAVED");
-					$rootScope.$broadcast('upload-increment');
-					console.log(obj.url());
-					defer.resolve(obj);
-				}, function(err) {
-					// 数据保存失败
-					console.log(err);
-					defer.reject(err);
-				});
+				var clean64 = /^data:image\/.*;base64,/;
+
+				if (clean64.test(data)) {
+					base64 = data.replace(clean64, ''); //VERY QUESTIONABLE PERFORMANCE
+
+					var d = new Date();
+					var n = d.getTime();
+					console.log("Got Encode for " + 'pic' + n + '.jpg');
+					var file = new AV.File('pic' + n + '.jpg', {
+						base64: base64
+					});
+					file.save().then(function(obj) {
+						// 数据保存成功
+						console.log("file SAVED");
+						$rootScope.$broadcast('upload-increment');
+						console.log(obj.url());
+						defer.resolve(obj);
+					}, function(err) {
+						// 数据保存失败
+						console.log(err);
+						defer.reject(err);
+					});
+				}
+				else{
+					alert('img format err');
+					defer.reject('image format err');
+				}
 
 			});
 			return defer.promise;
@@ -92,7 +103,7 @@ angular.module('test.controllers', ['ionic'])
 			fof.set('frame', frame);
 			fof.set('sender', AV.User.current());
 			fof.set('file', file);
-			if(rec != null){
+			if (rec != null) {
 				fof.set('record', rec);
 			}
 			fof.save().then(function(fof) {
@@ -110,7 +121,7 @@ angular.module('test.controllers', ['ionic'])
 
 			var defer = $q.defer();
 
-			if(!$scope.recordingExists){
+			if (!$scope.recordingExists) {
 				defer.resolve(null);
 			};
 
@@ -165,12 +176,12 @@ angular.module('test.controllers', ['ionic'])
 			$q.all(promises).then(function(files) {
 				files.push(files);
 
-				uploadRecordingFile().then(function(rec){
+				uploadRecordingFile().then(function(rec) {
 					fileOfFrameEntry(files, rec);
-				}, function(err){
+				}, function(err) {
 					fileOfFrameEntry(files, null);
 				})
-				
+
 				$rootScope.uploading = true;
 				debugger;
 			});

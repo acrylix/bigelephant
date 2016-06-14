@@ -44,16 +44,6 @@ angular.module('picture.services', ['ngStorage'])
         return defer.promise;
       }
 
-      var copyImg = function(tempFileName) { //with extension
-        $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.dataDirectory, "ElephantPics/" + tempFileName)
-          .then(function(success) {
-            // success
-          }, function(error) {
-            // error
-            alert("failed");
-          });
-      }
-
       var clearPicCacheDir = function() {
         var defer = $q.defer();
         $cordovaFile.removeRecursively(cordova.file.dataDirectory, "ElephantPics") //Dangerous
@@ -118,7 +108,7 @@ angular.module('picture.services', ['ngStorage'])
       var _remove = function(frame) {
         $localStorage.pictures.splice($localStorage.things.indexOf(thing), 1);
       }
-      var _getRecording = function(){
+      var _getRecording = function() {
         return $localStorage.recordings[0];
       }
 
@@ -126,19 +116,27 @@ angular.module('picture.services', ['ngStorage'])
 
       var copyImgToMem = function(tempFileName) {
 
-        $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.dataDirectory, "ElephantPics/" + tempFileName)
-          .then(function(success) {
-            // success
-            _add(cordova.file.dataDirectory + "ElephantPics/" + tempFileName);
+        if (ionic.Platform.isIOS()) {
 
-          }, function(error) {
-            // error
-            alert("mem copy failed");
-          });
+          $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.dataDirectory, "ElephantPics/" + tempFileName)
+            .then(function(success) {
+              // success
+              _add(cordova.file.dataDirectory + "ElephantPics/" + tempFileName);
+
+            }, function(error) { //file:///storage/emulated/0/Android/data/com.ionicframework.bigelephant305082/cache/1465787348653.jpg
+              // error
+              alert("mem copy failed");
+            });
+        }
+
+        if(ionic.Platform.isAndroid()){
+          _add(cordova.file.externalCacheDirectory + tempFileName);
+        }
 
       }
 
       var copyRecordingToMem = function(recordingFileName) {
+        if (ionic.Platform.isIOS()) {
 
         $cordovaFile.copyFile(cordova.file.tempDirectory, recordingFileName, cordova.file.dataDirectory, "ElephantPics/" + recordingFileName)
           .then(function(success) {
@@ -149,6 +147,11 @@ angular.module('picture.services', ['ngStorage'])
             // error
             alert("rec mem copy failed");
           });
+
+        }
+        if(ionic.Platform.isAndroid()){
+          $localStorage.recordings.push(cordova.file.externalCacheDirectory + recordingFileName);
+        }
 
       }
 
