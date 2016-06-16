@@ -90,7 +90,8 @@ angular.module('picture.services', ['ngStorage'])
 
       $localStorage = $localStorage.$default({
         pictures: [],
-        recordings: []
+        recordings: [],
+        tempImg: []
       });
 
       var _getAll = function() {
@@ -110,6 +111,16 @@ angular.module('picture.services', ['ngStorage'])
       }
       var _getRecording = function() {
         return $localStorage.recordings[0];
+      }
+      var _addTmpImage = function(data){
+        $localStorage.tempImg = [];
+        $localStorage.tempImg.push(data);
+      }
+      var _getTmpImage = function(){
+        return $localStorage.tempImg[0];
+      }
+      var _clearTmpImageSpace = function(){
+        $localStorage.tempImg = [];
       }
 
 
@@ -207,7 +218,11 @@ angular.module('picture.services', ['ngStorage'])
 
         copyRecordingToMem: copyRecordingToMem,
         deleteRecording: deleteRecording,
-        getRecordingUri: _getRecording
+        getRecordingUri: _getRecording,
+
+        addTmpImg: _addTmpImage,
+        getTmpImg: _getTmpImage,
+        clearTmpImg: _clearTmpImageSpace
       };
     }
   ]);

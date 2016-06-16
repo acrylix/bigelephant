@@ -18,40 +18,69 @@ angular.module('test.controllers', ['ionic'])
 			debugger;
 
 			var defer = $q.defer();
-			console.log("Begin Encode");
-			var filename = imageURI.replace(/^.*[\\\/]/, '');
-			var path = imageURI.replace(/[^\/]*$/, '');
 
-			$cordovaFile.readAsDataURL(path, filename).then(function(data) {
+			if ($rootScope.type == 'camera') {
+				var data = PictureService.getTmpImg();
 
-				var clean64 = /^data:image\/.*;base64,/;
+				var d = new Date();
+				var n = d.getTime();
 
-				if (clean64.test(data)) {
-					base64 = data.replace(clean64, ''); //VERY QUESTIONABLE PERFORMANCE
+				var file = new AV.File('pic' + n + '.jpg', {
+					base64: data
+				});
+				file.save().then(function(obj) {
+					console.log("file SAVED");
+					$rootScope.$broadcast('upload-increment');
+					console.log(obj.url());
+					PictureService.clearTmpImg();
+					defer.resolve(obj);
+				}, function(err) {
+					// 数据保存失败
+					console.log(err);
+					PictureService.clearTmpImg();
+					defer.reject(err);
+				});
+			}
+			if ($rootScope.type == 'album') {
 
-					var d = new Date();
-					var n = d.getTime();
-					console.log("Got Encode for " + 'pic' + n + '.jpg');
-					var file = new AV.File('pic' + n + '.jpg', {
-						base64: base64
-					});
-					file.save().then(function(obj) {
-						// 数据保存成功
-						console.log("file SAVED");
-						$rootScope.$broadcast('upload-increment');
-						console.log(obj.url());
-						defer.resolve(obj);
-					}, function(err) {
-						// 数据保存失败
-						console.log(err);
-						defer.reject(err);
-					});
-				} else {
-					alert('img format err');
-					defer.reject('image format err');
-				}
+				console.log("Begin Encode");
+				var filename = imageURI.replace(/^.*[\\\/]/, '');
+				var path = imageURI.replace(/[^\/]*$/, '');
 
-			});
+				$cordovaFile.readAsDataURL(path, filename).then(function(data) {
+
+					var clean64 = /^data:image\/.*;base64,/;
+
+					if (clean64.test(data)) {
+						base64 = data.replace(clean64, ''); //VERY QUESTIONABLE PERFORMANCE
+
+						var d = new Date();
+						var n = d.getTime();
+
+						var ext = filename.split('.').pop();
+
+						console.log("Got Encode for " + 'pic' + n + '.' + ext);
+						var file = new AV.File('pic' + n + '.' + ext, {
+							base64: base64
+						});
+						file.save().then(function(obj) {
+							// 数据保存成功
+							console.log("file SAVED");
+							$rootScope.$broadcast('upload-increment');
+							console.log(obj.url());
+							defer.resolve(obj);
+						}, function(err) {
+							// 数据保存失败
+							console.log(err);
+							defer.reject(err);
+						});
+					} else {
+						alert('img format err');
+						defer.reject('image format err');
+					}
+
+				});
+			}
 			return defer.promise;
 		}
 
@@ -63,11 +92,20 @@ angular.module('test.controllers', ['ionic'])
 			for (var i = 0; i < $scope.frames.length; i++) {
 				if ($scope.frames[i].checked) {
 					// frameIds.push($scope.frames[i].frame.id);
-					for (var j = 0; j < files.length - 1; j++) {
-						var frameId = $scope.frames[i].frame.id;
 
-						console.log("Saving FOF");
-						promises.push(saveFileOfFrameItem(frameId, files[j], rec));
+					var frameId = $scope.frames[i].frame.id;
+
+					if ($rootScope.type == 'album') {
+						for (var j = 0; j < files.length - 1; j++) {
+
+							console.log("Saving FOF multi");
+							promises.push(saveFileOfFrameItem(frameId, files[j], rec));
+						}
+					}
+					if ($rootScope.type == 'camera') {
+
+						console.log("Saving FOF camera single");
+						promises.push(saveFileOfFrameItem(frameId, files[0], rec));
 					}
 				}
 			}
@@ -153,8 +191,7 @@ angular.module('test.controllers', ['ionic'])
 							defer.reject(err);
 
 						});
-					}
-					else{
+					} else {
 						console.log('recording format not supported');
 						defer.reject();
 					}
@@ -169,32 +206,59 @@ angular.module('test.controllers', ['ionic'])
 
 		$scope.send = function() {
 
-			var files = [];
-			var promises = [];
-			var imageUris = PictureService.getAll();
+			if ($rootScope.type == 'album') {
+				var files = [];
+				var promises = [];
+				var imageUris = PictureService.getAll(); //PROBLEM
 
-			$rootScope.$broadcast('upload-started', {
-				total: imageUris.length
-			});
+				$rootScope.$broadcast('upload-started', {
+					total: imageUris.length
+				});
 
-			console.log("Start");
-			for (var i = 0; i < imageUris.length; i++) {
-				console.log("URI: " + imageUris[i]);
-				promises.push(encodeFile(imageUris[i], i + 1));
+				console.log("Start");
+				for (var i = 0; i < imageUris.length; i++) {
+					console.log("URI: " + imageUris[i]);
+					promises.push(encodeFile(imageUris[i], i + 1));
+				}
+
+				$q.all(promises).then(function(files) {
+					files.push(files);
+
+					uploadRecordingFile().then(function(rec) {
+						fileOfFrameEntry(files, rec);
+					}, function(err) {
+						fileOfFrameEntry(files, null);
+					});
+
+					$rootScope.uploading = true;
+					debugger;
+				});
 			}
+			if ($rootScope.type == 'camera') {
+				var files = [];
 
-			$q.all(promises).then(function(files) {
-				files.push(files);
+				$rootScope.$broadcast('upload-started', {
+					total: 1
+				});
 
-				uploadRecordingFile().then(function(rec) {
-					fileOfFrameEntry(files, rec);
+				console.log("Start");
+
+				encodeFile(null, null).then(function(file) {
+					files.push(file);
+
+					uploadRecordingFile().then(function(rec) {
+						fileOfFrameEntry(files, rec);
+					}, function(err) {
+						fileOfFrameEntry(files, null);
+					});
+					$rootScope.uploading = true;
+					debugger;
+
 				}, function(err) {
-					fileOfFrameEntry(files, null);
+					console.log('camera upload failed');
 				})
 
-				$rootScope.uploading = true;
-				debugger;
-			});
+			}
 
 			$ionicHistory.nextViewOptions({
 				disableAnimate: true,

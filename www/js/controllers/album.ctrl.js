@@ -120,7 +120,7 @@ angular.module('album.controllers', ['ionic'])
 		$ionicPlatform.ready(function() {
 			var options = {
 				quality: 80,
-				destinationType: Camera.DestinationType.FILE_URI,
+				destinationType: Camera.DestinationType.DATA_URL,
 				sourceType: Camera.PictureSourceType.CAMERA,
 				allowEdit: false,
 				encodingType: Camera.EncodingType.JPEG,
@@ -129,14 +129,16 @@ angular.module('album.controllers', ['ionic'])
 				correctOrientation: true
 			};
 
-			$cordovaCamera.getPicture(options).then(function(imageURI) {
+			$cordovaCamera.getPicture(options).then(function(imageData) {
 				//var base64 = "data:image/jpeg;base64," + imageData;
 				debugger;
 
 				//var tempFileName = imageURI.replace(/^.*[\\\/]/, '');
 
 				PictureService.prepDir().then(function(success) {
-					PictureService.copyToMem(imageURI);
+					//PictureService.copyToMem(imageURI);
+					PictureService.addTmpImg(imageData);
+					$rootScope.type = 'camera';
 				});
 
 				$state.go('app.selectFrame', {});
@@ -174,6 +176,7 @@ angular.module('album.controllers', ['ionic'])
 							//var tempFileName = filePath.replace(/^.*[\\\/]/, '');
 
 							PictureService.copyToMem(filePath);
+							$rootScope.type = 'album';
 
 							$state.go('app.selectFrame', {});
 
