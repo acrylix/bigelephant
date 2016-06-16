@@ -114,43 +114,56 @@ angular.module('picture.services', ['ngStorage'])
 
 
 
-      var copyImgToMem = function(tempFileName) {
+      var copyImgToMem = function(filepath) {
+
+        var filename = filepath.replace(/^.*[\\\/]/, '');
+        var path = filepath.replace(/[^\/]*$/, '');
 
         if (ionic.Platform.isIOS()) {
 
-          $cordovaFile.copyFile(cordova.file.tempDirectory, tempFileName, cordova.file.dataDirectory, "ElephantPics/" + tempFileName)
+          $cordovaFile.copyFile(path, filename, cordova.file.dataDirectory + "ElephantPics/", filename)
             .then(function(success) {
               // success
-              _add(cordova.file.dataDirectory + "ElephantPics/" + tempFileName);
+              _add(cordova.file.dataDirectory + "ElephantPics/" + filename);
 
-            }, function(error) { //file:///storage/emulated/0/Android/data/com.ionicframework.bigelephant305082/cache/1465787348653.jpg
+            }, function(error) {
               // error
               alert("mem copy failed");
             });
         }
 
-        if(ionic.Platform.isAndroid()){
-          _add(cordova.file.externalCacheDirectory + tempFileName);
+        if (ionic.Platform.isAndroid()) { //file:///storage/emulated/0/Android/data/com.ionicframework.bigelephant305082/cache/1465787348653.jpg
+          _add(filepath);
         }
 
       }
 
-      var copyRecordingToMem = function(recordingFileName) {
+      var copyRecordingToMem = function(recordingFileName) { //change path handler
         if (ionic.Platform.isIOS()) {
 
-        $cordovaFile.copyFile(cordova.file.tempDirectory, recordingFileName, cordova.file.dataDirectory, "ElephantPics/" + recordingFileName)
-          .then(function(success) {
-            // success
-            $localStorage.recordings.push(cordova.file.dataDirectory + "ElephantPics/" + recordingFileName);
-            console.log('recording copied to perm location');
-          }, function(error) {
-            // error
-            alert("rec mem copy failed");
-          });
+          $cordovaFile.copyFile(cordova.file.tempDirectory, recordingFileName, cordova.file.dataDirectory, "ElephantPics/" + recordingFileName)
+            .then(function(success) {
+              // success
+              $localStorage.recordings.push(cordova.file.dataDirectory + "ElephantPics/" + recordingFileName);
+              console.log('recording copied to perm location');
+            }, function(error) {
+              // error
+              alert("rec mem copy failed");
+            });
 
         }
-        if(ionic.Platform.isAndroid()){
-          $localStorage.recordings.push(cordova.file.externalCacheDirectory + recordingFileName);
+        if (ionic.Platform.isAndroid()) {
+
+          $cordovaFile.copyFile("file:///storage/emulated/0/", recordingFileName, cordova.file.externalDataDirectory, recordingFileName)
+            .then(function(success) {
+              // success
+              $localStorage.recordings.push(cordova.file.externalDataDirectory + recordingFileName);
+              console.log('recording copied to perm location');
+            }, function(error) {
+              // error
+              alert("rec mem copy failed android");
+            });
+
         }
 
       }

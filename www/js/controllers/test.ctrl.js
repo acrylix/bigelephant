@@ -46,8 +46,7 @@ angular.module('test.controllers', ['ionic'])
 						console.log(err);
 						defer.reject(err);
 					});
-				}
-				else{
+				} else {
 					alert('img format err');
 					defer.reject('image format err');
 				}
@@ -129,28 +128,39 @@ angular.module('test.controllers', ['ionic'])
 
 			console.log(recordingUri);
 
+			// $cordovaFile.readAsDataURL(cordova.file.externalDataDirectory, "recording.wav")
 			$cordovaFile.readAsDataURL(cordova.file.dataDirectory + "ElephantPics/", "recording.wav")
 				.then(function(data) {
 					// success
 
-					data = data.replace(/^data:audio\/wav;base64,/, ''); //VERY QUESTIONABLE PERFORMANCE
+					var clean64 = /^data:audio\/.*;base64,/;
 
-					var file = new AV.File('recording.wav', {
-						base64: data
-					});
-					file.save().then(function(obj) {
-						// 数据保存成功
-						console.log("file SAVED");
-						defer.resolve(obj);
+					if (clean64.test(data)) {
 
-					}, function(err) {
-						// 数据保存失败
-						console.log(err);
-						defer.reject(err);
+						data = data.replace(clean64, '');
 
-					});
+						var file = new AV.File('recording.wav', {
+							base64: data
+						});
+						file.save().then(function(obj) {
+							// 数据保存成功
+							console.log("file SAVED");
+							defer.resolve(obj);
+
+						}, function(err) {
+							// 数据保存失败
+							console.log(err);
+							defer.reject(err);
+
+						});
+					}
+					else{
+						console.log('recording format not supported');
+						defer.reject();
+					}
 				}, function(error) {
 					// error
+					console.log(error);
 				});
 
 			return defer.promise;

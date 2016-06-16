@@ -119,12 +119,12 @@ angular.module('album.controllers', ['ionic'])
 
 		$ionicPlatform.ready(function() {
 			var options = {
-				quality: 50,
+				quality: 80,
 				destinationType: Camera.DestinationType.FILE_URI,
 				sourceType: Camera.PictureSourceType.CAMERA,
 				allowEdit: false,
 				encodingType: Camera.EncodingType.JPEG,
-				popoverOptions: CameraPopoverOptions,
+				// popoverOptions: CameraPopoverOptions,
 				saveToPhotoAlbum: true,
 				correctOrientation: true
 			};
@@ -133,12 +133,10 @@ angular.module('album.controllers', ['ionic'])
 				//var base64 = "data:image/jpeg;base64," + imageData;
 				debugger;
 
-				var url;
-
-				var tempFileName = imageURI.replace(/^.*[\\\/]/, '');
+				//var tempFileName = imageURI.replace(/^.*[\\\/]/, '');
 
 				PictureService.prepDir().then(function(success) {
-					PictureService.copyToMem(tempFileName);
+					PictureService.copyToMem(imageURI);
 				});
 
 				$state.go('app.selectFrame', {});
@@ -173,9 +171,9 @@ angular.module('album.controllers', ['ionic'])
 							console.log('Image URI: ' + results[i]);
 							var filePath = results[i];
 
-							var tempFileName = filePath.replace(/^.*[\\\/]/, '');
+							//var tempFileName = filePath.replace(/^.*[\\\/]/, '');
 
-							PictureService.copyToMem(tempFileName);
+							PictureService.copyToMem(filePath);
 
 							$state.go('app.selectFrame', {});
 
