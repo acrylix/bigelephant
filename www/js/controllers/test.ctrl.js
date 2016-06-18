@@ -166,8 +166,15 @@ angular.module('test.controllers', ['ionic'])
 
 			console.log(recordingUri);
 
+			var path = cordova.file.dataDirectory;
+
+			if (ionic.Platform.isAndroid()) {
+				path = cordova.file.externalDataDirectory;
+			}
+
 			// $cordovaFile.readAsDataURL(cordova.file.externalDataDirectory, "recording.wav")
-			$cordovaFile.readAsDataURL(cordova.file.dataDirectory + "ElephantPics/", "recording.wav")
+			//$cordovaFile.readAsDataURL(cordova.file.dataDirectory + "ElephantPics/", "recording.wav")
+			$cordovaFile.readAsDataURL(path, "recording.wav")
 				.then(function(data) {
 					// success
 
