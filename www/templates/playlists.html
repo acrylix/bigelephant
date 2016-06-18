@@ -16,7 +16,7 @@
 
 
 
-  <ion-content>
+  <ion-content style="margin-bottom: 56px;">
   <ion-refresher
     pulling-text="使劲拉..."
     on-refresh="listRefresh()">
@@ -25,7 +25,7 @@
 		show-delete="shouldShowDelete"
 		show-reorder="shouldShowReorder"
 		can-swipe="listCanSwipe">
-    <ion-item back-img="" ng-repeat="frame in frames" href="#/app/playlists/{{frame.frame.id}}">
+    <ion-item back-img="" ng-repeat="frame in frames" ng-click="goToAlbum(frame.frame.id)">
       <!-- {{playlist.title}} -->
       <img id="frame-list-user-avatar" class="album-top" src="http://blog.sumall.com/wp-content/uploads/2015/05/default-profile-01.png">
 
@@ -71,9 +71,9 @@
 
 
 
-  </ion-content>
+</ion-content>
  <ion-footer-bar align-title="left" class="bar-stable" style="height: 100px;">
-  <div >
+  <div style="padding-left: 10px;">
     <button class="button" ng-click="cameraButton()">
     <div style="padding-left: 3px; padding-top: 5px;">
       <div class="row" style="background-color: #ffc900; border-radius: 100px; width: 43px;">
@@ -87,7 +87,7 @@
   </div>
   <h1 class="title"></h1>
 
-  <div class="buttons">
+  <div class="buttons" style="padding-right: 10px;">
     <button class="button" ng-click="button()">
     <div style="padding-left: 3px; padding-top: 5px;">
       <div class="row" style="background-color: #ffc900; border-radius: 100px; width: 43px;">

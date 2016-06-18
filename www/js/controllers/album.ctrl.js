@@ -14,6 +14,7 @@ angular.module('album.controllers', ['ionic'])
 	$cordovaBarcodeScanner,
 	StorageService,
 	$ionicModal,
+	$ionicHistory,
 	$ionicPopup,
 	$interval,
 	$cordovaToast,
@@ -41,6 +42,13 @@ angular.module('album.controllers', ['ionic'])
 	$scope.shouldShowReorder = false;
 	$scope.listCanSwipe = true;
 
+	$scope.goToAlbum = function(albumId) {
+		$ionicHistory.nextViewOptions({
+			disableBack: true
+		});
+
+		$state.go('app.single', {playlistId: albumId});
+	}
 
 	//Smart Search
 	$scope.myPopup = function() {
