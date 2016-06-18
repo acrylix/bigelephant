@@ -1,10 +1,18 @@
-<ion-view view-title="大象框">
+<ion-view view-title="大象框" >
 
-<ion-nav-buttons side="right">
-        <button class="button" ng-click="myPopup()">
-            <i class="icon ion-search"></i>
-        </button>
-    </ion-nav-buttons>
+<ion-nav-bar class="bar-stable">
+  <ion-nav-buttons side="left">
+    <!-- Toggle left side menu -->
+    <button menu-toggle="left" class="button button-icon button-clear button-energized icon ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button class="button" ng-click="myPopup()">
+    <i class="icon ion-search energized"></i>
+  </button>
+  </ion-nav-buttons>
+</ion-nav-bar>
+
+
 
 
 
@@ -64,14 +72,34 @@
 
 
   </ion-content>
- <ion-footer-bar align-title="left" class="bar-energized">
-  <div class="buttons">
-    <button class="button" ng-click="cameraButton()"><i class="icon ion-camera"></i> 发照片</button>
+ <ion-footer-bar align-title="left" class="bar-stable" style="height: 100px;">
+  <div >
+    <button class="button" ng-click="cameraButton()">
+    <div style="padding-left: 3px; padding-top: 5px;">
+      <div class="row" style="background-color: #ffc900; border-radius: 100px; width: 43px;">
+        <i class="icon ion-camera stable" style="padding-left: 6px;"></i>
+      </div>
+    </div>
+    <div class="row">
+       发照片
+      </div>
+      </button>
   </div>
   <h1 class="title"></h1>
-  <div class="buttons" ng-click="button()">
-    <button class="button"><i class="icon ion-person-add"></i> 加好友</button>
+
+  <div class="buttons">
+    <button class="button" ng-click="button()">
+    <div style="padding-left: 3px; padding-top: 5px;">
+      <div class="row" style="background-color: #ffc900; border-radius: 100px; width: 43px;">
+        <i class="icon ion-person-add stable" style="padding-left: 6px;"></i>
+      </div>
+    </div>
+    <div class="row">
+       加好友
+      </div>
+      </button>
   </div>
+
 </ion-footer-bar>
 </ion-view>
 
