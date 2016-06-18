@@ -15,6 +15,7 @@ angular.module('starter', [
   'test.controllers',
   'album.controllers',
   'gallery.controllers',
+  'setting.controllers',
   'camera.controllers',
   'upload.controllers',
   'album-cloud.controllers',
@@ -128,7 +129,15 @@ angular.module('starter', [
         }
       }
     })
-
+    .state('app.setting', {
+      url: '/setting',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/settings.html',
+          controller: 'SettingController'
+        }
+      }
+    })
     .state('app.single', {
       url: '/playlists/:playlistId',
       views: {
