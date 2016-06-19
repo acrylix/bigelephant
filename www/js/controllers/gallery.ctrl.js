@@ -159,17 +159,9 @@ angular.module('gallery.controllers', [])
 
 })
 
-.controller('GalleryController', function(_, $scope, $rootScope, $state, $stateParams, StorageService, $ionicModal, $ionicScrollDelegate, $ionicHistory) {
+.controller('GalleryController', function(_, $scope, $rootScope, $state, $stateParams, StorageService, $ionicModal, $ionicScrollDelegate) {
 
   $scope.images = [];
-
-  $scope.back = function() {
-    $ionicHistory.nextViewOptions({
-      disableBack: true
-    });
-
-    $state.go('app.playlists');
-  }
 
   $scope.frame = StorageService.get($stateParams.playlistId);
   $scope.isNormalGallery = true;
