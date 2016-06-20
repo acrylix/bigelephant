@@ -40,17 +40,13 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 .album-cover{
   position: absolute;
   margin-left: -18px;
-  float: left;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px -79px 55px -26px inset;
-}
-.album-cover img {
-    display: block;
-    margin-left: -19px;
-    margin-top: -97px;
-    width: 145%;
-    position: relative;
-    z-index: -1;
-    zoom: 2;
+  margin-top: -97px;
+  width:100vw; 
+  height:300px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center center;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px -130px 55px -26px inset;
 }
 .album-top {
   z-index: 2;
