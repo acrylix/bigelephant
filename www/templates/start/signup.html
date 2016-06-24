@@ -1,0 +1,30 @@
+<ion-view title="Signup">
+    <ion-content padding="true" scroll="false" class="has-header">
+    <div class="spacer" style="height: 20px;"></div>
+        <form>
+            <ion-list>
+
+                <label class="item item-input item-floating-label signup-element">
+                    <span class="input-label"><i class="icon ion-android-phone-portrait"></i> 请输入您的电话号码</span>
+                    <input type="number" placeholder="请输入您的电话号码" ng-model="info.phonenumber">
+                </label>
+                <label class="item item-input item-floating-label signup-element" style="width: 50vw;">
+                    <span class="input-label"><i class="icon ion-chatbox-working"></i> 请输入验证码</span>
+                    <input type="number" placeholder="请输入验证码" ng-model="info.smscode">
+                </label>
+                <button class="button button-energized button-block" style="width: 35vw; margin-left: 59vw; margin-top: -50px;"  ng-click="requestsms()">获取验证码</button> 
+                <label class="item item-input item-floating-label signup-element">
+                    <span class="input-label"><i class="icon ion-android-unlock"></i> 请输入您的密码</span>
+                    <input type="password" placeholder="请输入您的密码" ng-model="info.password">
+                </label>
+                <label class="item item-input item-floating-label signup-element">
+                    <span class="input-label"><i class="icon ion-android-unlock"></i> 请确认您的密码</span>
+                    <input type="password" placeholder="请确认您的密码" ng-model="info.passwordcheck">
+                </label>
+                
+            </ion-list>
+            <button class="button button-energized button-block" ng-click="signup()">创建账户</button>   
+            <button class="button button-stable button-block" ui-sref="app-login">返回</button>         
+        </form>
+    </ion-content>
+</ion-view>

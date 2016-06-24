@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"ion-na",
+				"ion-nav-back-button	Ionic Extension"
+			],
+			[
+				"backg",
+				"background-color"
+			],
+			[
+				"$local",
+				"$localStorage"
+			],
+			[
 				"for",
 				"for	for (…) {…}"
 			],
@@ -63,15 +75,15 @@
 			"file": "www/templates/playlists.html",
 			"settings":
 			{
-				"buffer_size": 3406,
+				"buffer_size": 3510,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "www/js/controllers/album.ctrl.js",
+			"file": "scss/ionic.app.scss",
 			"settings":
 			{
-				"buffer_size": 9249,
+				"buffer_size": 3674,
 				"line_ending": "Unix"
 			}
 		}
@@ -202,35 +214,39 @@
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/scss",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/css",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/services",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/pictureUpload"
 	],
 	"file_history":
 	[
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/image-popover.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/gallery.ctrl.js",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/album.ctrl.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/services/picture.service.js",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/menu.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/test.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/gallery.ctrl.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/app.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/scss/ionic.app.scss",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/playlist.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/album.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/about.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/app.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/menu.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/settings.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/playlists.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/setting.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/index.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/css/ionic.app.css",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/config.xml",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/image-popover.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/upload.ctrl.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/user.ctrl.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/smart-gallery.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/scss/ionic.app.scss",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/addFrame.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/bigelephant.sublime-project",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/android-build/platforms/android/ant.properties",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/android-build/platforms/android/secure.properties",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/playlists.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/playlist.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/pictureUpload/selectFrame.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/services/frame.service.js",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/index.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/config.xml",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/pictureUpload/voiceMsg.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/camera.ctrl.js",
 		"/Users/Michael/.zshrc",
@@ -332,12 +348,7 @@
 		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/js/app.js",
 		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/index.html",
 		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/js/buyer/controllers.js",
-		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/.bowerrc",
-		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/templates/buyer/driverTripDetail.html",
-		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/.io-config.json",
-		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/css/app.css",
-		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/templates/home.html",
-		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/templates/buyer/tripDetail.html"
+		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/.bowerrc"
 	],
 	"find":
 	{
@@ -356,9 +367,53 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"album-cover",
+			"goToAlbum",
+			"uploadR",
+			"uploadrec",
+			"正在上传",
+			"audio-pause",
+			"login.html",
+			"playlist",
+			"bar-energized",
+			"美食",
+			"bar-energized",
+			"大相框",
+			"shared",
+			"recording.",
+			"recording",
+			"recording.wav",
+			"recording.mp3",
+			"recording.wav",
+			"recording.aac",
+			"recording.wa",
+			"recording.wav",
+			"wav",
+			"start",
+			"uploadrec",
+			"start",
+			"starttim",
+			"fileOfFrameEntry",
+			"encodeFile",
+			"send",
+			"record",
+			"rec mem cop",
+			"encodeFile",
+			"recordings",
+			"begin",
+			"//var",
+			"recording.wav",
+			"uploadRecordingFile",
+			"emula",
+			"uploadRecordingFile",
+			"emulated",
+			"recording",
+			"copyRecordingToMem",
+			"path.replace",
+			"copyToMem",
 			"edit",
 			"\"loading",
 			"$scope.loading",
@@ -442,51 +497,7 @@
 			"cache cleared",
 			"test",
 			"PictureService",
-			"PictureService.test",
-			"test",
-			"PictureService.test",
-			"defer",
-			"$q",
-			".all",
-			"cordovaCamera",
-			"myfile",
-			"_File",
-			"    // query.skip($scope.skip);\n    // query.limit(5);",
-			"150",
-			"file",
-			"window.locals",
-			"camera.controllers",
-			"user.controllers",
-			"profile-info",
-			"addUserToFire",
-			"resources",
-			"mentor.inbox",
-			"Woody Wu",
-			"doLogoutAction",
-			"Mentor Detail",
-			"schedulepickerctrl",
-			"account",
-			"MentorChatCtrl",
-			"HEAD",
-			"ParseConfiguration",
-			"ng-hide",
-			"ng-visible",
-			"parse",
-			"firebase.services",
-			"user.services",
-			"mentor.services",
-			"app-login",
-			"login",
-			"currentUser",
-			"attributes",
-			"signUpUser",
-			"then",
-			"Chats",
-			"ParseConfiguration",
-			"mentor.services",
-			"facebookSignIn",
-			"ser",
-			"ui-sref"
+			"PictureService.test"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -494,6 +505,9 @@
 		"regex": false,
 		"replace_history":
 		[
+			"recording.amr",
+			"recording.mp3",
+			"recording.aac",
 			"100",
 			"inbox"
 		],
@@ -515,25 +529,25 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3406,
+						"buffer_size": 3510,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1521,
-								1521
+								972,
+								972
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 217.0,
+						"translation.y": 70.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -541,28 +555,29 @@
 				},
 				{
 					"buffer": 1,
-					"file": "www/js/controllers/album.ctrl.js",
+					"file": "scss/ionic.app.scss",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9249,
+						"buffer_size": 3674,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6452,
-								6452
+								1143,
+								1143
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3836.0,
+						"translation.y": 126.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -624,20 +639,64 @@
 		"selected_items":
 		[
 			[
-				"big",
-				"bigelephant.sublime-project"
-			],
-			[
 				"app",
 				"www/js/app.js"
+			],
+			[
+				"alb",
+				"www/js/controllers/album.ctrl.js"
+			],
+			[
+				"gall",
+				"www/js/controllers/gallery.ctrl.js"
+			],
+			[
+				"playlist",
+				"www/templates/playlist.html"
+			],
+			[
+				"playlists",
+				"www/templates/playlists.html"
+			],
+			[
+				"pic",
+				"www/js/services/picture.service.js"
+			],
+			[
+				"test",
+				"www/js/controllers/test.ctrl.js"
+			],
+			[
+				"men",
+				"www/templates/menu.html"
+			],
+			[
+				"ab",
+				"www/templates/about.html"
+			],
+			[
+				"sett",
+				"www/js/controllers/setting.ctrl.js"
 			],
 			[
 				"in",
 				"www/index.html"
 			],
 			[
+				"play",
+				"www/templates/playlists.html"
+			],
+			[
 				"inde",
 				"www/index.html"
+			],
+			[
+				"conf",
+				"config.xml"
+			],
+			[
+				"big",
+				"bigelephant.sublime-project"
 			],
 			[
 				"ins",
@@ -722,10 +781,6 @@
 			[
 				"appo",
 				"www/templates/mentor/appointment.html"
-			],
-			[
-				"conf",
-				"config.xml"
 			],
 			[
 				"gitig",
@@ -916,7 +971,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 293.0,
+	"side_bar_width": 229.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

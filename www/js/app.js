@@ -27,12 +27,16 @@ angular.module('starter', [
 .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
 
-
     //***Sign Up***
-      .state('app-login', {
+    .state('app-login', {
       url: "/login",
       templateUrl: "templates/start/login.html",
       controller: "LogInController"
+    })
+    .state('app-signup', {
+      url: "/signup",
+      templateUrl: "templates/start/signup.html",
+      controller: "SignUpController"
     })
 
     .state('app', {

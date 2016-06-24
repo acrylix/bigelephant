@@ -260,7 +260,7 @@ angular.module('album.controllers', ['ionic'])
 		query.first().then(function(data) {
 			console.log(" + " + data.attributes.file._url + " " + frameId);
 
-			var thumbnail = data.attributes.file.thumbnailURL(300, 300, 10);
+			var thumbnail = data.attributes.file.thumbnailURL(300, 300, 100);
 			fillFramesArrayURL(frameId, thumbnail);
 
 			defer.resolve(data.attributes.file._url);

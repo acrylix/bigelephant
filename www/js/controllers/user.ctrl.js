@@ -9,29 +9,30 @@ angular.module('user.controllers', [])
 	function($state, $scope, $rootScope, $ionicPopup, UserService) {
 
 		$scope.creds = {
-	        phonenumber: "18811713937",
-	        password: "123qwe"
-	    };
+			phonenumber: "18811713937",
+			password: "123qwe"
+		};
 
-	    $scope.doLoginAction = function () {
-                $rootScope.show();
-                UserService.login($scope.creds.phonenumber, $scope.creds.password)
-                    .then(function (user) {
-                        $rootScope.hide();
-                        console.log(user);
-                        $state.go('app.intro');
+		$scope.doLoginAction = function() {
+			$rootScope.show();
+			UserService.login($scope.creds.phonenumber, $scope.creds.password)
+				.then(function(user) {
+					$rootScope.hide();
+					console.log(user);
+					$state.go('app.intro');
 
-                    }, function (error) {
-                        $rootScope.hide();
-                        console.log("login err + "+error);
-                        $ionicPopup.confirm({
-                          title: 'Oops!',
-                          template: error.avosErr.message
-                        });
-                    })
-            };
+				}, function(error) {
+					$rootScope.hide();
+					console.log("login err + " + error);
+					$ionicPopup.confirm({
+						title: 'Oops!',
+						template: error.avosErr.message
+					});
+				})
+		};
 
-	}])
+	}
+])
 
 .controller('SignUpController', [
 	'$state',
@@ -39,6 +40,54 @@ angular.module('user.controllers', [])
 	'$rootScope',
 	function($state, $scope, $rootScope) {
 
-	}])
+		function checkPhone(phone) {
+			if (!(/^1[3|4|5|7|8]\d{9}$/.test(phone))) {
+				alert("手机号码格式有误，请重填");
+				return false;
+			}
+			return true;
+		}
+
+		$scope.info = {
+			phonenumber: '',
+			password: '',
+			passwordcheck: '',
+			smscode: '',
+		}
+
+		$scope.requestsms = function() {
+			if (checkPhone($scope.info.phonenumber)) {
+				AV.Cloud.requestSmsCode($scope.info.phonenumber).then(function(success) {
+					alert('验证码发送成功');
+				}, function(error) {});
+			}
+		}
+
+		$scope.signup = function() {
+			if ($scope.info.password != $scope.info.passwordcheck) {
+				alert('密码不匹配');
+				return false;
+			}
+			if (checkPhone($scope.info.phonenumber)) {
+				return false;
+			}
+
+			var user = new AV.User(); // 新建 AVUser 对象实例
+			user.setPassword($scope.info.password); // 设置密码
+			user.setMobilePhoneNumber($scope.info.phonenumber);
+
+			AV.User.verifyMobilePhone($scope.info.smscode).then(function() {
+				user.signUp().then(function(loginedUser) {
+					console.log(loginedUser);
+					alert('成功');
+					$state.go('app-login');
+				}, (function(error) {}));
+			}, function(err) {
+				alert('用户创建失败!');
+			});
+
+		}
+	}
+])
 
 ;
