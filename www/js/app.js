@@ -142,6 +142,15 @@ angular.module('starter', [
         }
       }
     })
+    .state('app.manualAddFrame', {
+      url: '/manualadd',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/manualAddFrame.html',
+          controller: 'AlbumController'
+        }
+      }
+    })
     .state('app.single', {
       url: '/playlists/:playlistId',
       views: {

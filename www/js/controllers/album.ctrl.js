@@ -16,6 +16,7 @@ angular.module('album.controllers', ['ionic'])
 	$ionicModal,
 	$ionicPopup,
 	$interval,
+	$ionicHistory,
 	$cordovaToast,
 	PictureService) {
 
@@ -260,7 +261,7 @@ angular.module('album.controllers', ['ionic'])
 		query.first().then(function(data) {
 			console.log(" + " + data.attributes.file._url + " " + frameId);
 
-			var thumbnail = data.attributes.file.thumbnailURL(300, 300, 100);
+			var thumbnail = data.attributes.file.thumbnailURL(500, 500, 80);
 			fillFramesArrayURL(frameId, thumbnail);
 
 			defer.resolve(data.attributes.file._url);
@@ -356,6 +357,18 @@ angular.module('album.controllers', ['ionic'])
 		return defer.promise;
 	}
 
+	$scope.addinfo = {
+		id: ''
+	}
+
+	$scope.manualAddFrame = function() {
+		if ($scope.addinfo.id == '') {
+			alert('ID空');
+		} else {
+			addFriendFrame($scope.addinfo.id);
+		}
+	}
+
 	var addFriendFrame = function(qr) {
 		checkFrame(qr).then(function(frame) {
 			if (!frame) {
@@ -385,6 +398,16 @@ angular.module('album.controllers', ['ionic'])
 	}).then(function(modal) {
 		$scope.modal = modal;
 	});
+
+	$scope.closeManualAdd = function() {
+		$scope.addinfo.id = '';
+
+		$ionicHistory.nextViewOptions({
+			disableBack: true
+		});
+
+		$state.go("app.playlists");
+	};
 
 	$scope.closeAddFrame = function() {
 		$scope.modal.hide();
@@ -417,6 +440,11 @@ angular.module('album.controllers', ['ionic'])
 		saveMapUserFrame().then(function(id) {
 			console.log('LINKED MUF ID: ' + id);
 			$scope.modal.hide();
+			$ionicHistory.nextViewOptions({
+				disableBack: true
+			});
+
+			$state.go("app.playlists");
 		}, function(error) {
 
 		});
@@ -424,17 +452,41 @@ angular.module('album.controllers', ['ionic'])
 
 	$scope.button = function() {
 
-		$cordovaBarcodeScanner
-			.scan()
-			.then(function(barcodeData) {
 
-				console.log(barcodeData);
+		// Show the action sheet
+		var hideSheet = $ionicActionSheet.show({
+			buttons: [{
+				text: '<b>扫描</b>'
+			}, {
+				text: '手动添加'
+			}],
+			// destructiveText: 'Delete',
+			titleText: '加好友',
+			cancelText: '取消',
+			cancel: function() {
+				// add cancel code..
+			},
+			buttonClicked: function(index) {
+				if (index == 0) {
+					$cordovaBarcodeScanner
+						.scan()
+						.then(function(barcodeData) {
 
-				addFriendFrame(barcodeData.text);
+							console.log(barcodeData);
 
-			}, function(error) {
-				// An error occurred
-			});
+							addFriendFrame(barcodeData.text);
+
+						}, function(error) {
+							// An error occurred
+						});
+				} else if (index == 1) {
+					$state.go("app.manualAddFrame");
+				}
+
+				return true;
+			}
+
+		});
 
 	}
 

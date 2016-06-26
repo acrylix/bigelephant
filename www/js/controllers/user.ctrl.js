@@ -8,9 +8,14 @@ angular.module('user.controllers', [])
 	'UserService',
 	function($state, $scope, $rootScope, $ionicPopup, UserService) {
 
+		// $scope.creds = {
+		// 	phonenumber: "18811713937",
+		// 	password: "123qwe"
+		// };
+
 		$scope.creds = {
-			phonenumber: "18811713937",
-			password: "123qwe"
+			phonenumber: "",
+			password: ""
 		};
 
 		$scope.doLoginAction = function() {

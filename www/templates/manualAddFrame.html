@@ -1,0 +1,21 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">手动添加好友相框</h1>
+
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeManualAdd()">取消</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+      <div class="list">
+      <label class="item item-input">
+          <span class="input-label">相框ID</span>
+          <input type="text" placeholder="请输相框ID" ng-model="addinfo.id">
+        </label>
+
+        <label class="item">
+          <button class="button button-block button-energized" ng-click="manualAddFrame()" >添加</button>
+        </label>
+      </div>
+  </ion-content>
+</ion-modal-view>
