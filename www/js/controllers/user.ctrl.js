@@ -60,11 +60,32 @@ angular.module('user.controllers', [])
 			smscode: '',
 		}
 
+		$scope.verify = '获取验证码';
+
 		$scope.requestsms = function() {
 			if (checkPhone($scope.info.phonenumber)) {
-				AV.Cloud.requestSmsCode($scope.info.phonenumber).then(function(success) {
+				AV.Cloud.requestSmsCode($scope.info.phonenumber + '').then(function(success) {
 					alert('验证码发送成功');
-				}, function(error) {});
+
+					var time = 20;
+					$scope.verify = '已发送 ' + time + 's';
+					$scope.waiting = true;
+
+					var timer = setInterval(function() {
+						time--;
+						$scope.verify = '已发送 ' + time + 's';
+
+						$scope.$apply();
+						if (time == 0) {
+							clearInterval(timer);
+							$scope.verify = '获取验证码';
+							$scope.waiting = false;
+							$scope.$apply();
+						}
+					}, 1000);
+				}, function(error) {
+					alert(error.message);
+				});
 			}
 		}
 
