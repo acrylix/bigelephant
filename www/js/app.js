@@ -38,6 +38,11 @@ angular.module('starter', [
       templateUrl: "templates/start/signup.html",
       controller: "SignUpController"
     })
+    .state('app-forgot', {
+      url: "/forgot",
+      templateUrl: "templates/start/forgot.html",
+      controller: "SignUpController"
+    })
 
     .state('app', {
       url: '/app',

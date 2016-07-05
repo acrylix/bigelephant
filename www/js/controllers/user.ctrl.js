@@ -46,7 +46,7 @@ angular.module('user.controllers', [])
 	function($state, $scope, $rootScope) {
 
 		function checkPhone(phone) {
-			if (!(/^1[3|4|5|7|8]\d{9}$/.test(phone))) {
+			if (!(/^1[3|4|5|7|8]\d{9}$/.test(phone+''))) {
 				alert("手机号码格式有误，请重填");
 				return false;
 			}
@@ -62,31 +62,65 @@ angular.module('user.controllers', [])
 
 		$scope.verify = '获取验证码';
 
-		$scope.requestsms = function() {
+		var sentWait = function() {
+			var time = 20;
+			$scope.verify = '已发送 ' + time + 's';
+			$scope.waiting = true;
+
+			var timer = setInterval(function() {
+				time--;
+				$scope.verify = '已发送 ' + time + 's';
+
+				$scope.$apply();
+				if (time == 0) {
+					clearInterval(timer);
+					$scope.verify = '获取验证码';
+					$scope.waiting = false;
+					$scope.$apply();
+				}
+			}, 1000);
+		}
+
+		$scope.requestsms = function(reset) {
 			if (checkPhone($scope.info.phonenumber)) {
-				AV.Cloud.requestSmsCode($scope.info.phonenumber + '').then(function(success) {
-					alert('验证码发送成功');
+				if (!reset) {
+					AV.Cloud.requestSmsCode($scope.info.phonenumber + '').then(function(success) {
+						alert('注册验证码发送成功');
+						sentWait();
 
-					var time = 20;
-					$scope.verify = '已发送 ' + time + 's';
-					$scope.waiting = true;
+					}, function(error) {
+						alert(error.message);
+					});
+				} else {
+					AV.User.requestPasswordResetBySmsCode($scope.info.phonenumber + '').then(function(success) {
+						alert('重置验证码发送成功');
+						sentWait();
 
-					var timer = setInterval(function() {
-						time--;
-						$scope.verify = '已发送 ' + time + 's';
-
-						$scope.$apply();
-						if (time == 0) {
-							clearInterval(timer);
-							$scope.verify = '获取验证码';
-							$scope.waiting = false;
-							$scope.$apply();
-						}
-					}, 1000);
-				}, function(error) {
-					alert(error.message);
-				});
+					}, function(error) {
+						alert(error.message);
+					});
+				}
 			}
+		}
+
+		$scope.resetPassword = function() {
+			if ($scope.info.password != $scope.info.passwordcheck) {
+				alert('密码不匹配');
+				return false;
+			}
+			if ($scope.info.password == '') {
+				alert('密码为空');
+				return false;
+			}
+			if (!checkPhone($scope.info.phonenumber)) {
+				return false;
+			}
+			AV.User.resetPasswordBySmsCode($scope.info.smscode+'', $scope.info.password).then(function(success) {
+				alert('密码重置成功');
+				$state.go('app-login');
+			}, function(error) {
+				alert(error.message);
+			});
 		}
 
 		$scope.signup = function() {
@@ -94,15 +128,19 @@ angular.module('user.controllers', [])
 				alert('密码不匹配');
 				return false;
 			}
-			if (checkPhone($scope.info.phonenumber)) {
+			if ($scope.info.password == '') {
+				alert('密码为空');
+				return false;
+			}
+			if (!checkPhone($scope.info.phonenumber)) {
 				return false;
 			}
 
 			var user = new AV.User(); // 新建 AVUser 对象实例
 			user.setPassword($scope.info.password); // 设置密码
-			user.setMobilePhoneNumber($scope.info.phonenumber);
+			user.setMobilePhoneNumber($scope.info.phonenumber + '');
 
-			AV.User.verifyMobilePhone($scope.info.smscode).then(function() {
+			AV.User.verifyMobilePhone($scope.info.smscode + '').then(function() {
 				user.signUp().then(function(loginedUser) {
 					console.log(loginedUser);
 					alert('成功');
