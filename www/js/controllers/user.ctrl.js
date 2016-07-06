@@ -10,7 +10,7 @@ angular.module('user.controllers', [])
 
 		// $scope.creds = {
 		// 	phonenumber: "18811713937",
-		// 	password: "123qwe"
+		// 	password: "1234"
 		// };
 
 		$scope.creds = {
