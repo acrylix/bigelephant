@@ -41,12 +41,13 @@ angular.module('user.controllers', [])
 
 .controller('SignUpController', [
 	'$state',
+	'$q',
 	'$scope',
 	'$rootScope',
-	function($state, $scope, $rootScope) {
+	function($state, $q, $scope, $rootScope) {
 
 		function checkPhone(phone) {
-			if (!(/^1[3|4|5|7|8]\d{9}$/.test(phone+''))) {
+			if (!(/^1[3|4|5|7|8]\d{9}$/.test(phone + ''))) {
 				alert("手机号码格式有误，请重填");
 				return false;
 			}
@@ -81,16 +82,82 @@ angular.module('user.controllers', [])
 			}, 1000);
 		}
 
-		$scope.requestsms = function(reset) {
-			if (checkPhone($scope.info.phonenumber)) {
-				if (!reset) {
-					AV.Cloud.requestSmsCode($scope.info.phonenumber + '').then(function(success) {
+		var userExists = function(phone) {
+
+			var defered = $q.defer();
+
+			var query = new AV.Query('_User');
+			query.equalTo('mobilePhoneNumber', phone);
+			query.find().then(function(results) {
+				defered.resolve(results);
+			}, function(error) {
+				defered.resolve(error);
+			})
+
+			return defered.promise;
+		}
+
+		var newUserCreate = function(phone) {
+			var defered = $q.defer();
+
+			var randId = 'xxyxxxyxxx'.replace(/[xy]/g, function(c) {
+				var r = Math.random() * 16 | 0,
+					v = c == 'x' ? r : (r & 0x3 | 0x8);
+				return v.toString(16);
+			});
+
+			var user = new AV.User(); // 新建 AVUser 对象实例
+			user.set("username", randId + '');
+			user.set("userId", randId + '');
+			user.set("password", $scope.info.password); // 设置密码
+			user.setMobilePhoneNumber(phone + '');
+			user.signUp(null, {
+				success: function(user) {
+					defered.resolve(user);
+				},
+				error: function(user, error) {
+					console.warn("user create err: " + error.code + " " + error.message);
+					defered.reject(error);
+				}
+			});
+
+			return defered.promise;
+		}
+
+		$scope.newReg = function() {
+
+			$scope.phone = $scope.info.phonenumber;
+			$rootScope.show();
+			userExists($scope.phone).then(function(success) {
+				if (!success.length) {
+					newUserCreate($scope.phone).then(function(success) {
+						$rootScope.hide();
+						alert('注册验证码发送成功');
+						sentWait();
+
+					}, function(error){
+						$rootScope.hide();
+						alert(error.message);
+					})
+				} else {
+					AV.User.requestMobilePhoneVerify($scope.phone + '').then(function(success) {
+						$rootScope.hide();
 						alert('注册验证码发送成功');
 						sentWait();
 
 					}, function(error) {
+						$rootScope.hide();
 						alert(error.message);
 					});
+				}
+			});
+		}
+
+		$scope.requestsms = function(reset) {
+			if (checkPhone($scope.info.phonenumber)) {
+				if (!reset) {
+					$scope.newReg();
+
 				} else {
 					AV.User.requestPasswordResetBySmsCode($scope.info.phonenumber + '').then(function(success) {
 						alert('重置验证码发送成功');
@@ -115,7 +182,7 @@ angular.module('user.controllers', [])
 			if (!checkPhone($scope.info.phonenumber)) {
 				return false;
 			}
-			AV.User.resetPasswordBySmsCode($scope.info.smscode+'', $scope.info.password).then(function(success) {
+			AV.User.resetPasswordBySmsCode($scope.info.smscode + '', $scope.info.password).then(function(success) {
 				alert('密码重置成功');
 				$state.go('app-login');
 			}, function(error) {
@@ -132,22 +199,24 @@ angular.module('user.controllers', [])
 				alert('密码为空');
 				return false;
 			}
+			if(!$scope.info.smscode){
+				alert('验证码为空');
+				return false;
+			}
 			if (!checkPhone($scope.info.phonenumber)) {
 				return false;
 			}
+			$rootScope.show();
 
-			var user = new AV.User(); // 新建 AVUser 对象实例
-			user.setPassword($scope.info.password); // 设置密码
-			user.setMobilePhoneNumber($scope.info.phonenumber + '');
-
-			AV.User.verifyMobilePhone($scope.info.smscode + '').then(function() {
-				user.signUp().then(function(loginedUser) {
-					console.log(loginedUser);
-					alert('成功');
-					$state.go('app-login');
-				}, (function(error) {}));
+			AV.User.verifyMobilePhone($scope.info.smscode).then(function(success) {
+				//验证成功
+				$rootScope.hide();
+				alert("账号创建成功!");
+				$state.go('app-login');
 			}, function(err) {
-				alert('用户创建失败!');
+				//验证失败
+				$rootScope.hide();
+				alert(err.message);
 			});
 
 		}

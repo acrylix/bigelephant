@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"margin",
+				"margin-top"
+			],
+			[
 				"ion-na",
 				"ion-nav-back-button	Ionic Extension"
 			],
@@ -22,10 +26,6 @@
 			[
 				"padding",
 				"padding-left"
-			],
-			[
-				"margin",
-				"margin-top"
 			],
 			[
 				"ionicside",
@@ -84,6 +84,80 @@
 			"settings":
 			{
 				"buffer_size": 3674,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "www/js/controllers/album.ctrl.js",
+			"settings":
+			{
+				"buffer_size": 11336,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "www/js/controllers/upload.ctrl.js",
+			"settings":
+			{
+				"buffer_size": 1416,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "Searching 185 files for \"手机\"\n\n/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/album.ctrl.js:\n  200  				text: '<b>拍照</b>'\n  201  			}, {\n  202: 				text: '从手机相册选择'\n  203  			}],\n  204  			// destructiveText: 'Delete',\n\n/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/user.ctrl.js:\n   48  		function checkPhone(phone) {\n   49  			if (!(/^1[3|4|5|7|8]\\d{9}$/.test(phone))) {\n   50: 				alert(\"手机号码格式有误，请重填\");\n   51  				return false;\n   52  			}\n\n/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/lib/avoscloud-auth/dist/avoscloud-auth.min.js:\n    1: !function(e){\"use strict\";function s(){var s=this;this.events={},this.on=function(e,s,n){var i=e&&s&&\"function\"==typeof s;i&&(n&&!this.events[n]&&(this.events[n]={}),n?this.events[n][e]=s:this.events[e]=s)},this.emit=function(e,n,i){return i&&s.events[i]&&s.events[i][e]?s.events[i][e](n):s.events[e]?s.events[e](n):void 0},e.forEach([\"signin\",\"signup\",\"signupSms\",\"signinSms\",\"signinViaMobile\"],function(n){s[n]||(s[n]={}),s[n].on=function(e,i){return s.on(e,i,n)},e.forEach([\"error\",\"success\"],function(e){s[n][e]=function(i){return\"error\"===e&&\"string\"==typeof i&&(i=new Error(i)),s.emit(e,i,n)}})})}if(!e)throw new Error(\"avoscloudAuth.init(); angular.js required.\");e.module(\"avoscloud-auth\",[\"avoscloud\"]).service(\"avoscloudAuth\",s)}(window.angular,window.debug),function(e,s){\"use strict\";function n(){var e={};e.signup=['<form id=\"signupForm\" class=\"signup-form\" ng-submit=\"signup();\" novalidate>','<div class=\"list\">','<label class=\"item item-input item-stacked-label\">','<span class=\"input-label\">用户名</span>','<input type=\"text\" ng-model=\"user.username\" placeholder=\"\">',\"</label>\",'<label class=\"item item-input item-stacked-label\">','<span class=\"input-label\">密码</span>','<input type=\"password\" ng-model=\"user.password\" placeholder=\"********\">',\"</label>\",'<label class=\"item item-input item-stacked-label\">','<span class=\"input-label\">确认密码</span>','<input type=\"password\" ng-model=\"passwordConfirm\" placeholder=\"********\">',\"</label>\",'<button class=\"button button-full button-positive\" type=\"submit\">注册</button>',\"</div>\",\"</form>\"].join(\"\\n\"),e[\"signup-sms\"]=['<form id=\"signupForm\" class=\"signup-form\" ng-submit=\"signup();\" novalidate>','<div class=\"list\">','<label class=\"item item-input item-stacked-label\">','<span class=\"input-label\">手机</span>','<input type=\"text\" ng-model=\"mobilePhoneNumber\" placeholder=\"\">',\"</label>\",'<label class=\"item item-input item-stacked-label\" ng-show=\"smsSent\">','<span class=\"input-label\">验证码</span>','<input type=\"text\" ng-model=\"smsCode\" placeholder=\"\">',\"</label>\",'<button class=\"button button-full button-positive\" type=\"submit\">注册</button>','<button class=\"button button-full\" ng-click=\"resendCode()\" ng-bind=\"resendCodeText\" ng-show=\"smsSent\" ng-disabled=\"resendCodeDisabled\"></button>',\"</div>\",\"</form>\"].join(\"\\n\"),e.signin=['<form id=\"signinForm\" class=\"signin-form\" ng-submit=\"signin();\" novalidate>','<div class=\"list\">','<label class=\"item item-input item-stacked-label\">','<span class=\"input-label\">用户名</span>','<input type=\"text\" ng-model=\"user.username\" placeholder=\"\">',\"</label>\",'<label class=\"item item-input item-stacked-label\">','<span class=\"input-label\">密码</span>','<input type=\"password\" ng-model=\"user.password\" placeholder=\"********\">',\"</label>\",'<button class=\"button button-full button-positive\" type=\"submit\">登录</button>',\"</div>\",\"</form>\"].join(\"\\n\"),e[\"signin-sms\"]=['<form id=\"signinViaSmsForm\" class=\"signin-form signin-via-sms\" ng-submit=\"signin();\" novalidate>','<div class=\"list\">','<label class=\"item item-input item-stacked-label\">','<span class=\"input-label\">手机</span>','<input type=\"text\" ng-model=\"mobilePhoneNumber\" placeholder=\"\">',\"</label>\",'<label class=\"item item-input item-stacked-label\" ng-show=\"smsSent\">','<span class=\"input-label\">验证码</span>','<input type=\"text\" ng-model=\"smsCode\" placeholder=\"\">',\"</label>\",'<button class=\"button button-full button-positive\" type=\"submit\">登录</button>',\"</div>\",\"</form>\"].join(\"\\n\"),e[\"signin-via-mobile\"]=['<form id=\"signinViaMobileForm\" class=\"signin-form signin-via-sms\" ng-submit=\"signin();\" novalidate>','<div class=\"list\">','<label class=\"item item-input item-stacked-label\">','<span class=\"input-label\">手机</span>','<input type=\"text\" ng-model=\"mobilePhoneNumber\" placeholder=\"\">',\"</label>\",'<label class=\"item item-input item-stacked-label\" ng-show=\"smsSent\">','<span class=\"input-label\">密码</span>','<input type=\"password\" ng-model=\"password\" placeholder=\"\">',\"</label>\",'<button class=\"button button-full button-positive\" type=\"submit\">登录</button>',\"</div>\",\"</form>\"].join(\"\\n\"),this.create=function(s){return e[s]||\"<div></div>\"}}if(!e)throw new Error(\"avoscloudAuth.init(); angular.js required.\");var s=s(\"ionic-form\");e.module(\"avoscloud-auth\").service(\"avoscloud-ionic-form\",n)}(window.angular,window.debug),function(e,s){\"use strict\";function n(e,s,n){function i(n){function i(){return n.user&&n.user.username?n.user.password?void e.login.post(n.user,function(n){return n.sessionToken&&e.headers(\"session\",n.sessionToken),s.signin.success(n)},s.signin.error):s.signin.error(\"password is required\"):s.signin.error(\"username is required\")}n.signin=i}var o={restrict:\"AE\",template:n.create(\"signin\"),link:i};return o}function i(e,s,n){function i(n){function i(){return n.mobilePhoneNumber?n.smsSent&&!n.smsCode?s.signinSms.error(\"smsCode is required\"):n.smsSent?void e.login.post({mobilePhoneNumber:n.mobilePhoneNumber,smsCode:n.smsCode},function(n){return n.sessionToken&&e.headers(\"session\",n.sessionToken),s.signinSms.success(n)},s.signinSms.error):o(function(){n.smsSent=!0},s.signinSms.error):s.signinSms.error(\"mobilePhoneNumber is required\")}function o(s,i){e.requestLoginSmsCode.post({mobilePhoneNumber:n.mobilePhoneNumber},s,i)}n.signin=i}var o={restrict:\"AE\",template:n.create(\"signin-sms\"),link:i};return o}function o(e,s,n){function i(n){function i(){return n.mobilePhoneNumber?n.password?void e.login.post({mobilePhoneNumber:n.mobilePhoneNumber,password:n.password},function(n){return n.sessionToken&&e.headers(\"session\",n.sessionToken),s.signinViaMobile.success(n)},s.signinViaMobile.error):s.signinViaMobile.error(\"password is required\"):s.signinViaMobile.error(\"mobilePhoneNumber is required\")}n.signin=i}var o={restrict:\"AE\",template:n.create(\"signin-via-mobile\"),link:i};return o}if(!e)throw new Error(\"avoscloudAuth.init(); angular.js required.\");var s=s(\"avoscloud:signin\");e.module(\"avoscloud-auth\").directive(\"avoscloudSignin\",[\"avoscloud\",\"avoscloudAuth\",\"avoscloud-ionic-form\",n]).directive(\"avoscloudSigninSms\",[\"avoscloud\",\"avoscloudAuth\",\"avoscloud-ionic-form\",i]).directive(\"avoscloudSigninMobile\",[\"avoscloud\",\"avoscloudAuth\",\"avoscloud-ionic-form\",o])}(window.angular,window.debug),function(e,s){\"use strict\";function n(e,n,i){function o(i){function o(){if(s(i),!i.user)return n.signup.error(\"invalid user params\");if(!i.user.username)return n.signup.error(\"invalid username params\");if(!i.user.password)return n.signup.error(\"invalid password params\");if(!i.passwordConfirm)return n.signup.error(\"invalid passwordConfirm params\");if(i.user.password!==i.passwordConfirm)return n.signup.error(\"passwords are not match\");var o=new e.users(i.user);o.$save(function(s){return s.sessionToken&&e.headers(\"session\",s.sessionToken),n.signup.success(s)},n.signup.error)}i.signup=o}var t={restrict:\"AE\",template:i.create(\"signup\"),link:o};return t}function i(e,n,i,o){function t(i){function t(){if(!i.mobilePhoneNumber)return n.signupSms.error(\"invalid mobilePhoneNumber\");if(i.smsSent)return i.smsCode?a():n.signupSms.error(\"invalid smsCode\");i.user={},i.user.username=i.mobilePhoneNumber,i.user.mobilePhoneNumber=i.mobilePhoneNumber,i.user.password=((new Date).getTime()+10*Math.random()).toString();var o=new e.users(i.user);o.$save(function(n){s(n),i.smsSent=!0,r(60),n.sessionToken&&e.headers(\"session\",n.sessionToken)},n.signupSms.error)}function r(e){return 0===e?(i.resendCodeDisabled=!1,void(i.resendCodeText=\"重发验证短信\")):(i.resendCodeDisabled||(i.resendCodeDisabled=!0),i.resendCodeText=e,e--,void o(function(){r(e)},1e3))}function u(){e.requestMobilePhoneVerify.post({mobilePhoneNumber:i.user.mobilePhoneNumber},function(e){s(e),r(60)},function(e){s(e)})}function a(){var s=new e.verifyMobilePhone;s.$save({code:i.smsCode},n.signupSms.success,n.signupSms.error)}i.signup=t,i.resendCode=u}var r={restrict:\"AE\",template:i.create(\"signup-sms\"),link:t};return r}if(!e)throw new Error(\"avoscloudAuth.init(); angular.js required.\");var s=s(\"avoscloud:signup\");e.module(\"avoscloud-auth\").directive(\"avoscloudSignup\",[\"avoscloud\",\"avoscloudAuth\",\"avoscloud-ionic-form\",n]).directive(\"avoscloudSignupSms\",[\"avoscloud\",\"avoscloudAuth\",\"avoscloud-ionic-form\",\"$timeout\",i])}(window.angular,window.debug);\n    2  //# sourceMappingURL=avoscloud-auth.min.js.map\n\n/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/lib/avoscloud-auth/src/ionic-forms.js:\n   38          '<div class=\"list\">',\n   39            '<label class=\"item item-input item-stacked-label\">',\n   40:             '<span class=\"input-label\">手机</span>',\n   41              '<input type=\"text\" ng-model=\"mobilePhoneNumber\" placeholder=\"\">',\n   42            '</label>',\n   ..\n   71          '<div class=\"list\">',\n   72            '<label class=\"item item-input item-stacked-label\">',\n   73:             '<span class=\"input-label\">手机</span>',\n   74              '<input type=\"text\" ng-model=\"mobilePhoneNumber\" placeholder=\"\">',\n   75            '</label>',\n   ..\n   87          '<div class=\"list\">',\n   88            '<label class=\"item item-input item-stacked-label\">',\n   89:             '<span class=\"input-label\">手机</span>',\n   90              '<input type=\"text\" ng-model=\"mobilePhoneNumber\" placeholder=\"\">',\n   91            '</label>',\n\n/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start/login.html:\n    7                  <label class=\"item item-input item-floating-label signup-element\">\n    8                      <span class=\"input-label\"><i class=\"icon ion-email\"></i> 请输入您的电子邮箱</span>\n    9:                     <input type=\"text\" placeholder=\"请输入您的手机号码\" ng-model=\"creds.phonenumber\">\n   10                  </label>\n   11                  <label class=\"item item-input item-floating-label signup-element\">\n\n9 matches across 5 files\n",
+			"settings":
+			{
+				"buffer_size": 10350,
+				"line_ending": "Unix",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "www/js/controllers/user.ctrl.js",
+			"settings":
+			{
+				"buffer_size": 3345,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "www/templates/start/signup.html",
+			"settings":
+			{
+				"buffer_size": 1913,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "www/templates/start/forgot.html",
+			"settings":
+			{
+				"buffer_size": 1929,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "www/js/app.js",
+			"settings":
+			{
+				"buffer_size": 5618,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "www/templates/settings.html",
+			"settings":
+			{
+				"buffer_size": 647,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "www/templates/start/login.html",
+			"settings":
+			{
+				"buffer_size": 1218,
 				"line_ending": "Unix"
 			}
 		}
@@ -215,12 +289,22 @@
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/scss",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/css",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/services",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/pictureUpload"
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start"
 	],
 	"file_history":
 	[
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/manualAddFrame.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/config.xml",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start/signup.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/intro.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/user.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start/login.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/login.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/signup.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/services/picture.service.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/test.ctrl.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/gallery.ctrl.js",
@@ -236,10 +320,8 @@
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/setting.ctrl.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/index.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/css/ionic.app.css",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/config.xml",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/image-popover.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/upload.ctrl.js",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/user.ctrl.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/smart-gallery.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/addFrame.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/bigelephant.sublime-project",
@@ -254,9 +336,7 @@
 		"/Users/Michael/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
 		"/Users/Michael/Library/Application Support/Sublime Text 3/Packages/Default/Default (OSX).sublime-keymap",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/services/user.service.js",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start/login.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/camera.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start/signup.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/.bowerrc",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/.gitignore",
 		"/Users/Michael/Documents/INSIDER/Mobile/isdr/scss/ionic.app.scss",
@@ -344,11 +424,7 @@
 		"/Users/Michael/bash_profile",
 		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/templates/login.html",
 		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/config.xml",
-		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/.bowerrc",
-		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/js/app.js",
-		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/index.html",
-		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/www/js/buyer/controllers.js",
-		"/Users/Michael/Documents/ALGO/test/algopp/AlgoMobile/.bowerrc"
+		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/.bowerrc"
 	],
 	"find":
 	{
@@ -370,6 +446,27 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"cloud",
+			"posterId",
+			"手机",
+			"history",
+			"save",
+			"扫描",
+			"history",
+			"$ionicHistory",
+			"ionicHistory",
+			"manual",
+			"addFriendFrame",
+			"addFriendFrameSave",
+			"addFriendFrame",
+			"closeAddFrame",
+			"照相",
+			"checkFrame",
+			"addFrame",
+			"frame",
+			"add",
+			"addFrame",
+			"照相xd",
 			"album-cover",
 			"goToAlbum",
 			"uploadR",
@@ -476,28 +573,7 @@
 			"UploadingController",
 			"upload",
 			"encodeFile",
-			"defer.reject",
-			"file.save",
-			"post",
-			"createWithoutData",
-			"button",
-			"alert(",
-			"alert()",
-			"alert",
-			"$rootScope",
-			".show()",
-			"ngStorage",
-			"bigelephant",
-			"$scope.frames",
-			"takePhoto",
-			"test",
-			"button",
-			"PictureService.clear()",
-			"clear()",
-			"cache cleared",
-			"test",
-			"PictureService",
-			"PictureService.test"
+			"defer.reject"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -520,7 +596,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -536,8 +612,8 @@
 						"selection":
 						[
 							[
-								972,
-								972
+								2742,
+								2742
 							]
 						],
 						"settings":
@@ -547,10 +623,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 70.0,
+						"translation.y": 828.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -566,8 +642,8 @@
 						"selection":
 						[
 							[
-								1143,
-								1143
+								1047,
+								1047
 							]
 						],
 						"settings":
@@ -580,7 +656,322 @@
 						"translation.y": 126.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "www/js/controllers/album.ctrl.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11336,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3435,
+								3435
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1924.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "www/js/controllers/upload.ctrl.js",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 1416,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10350,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										187,
+										189
+									],
+									[
+										453,
+										455
+									],
+									[
+										2379,
+										2381
+									],
+									[
+										3678,
+										3680
+									],
+									[
+										4280,
+										4282
+									],
+									[
+										9117,
+										9119
+									],
+									[
+										9404,
+										9406
+									],
+									[
+										9691,
+										9693
+									],
+									[
+										10166,
+										10168
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								460,
+								460
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ 	].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "www/js/controllers/user.ctrl.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3345,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								282,
+								286
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "www/templates/start/signup.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1913,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								970,
+								970
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "www/templates/start/forgot.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1929,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1929,
+								1929
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "www/js/app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5618,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4277,
+								4291
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1809.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "www/templates/settings.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 647,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								120,
+								120
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "www/templates/start/login.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1218,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1081,
+								1081
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
 					"type": "text"
 				}
 			]
@@ -639,6 +1030,30 @@
 		"selected_items":
 		[
 			[
+				"sign",
+				"www/templates/start/signup.html"
+			],
+			[
+				"user",
+				"www/js/controllers/user.ctrl.js"
+			],
+			[
+				"playlist",
+				"www/templates/playlists.html"
+			],
+			[
+				"log",
+				"www/templates/start/login.html"
+			],
+			[
+				"conf",
+				"config.xml"
+			],
+			[
+				"login",
+				"www/templates/start/login.html"
+			],
+			[
 				"app",
 				"www/js/app.js"
 			],
@@ -649,10 +1064,6 @@
 			[
 				"gall",
 				"www/js/controllers/gallery.ctrl.js"
-			],
-			[
-				"playlist",
-				"www/templates/playlist.html"
 			],
 			[
 				"playlists",
@@ -691,10 +1102,6 @@
 				"www/index.html"
 			],
 			[
-				"conf",
-				"config.xml"
-			],
-			[
 				"big",
 				"bigelephant.sublime-project"
 			],
@@ -709,10 +1116,6 @@
 			[
 				"profil",
 				"www/templates/mentor/account/profile.html"
-			],
-			[
-				"login",
-				"www/templates/user/login.html"
 			],
 			[
 				"mentorctr",
@@ -745,10 +1148,6 @@
 			[
 				"inbox",
 				"www/templates/mentor/inbox.html"
-			],
-			[
-				"log",
-				"www/templates/user/login.html"
 			],
 			[
 				"chat",
@@ -971,7 +1370,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 229.0,
+	"side_bar_width": 289.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

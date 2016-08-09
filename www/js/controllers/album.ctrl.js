@@ -156,7 +156,7 @@ angular.module('album.controllers', ['ionic'])
 		PictureService.clearFileCache(); //REMOVE THIS BEFORE FLIGHT!!!!
 
 		var options = {
-			maximumImagesCount: 10,
+			maximumImagesCount: 3,
 			width: 800,
 			height: 800,
 			quality: 80
