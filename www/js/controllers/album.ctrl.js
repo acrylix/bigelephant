@@ -375,6 +375,7 @@ angular.module('album.controllers', ['ionic'])
 				var myPopup = $ionicPopup.show({
 
 					title: '没有找到可添加相框',
+					subTitle: '请将相框先联网再扫码添加',
 					buttons: [{
 						text: 'Ok',
 						type: 'button-energized'
