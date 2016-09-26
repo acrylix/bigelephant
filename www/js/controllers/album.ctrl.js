@@ -35,6 +35,7 @@ angular.module('album.controllers', ['ionic'])
 	});
 	$rootScope.$on('upload-completed', function(event, args) {
 		$scope.showUpload = false;
+		$scope.listRefresh();
 	});
 	//background loader//
 
