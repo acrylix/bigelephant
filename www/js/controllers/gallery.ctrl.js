@@ -18,6 +18,17 @@ angular.module('gallery.controllers', [])
       }
     };
   })
+  .directive('backImg', function() {
+    return function(scope, element, attrs) {
+      var url = attrs.backImg;
+      element.css({
+        'background-image': 'url(' + url + ')',
+        'background-position': 'center center',
+        'background-repeat': 'no-repeat',
+        'height': window.innerWidth / 4 + 'px',
+      });
+    };
+  })
 
 .controller('SmartSearchController', function($scope, $rootScope, $http, $q, $state, $stateParams, StorageService, $ionicModal, $ionicScrollDelegate) {
 
@@ -64,7 +75,7 @@ angular.module('gallery.controllers', [])
     query.first().then(function(data) {
 
       //var file = data.attributes.fileOfFrame.attributes.file;
-      if(data.get('fileOfFrame')){
+      if (data.get('fileOfFrame')) {
         var url = data.get('fileOfFrame').get('file').thumbnailURL(100, 100, 10);
         var full = data.get('fileOfFrame').get('file').thumbnailURL(800, 800, 10);
         $scope.images.push({
@@ -74,8 +85,7 @@ angular.module('gallery.controllers', [])
         });
         //$scope.$apply();
         defer.resolve();
-      }
-      else{
+      } else {
         defer.reject();
       }
 
@@ -112,45 +122,45 @@ angular.module('gallery.controllers', [])
     }
 
     $http(req)
-    .success(function(data, status, headers, config) {
-      //success
-      debugger;
-
-      console.log(data);
-
-      if(data.length == 0){
-        $scope.noResults = true;
-      }
-
-      var promises = [];
-
-      for (var i = 0; i < data.length; i++) {
-        promises.push(getImg(data[i],i));
-      }
-
-      $q.all(promises).then(function(files) {
-         //NICE!
-         // $rootScope.hide();
-         debugger;
-         $scope.loading = false;
-         $scope.$apply();
-         console.log("displaying smart search results");
-
-       }, function(error){
+      .success(function(data, status, headers, config) {
+        //success
         debugger;
-         $scope.loading = false;
-         $scope.$apply();
-         console.log("displaying smart search results with err");
-       });
 
-    })
-    .error(function(data, status, headers, config) {
-      //error
-      // $rootScope.hide();
-      $scope.loading = false;
-      $scope.$apply();
-      console.log('smart search ERROR');
-    });
+        console.log(data);
+
+        if (data.length == 0) {
+          $scope.noResults = true;
+        }
+
+        var promises = [];
+
+        for (var i = 0; i < data.length; i++) {
+          promises.push(getImg(data[i], i));
+        }
+
+        $q.all(promises).then(function(files) {
+          //NICE!
+          // $rootScope.hide();
+          debugger;
+          $scope.loading = false;
+          $scope.$apply();
+          console.log("displaying smart search results");
+
+        }, function(error) {
+          debugger;
+          $scope.loading = false;
+          $scope.$apply();
+          console.log("displaying smart search results with err");
+        });
+
+      })
+      .error(function(data, status, headers, config) {
+        //error
+        // $rootScope.hide();
+        $scope.loading = false;
+        $scope.$apply();
+        console.log('smart search ERROR');
+      });
 
   }
   $scope.loadImages();
@@ -166,7 +176,7 @@ angular.module('gallery.controllers', [])
   $scope.frame = StorageService.get($stateParams.playlistId);
   $scope.isNormalGallery = true;
 
-  if($stateParams.playlistId == "cloud"){
+  if ($stateParams.playlistId == "cloud") {
     $scope.frame = {};
     $scope.frame.frameNickName = "云相册";
     $scope.isNormalGallery = false;
@@ -205,7 +215,7 @@ angular.module('gallery.controllers', [])
     query.addDescending('createdAt');
     query.include('_File');
 
-    if($stateParams.playlistId != "cloud"){
+    if ($stateParams.playlistId != "cloud") {
       var frame = AV.Object.createWithoutData('frame', $stateParams.playlistId);
 
       query.equalTo('frame', frame);
@@ -222,12 +232,12 @@ angular.module('gallery.controllers', [])
         var full = file.thumbnailURL(800, 800, 10);
         var fuzzy = file.thumbnailURL(50, 50, 1);
         var date = new Date(pictures[i].createdAt);
-        var dateString = (date.getMonth()+1)+"/"+date.getDate()+"/"+date.getFullYear();
+        var dateString = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 
         $scope.images.push({
           id: i,
           date: dateString,
-          dateDisp: date.getFullYear() + ' ' + (date.getMonth()+1) + ' 月 ' + date.getDate() +' 日',
+          dateDisp: date.getFullYear() + ' ' + (date.getMonth() + 1) + ' 月 ' + date.getDate() + ' 日',
           src: url,
           full: full,
           fuzzy: fuzzy
@@ -235,7 +245,7 @@ angular.module('gallery.controllers', [])
         $scope.$apply();
       }
       debugger;
-      $scope.imgp = _.chain($scope.images).groupBy('date').pairs().sortBy(function(a,b){
+      $scope.imgp = _.chain($scope.images).groupBy('date').pairs().sortBy(function(a, b) {
         return new Date(b.date) - new Date(a.date);
       }).value();
       $scope.$broadcast('scroll.infiniteScrollComplete');

@@ -39,11 +39,16 @@
 		        <ion-item class="item-divider gallery-divider">
 		            {{groupedPair[0]}}
 		        </ion-item>
-						<img class="gallery-img" ng-repeat="item in groupedPair[1] track by item.id"
+
+		        <div class="gallery-img" ng-repeat="item in groupedPair[1] track by item.id" style="    display: inline-block !important; width: 25% !important;">
+		        	<div back-img="{{item.src}}" ng-click="showImages($index, $parent.$index)" ></div>
+		        </div>
+
+<!-- 						<img class="gallery-img" ng-repeat="item in groupedPair[1] track by item.id"
 							width="25%"
 							height="{{imageWidth}}"
 							ng-src="{{item.src}}"
-							ng-click="showImages($index, $parent.$index)">
+							ng-click="showImages($index, $parent.$index)"> -->
 		    </div>
 
 
