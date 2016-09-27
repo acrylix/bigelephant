@@ -1,0 +1,43 @@
+<ion-modal-view>
+<ion-header-bar class="bar-stable">
+    <h1 class="title">关于大象框</h1>
+    <div class="buttons">
+      <button class="button button-stable" ng-click="closeFeedback()">关闭</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <div class="list card">
+
+  <div class="item item-avatar">
+    <img src="img/icon.png">
+    <h2>大象框</h2>	
+    <p>2.0</p>
+  </div>
+  <div class="item item-body">
+
+	   <div>
+     <h2>反馈</h2> 
+      <textarea ng-model="feedbackInfo.content" style="border-color: black; border: 1px solid gainsboro; width: 84vw;height: 150px; max-width: 84vw; min-width: 84vw; max-height: 150px; min-height: 150px;">
+      </textarea>
+      </div>
+
+      <label class="item item-input item-select">
+      <div class="input-label">
+        反馈分类
+      </div>
+      <select ng-model="feedbackInfo.type">
+        <option selected>功能</option>
+        <option>界面</option>
+        <option>其他</option>
+      </select>
+    </label>
+
+      <button class="button button-outline button-energized" ng-click="sendFeedback()" style="margin-top: 15px; width: 100px;">
+      发送
+    </button>
+
+  </div>
+
+</div>
+  </ion-content>
+</ion-modal-view>
