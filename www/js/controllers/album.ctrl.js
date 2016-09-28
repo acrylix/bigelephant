@@ -58,6 +58,7 @@ angular.module('album.controllers', ['ionic'])
 				text: '<b>搜索</b>',
 				type: 'button-energized',
 				onTap: function(e) {
+					//$scope.countfix($scope.data.searchKeyWord);
 					$state.go('app.smartGallery', {
 						key: $scope.data.searchKeyWord
 					})
@@ -65,6 +66,24 @@ angular.module('album.controllers', ['ionic'])
 			}]
 		})
 	};
+
+	// $scope.countfix = function(key) {
+	// 	var fid = [];
+
+	// 	var query = new AV.Query('FileOfFrame');
+	// 	var frame = AV.Object.createWithoutData('Frame', key);
+	// 	query.equalTo('frame', frame);
+	// 	query.find().then(function(fof) {
+	// 		console.warn(fof.length);
+
+	// 	}, function(error) {
+	// 		// 失败了
+	// 		console.log(error);
+	// 	});
+
+
+	// }
+
 	//Smart Search
 
 	var renameFrameAction = function(frame, newName) {
@@ -229,7 +248,7 @@ angular.module('album.controllers', ['ionic'])
 		for (var i = 0; i < $scope.frames.length; i++) {
 			if ($scope.frames[i].frame.id == frameId) {
 				$scope.frames[i].latestImg = URL;
-				break;
+				// break;
 			}
 		}
 	}
@@ -257,7 +276,7 @@ angular.module('album.controllers', ['ionic'])
 
 		var frame = AV.Object.createWithoutData('Frame', frameId);
 		query.equalTo('frame', frame);
-		query.equalTo('sender', AV.User.current());
+		// query.equalTo('sender', AV.User.current());
 		query.descending('createdAt');
 		query.first().then(function(data) {
 			console.log(" + " + data.attributes.file._url + " " + frameId);
