@@ -4,12 +4,20 @@
 		"selected_items":
 		[
 			[
+				"max",
+				"max-height"
+			],
+			[
+				"padding",
+				"padding-top"
+			],
+			[
 				"margin",
 				"margin-top"
 			],
 			[
 				"ion-na",
-				"ion-nav-back-button	Ionic Extension"
+				"ion-nav-back-button\tIonic Extension"
 			],
 			[
 				"backg",
@@ -21,19 +29,15 @@
 			],
 			[
 				"for",
-				"for	for (…) {…}"
-			],
-			[
-				"padding",
-				"padding-left"
+				"for\tfor (…) {…}"
 			],
 			[
 				"ionicside",
-				"ion-js-$ionicSideMenuDelegate-html	ion-js-$ionicSideMenuDelegate-html"
+				"ion-js-$ionicSideMenuDelegate-html\tion-js-$ionicSideMenuDelegate-html"
 			],
 			[
 				"ionicsidemen",
-				"ion-js-$ionicSideMenuDelegate-ng	ion-js-$ionicSideMenuDelegate-ng"
+				"ion-js-$ionicSideMenuDelegate-ng\tion-js-$ionicSideMenuDelegate-ng"
 			],
 			[
 				"border",
@@ -72,76 +76,86 @@
 	"buffers":
 	[
 		{
+			"contents": "angular.module('album.controllers', ['ionic'])\n\n.controller('AlbumController', function(\n\t$scope,\n\t$state,\n\t$q,\n\t$ionicActionSheet,\n\t$cordovaFile,\n\t$ionicLoading,\n\t$rootScope,\n\t$cordovaImagePicker,\n\t$ionicPlatform,\n\t$cordovaCamera,\n\t$cordovaBarcodeScanner,\n\tStorageService,\n\t$ionicModal,\n\t$ionicPopup,\n\t$interval,\n\t$ionicHistory,\n\t$cordovaToast,\n\tPictureService) {\n\n\t//background loader//\n\t$scope.showUpload = false;\n\n\t$rootScope.$on('upload-started', function(event, args) {\n\t\t$scope.showUpload = true;\n\t\t$scope.total = args.total;\n\t\t$scope.current = 0;\n\t});\n\t$rootScope.$on('upload-increment', function(event, args) {\n\t\tif ($scope.current < $scope.total) {\n\t\t\t$scope.current++;\n\t\t}\n\t});\n\t$rootScope.$on('upload-completed', function(event, args) {\n\t\t$scope.showUpload = false;\n\t\t$scope.listRefresh();\n\t});\n\t//background loader//\n\n\t$scope.shouldShowDelete = false;\n\t$scope.shouldShowReorder = false;\n\t$scope.listCanSwipe = true;\n\n\t//Smart Search\n\t$scope.myPopup = function() {\n\t\t$scope.data = {};\n\n\t\t$ionicPopup.show({\n\t\t\ttemplate: '<input type=\"text\" class=\"smart-search-input\" ng-model=\"data.searchKeyWord\">',\n\t\t\ttitle: '智能搜索',\n\t\t\tsubTitle: 'ex. 美食',\n\t\t\tscope: $scope,\n\t\t\tbuttons: [{\n\t\t\t\ttext: '取消'\n\t\t\t}, {\n\t\t\t\ttext: '<b>搜索</b>',\n\t\t\t\ttype: 'button-energized',\n\t\t\t\tonTap: function(e) {\n\t\t\t\t\t//$scope.countfix($scope.data.searchKeyWord);\n\t\t\t\t\t$state.go('app.smartGallery', {\n\t\t\t\t\t\tkey: $scope.data.searchKeyWord\n\t\t\t\t\t})\n\t\t\t\t}\n\t\t\t}]\n\t\t})\n\t};\n\n\t// $scope.countfix = function(key) {\n\t// \tvar fid = [];\n\n\t// \tvar query = new AV.Query('FileOfFrame');\n\t// \tvar frame = AV.Object.createWithoutData('Frame', key);\n\t// \tquery.equalTo('frame', frame);\n\t// \tquery.find().then(function(fof) {\n\t// \t\tconsole.warn(fof.length);\n\n\t// \t}, function(error) {\n\t// \t\t// 失败了\n\t// \t\tconsole.log(error);\n\t// \t});\n\n\n\t// }\n\n\t//Smart Search\n\n\tvar renameFrameAction = function(frame, newName) {\n\t\tconsole.log(frame.id + '- ' + newName);\n\t\t$rootScope.show();\n\n\t\tvar Muf = AV.Object.extend('MapUserFrame');\n\t\tvar query = new AV.Query(Muf);\n\n\t\tquery.get(frame.id).then(function(muf) {\n\t\t\tmuf.set('frameNickName', newName);\n\t\t\tmuf.save().then(function() {\n\t\t\t\t$rootScope.hide();\n\t\t\t\t$scope.listRefresh();\n\t\t\t}, function(error) {\n\t\t\t\t$rootScope.hide();\n\t\t\t\tconsole.log('error ' + error);\n\t\t\t});\n\n\t\t}, function(error) {\n\t\t\t$rootScope.hide();\n\t\t\tconsole.log('error ' + error);\n\t\t});\n\t}\n\n\t$scope.renameFrame = function(frame) {\n\t\t$scope.data = {};\n\n\t\t$ionicPopup.show({\n\t\t\ttemplate: '<input type=\"text\" class=\"smart-search-input\" ng-model=\"data.newName\">',\n\t\t\ttitle: '修改备注',\n\t\t\tscope: $scope,\n\t\t\tbuttons: [{\n\t\t\t\ttext: '取消'\n\t\t\t}, {\n\t\t\t\ttext: '<b>确定</b>',\n\t\t\t\ttype: 'button-energized',\n\t\t\t\tonTap: function(e) {\n\t\t\t\t\trenameFrameAction(frame, $scope.data.newName);\n\t\t\t\t}\n\t\t\t}]\n\t\t})\n\t};\n\n\t$scope.moveItem = function(item, fromIndex, toIndex) {\n\t\t$scope.items.splice(fromIndex, 1);\n\t\t$scope.items.splice(toIndex, 0, item);\n\t};\n\n\t$scope.takePic = function() {\n\n\t\tPictureService.clearFileCache(); //REMOVE THIS BEFORE FLIGHT!!!!\n\n\t\t$ionicPlatform.ready(function() {\n\t\t\tvar options = {\n\t\t\t\tquality: 80,\n\t\t\t\tdestinationType: Camera.DestinationType.DATA_URL,\n\t\t\t\tsourceType: Camera.PictureSourceType.CAMERA,\n\t\t\t\tallowEdit: false,\n\t\t\t\tencodingType: Camera.EncodingType.JPEG,\n\t\t\t\t// popoverOptions: CameraPopoverOptions,\n\t\t\t\tsaveToPhotoAlbum: true,\n\t\t\t\tcorrectOrientation: true\n\t\t\t};\n\n\t\t\t$cordovaCamera.getPicture(options).then(function(imageData) {\n\t\t\t\t//var base64 = \"data:image/jpeg;base64,\" + imageData;\n\t\t\t\tdebugger;\n\n\t\t\t\t//var tempFileName = imageURI.replace(/^.*[\\\\\\/]/, '');\n\n\t\t\t\tPictureService.prepDir().then(function(success) {\n\t\t\t\t\t//PictureService.copyToMem(imageURI);\n\t\t\t\t\tPictureService.addTmpImg(imageData);\n\t\t\t\t\t$rootScope.type = 'camera';\n\t\t\t\t});\n\n\t\t\t\t$state.go('app.selectFrame', {});\n\n\n\t\t\t}, function(err) {\n\t\t\t\t// error\n\t\t\t\tconsole.log(error);\n\t\t\t});\n\t\t});\n\t}\n\n\t$scope.imagePicker = function() {\n\n\t\tPictureService.clearFileCache(); //REMOVE THIS BEFORE FLIGHT!!!!\n\n\t\tvar options = {\n\t\t\tmaximumImagesCount: 3,\n\t\t\twidth: 800,\n\t\t\theight: 800,\n\t\t\tquality: 80\n\t\t};\n\n\t\t$ionicPlatform.ready(function() {\n\n\t\t\t$cordovaImagePicker.getPictures(options)\n\t\t\t\t.then(function(results) {\n\n\t\t\t\t\tPictureService.prepDir().then(function(success) {\n\n\t\t\t\t\t\tfor (var i = 0; i < results.length; i++) {\n\t\t\t\t\t\t\tconsole.log('Image URI: ' + results[i]);\n\t\t\t\t\t\t\tvar filePath = results[i];\n\n\t\t\t\t\t\t\t//var tempFileName = filePath.replace(/^.*[\\\\\\/]/, '');\n\n\t\t\t\t\t\t\tPictureService.copyToMem(filePath);\n\t\t\t\t\t\t\t$rootScope.type = 'album';\n\n\t\t\t\t\t\t\t$state.go('app.selectFrame', {});\n\n\t\t\t\t\t\t}\n\n\t\t\t\t\t});\n\n\t\t\t\t}, function(error) {\n\t\t\t\t\t// error getting photos\n\t\t\t\t\tconsole.log(error);\n\t\t\t\t});\n\t\t});\n\n\t}\n\n\t$scope.cameraButton = function() {\n\n\t\t// Show the action sheet\n\t\tvar hideSheet = $ionicActionSheet.show({\n\t\t\tbuttons: [{\n\t\t\t\ttext: '<b>拍照</b>'\n\t\t\t}, {\n\t\t\t\ttext: '从手机相册选择'\n\t\t\t}],\n\t\t\t// destructiveText: 'Delete',\n\t\t\ttitleText: '发照片',\n\t\t\tcancelText: '取消',\n\t\t\tcancel: function() {\n\t\t\t\t// add cancel code..\n\t\t\t},\n\t\t\tbuttonClicked: function(index) {\n\t\t\t\tif (index == 0) {\n\t\t\t\t\t$scope.takePic();\n\t\t\t\t} else if (index == 1) {\n\t\t\t\t\t$scope.imagePicker();\n\t\t\t\t}\n\n\t\t\t\treturn true;\n\t\t\t}\n\n\t\t});\n\n\t};\n\n\t$scope.frames = [];\n\t$scope.frameImg = {};\n\n\tvar fillFramesArrayURL = function(frameId, URL) {\n\t\tfor (var i = 0; i < $scope.frames.length; i++) {\n\t\t\tif ($scope.frames[i].frame.id == frameId) {\n\t\t\t\t$scope.frames[i].latestImg = URL;\n\t\t\t\t// break;\n\t\t\t}\n\t\t}\n\t}\n\n\t$scope.test = function() {\n\t\t// debugger;\n\t\tvar query = new AV.Query('PhotoTag');\n\n\t\tquery.equalTo('objectId', '572e454479df540060b962df');\n\t\tquery.include('fileOfFrame');\n\t\tquery.first().then(function(data) {\n\t\t\t// debugger;\n\t\t\tvar file = data.attributes.fileOfFrame.attributes.file;\n\n\t\t}, function(error) {\n\t\t\tconsole.log(error);\n\n\t\t});\n\n\t}\n\n\tvar getLatestFrameImg = function(frameId) { ///\n\t\tvar defer = $q.defer();\n\t\tvar query = new AV.Query('FileOfFrame');\n\n\t\tvar frame = AV.Object.createWithoutData('Frame', frameId);\n\t\tquery.equalTo('frame', frame);\n\t\t// query.equalTo('sender', AV.User.current());\n\t\tquery.descending('createdAt');\n\t\tquery.first().then(function(data) {\n\t\t\tconsole.log(\" + \" + data.attributes.file._url + \" \" + frameId);\n\n\t\t\tvar thumbnail = data.attributes.file.thumbnailURL(500, 500, 80);\n\t\t\tfillFramesArrayURL(frameId, thumbnail);\n\n\t\t\tdefer.resolve(data.attributes.file._url);\n\t\t}, function(error) {\n\t\t\tconsole.log(error);\n\t\t\tdefer.reject(error);\n\t\t});\n\n\t\treturn defer.promise;\n\n\t}\n\tvar getFrame = function() {\n\t\tvar defer = $q.defer();\n\n\t\tStorageService.clear();\n\t\t$scope.frames = [];\n\n\t\tvar query = new AV.Query('MapUserFrame');\n\t\tquery.include('frame');\n\t\tquery.equalTo('user', AV.User.current());\n\t\tquery.find().then(function(results) {\n\t\t\tconsole.log('Successfully retrieved ' + results.length + ' posts.');\n\t\t\t// 处理返回的结果数据\n\t\t\t// debugger;\n\t\t\t//$scope.frames = results;\n\t\t\tfor (var i = results.length - 1; i >= 0; i--) {\n\t\t\t\tconsole.log(results[i].attributes.frame.id);\n\t\t\t\t// debugger;\n\t\t\t\tvar frameItem = {\n\t\t\t\t\tid: results[i].id,\n\t\t\t\t\tframe: {\n\t\t\t\t\t\tid: results[i].attributes.frame.id,\n\t\t\t\t\t\tdeviceIdShort: results[i].attributes.frame.attributes.deviceIdShort\n\t\t\t\t\t},\n\t\t\t\t\tframeDeviceId: results[i].attributes.frameDeviceId,\n\t\t\t\t\tframeNickName: results[i].attributes.frameNickName,\n\t\t\t\t\ttotalImage: results[i].attributes.totalImage,\n\t\t\t\t\tuserNickName: results[i].attributes.userNickName,\n\t\t\t\t\tuser: {\n\t\t\t\t\t\tid: results[i].attributes.user.id,\n\t\t\t\t\t\tcid: results[i].attributes.user.cid,\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\tStorageService.add(frameItem);\n\n\t\t\t}\n\t\t\t$scope.frames = StorageService.getAll();\n\n\t\t\tfor (var i = 0; i < $scope.frames.length; i++) {\n\t\t\t\t$scope.frames[i]\n\t\t\t\tgetLatestFrameImg($scope.frames[i].frame.id).then(function(url) {\n\n\t\t\t\t}, function(error) {\n\t\t\t\t\tconsole.log(\"album cover err: \" + error);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\t$scope.$apply();\n\t\t\tdefer.resolve();\n\n\t\t}, function(error) {\n\t\t\tconsole.log('Error: ' + error.code + ' ' + error.message);\n\t\t\tdefer.reject(error);\n\t\t});\n\n\t\treturn defer.promise;\n\t}\n\n\t$scope.deteleFrame = function(frame, index) {\n\n\t\tthis.frames.splice(index, 1);\n\t\tvar frame = AV.Object.createWithoutData('MapUserFrame', frame.id);\n\t\tframe.destroy().then(function() {\n\t\t\tconsole.log('destroyed MUF ' + frame.id);\n\t\t}, function(error) {\n\t\t\tconsole.log('destroyed MUF failed ' + error);\n\t\t});\n\t}\n\n\tvar checkFrame = function(id) {\n\t\tvar defer = $q.defer();\n\n\t\tvar query = new AV.Query('Frame');\n\t\tquery.equalTo('deviceIdShort', id);\n\t\tquery.first().then(function(data) {\n\t\t\tconsole.log('frame found');\n\t\t\tdefer.resolve(data);\n\t\t}, function(error) {\n\t\t\tconsole.log('frame not found');\n\t\t\tdefer.reject();\n\t\t});\n\n\t\treturn defer.promise;\n\t}\n\n\t$scope.addinfo = {\n\t\tid: ''\n\t}\n\n\t$scope.manualAddFrame = function() {\n\t\tif ($scope.addinfo.id == '') {\n\t\t\talert('ID空');\n\t\t} else {\n\t\t\taddFriendFrame($scope.addinfo.id);\n\t\t}\n\t}\n\n\tvar addFriendFrame = function(qr) {\n\t\tcheckFrame(qr).then(function(frame) {\n\t\t\tif (!frame) {\n\t\t\t\tvar myPopup = $ionicPopup.show({\n\n\t\t\t\t\ttitle: '没有找到可添加相框',\n\t\t\t\t\tsubTitle: '请将相框先联网再扫码添加',\n\t\t\t\t\tbuttons: [{\n\t\t\t\t\t\ttext: 'Ok',\n\t\t\t\t\t\ttype: 'button-energized'\n\t\t\t\t\t}, ]\n\t\t\t\t});\n\t\t\t} else {\n\t\t\t\t$scope.frameData = {};\n\t\t\t\t$scope.frameData.id = frame.id;\n\t\t\t\t$scope.frameData.deviceIdShort = frame.attributes.deviceIdShort;\n\t\t\t\t$scope.frameData.deviceId = frame.attributes.deviceId;\n\n\t\t\t\t$scope.modal.show();\n\t\t\t}\n\t\t}, function(error) {\n\t\t\talert('frame not found');\n\t\t})\n\t}\n\n\t$ionicModal.fromTemplateUrl('templates/addFrame.html', {\n\t\tscope: $scope\n\t}).then(function(modal) {\n\t\t$scope.modal = modal;\n\t});\n\n\t$scope.closeManualAdd = function() {\n\t\t$scope.addinfo.id = '';\n\n\t\t$ionicHistory.nextViewOptions({\n\t\t\tdisableBack: true\n\t\t});\n\n\t\t$state.go(\"app.playlists\");\n\t};\n\n\t$scope.closeAddFrame = function() {\n\t\t$scope.modal.hide();\n\t};\n\n\tfunction saveMapUserFrame() {\n\t\tvar defer = $q.defer();\n\n\t\tvar MUF = AV.Object.extend('MapUserFrame');\n\t\tvar muf = new MUF();\n\t\tvar frame = AV.Object.createWithoutData('Frame', $scope.frameData.id);\n\t\tmuf.set('frame', frame);\n\t\tmuf.set('frameDeviceId', $scope.frameData.deviceId);\n\t\tmuf.set('userNickName', $scope.frameData.userNickName);\n\t\tmuf.set('frameNickName', $scope.frameData.frameNickName);\n\t\tmuf.set('user', AV.User.current());\n\n\t\tmuf.save().then(function(muf) {\n\t\t\tdefer.resolve(muf.id);\n\t\t}, function(err) {\n\t\t\tconsole.log('Failed to create new muf, with error message: ' + err.message);\n\t\t\tdefer.reject();\n\t\t});\n\n\t\treturn defer.promise;\n\t}\n\n\t$scope.addFriendFrameSave = function() {\n\t\tdebugger;\n\t\tsaveMapUserFrame().then(function(id) {\n\t\t\tconsole.log('LINKED MUF ID: ' + id);\n\t\t\t$scope.modal.hide();\n\t\t\t$ionicHistory.nextViewOptions({\n\t\t\t\tdisableBack: true\n\t\t\t});\n\n\t\t\t$state.go(\"app.playlists\");\n\t\t}, function(error) {\n\n\t\t});\n\t}\n\n\t$scope.button = function() {\n\n\n\t\t// Show the action sheet\n\t\tvar hideSheet = $ionicActionSheet.show({\n\t\t\tbuttons: [{\n\t\t\t\ttext: '<b>扫描</b>'\n\t\t\t}, {\n\t\t\t\ttext: '手动添加'\n\t\t\t}],\n\t\t\t// destructiveText: 'Delete',\n\t\t\ttitleText: '加好友',\n\t\t\tcancelText: '取消',\n\t\t\tcancel: function() {\n\t\t\t\t// add cancel code..\n\t\t\t},\n\t\t\tbuttonClicked: function(index) {\n\t\t\t\tif (index == 0) {\n\t\t\t\t\t$cordovaBarcodeScanner\n\t\t\t\t\t\t.scan()\n\t\t\t\t\t\t.then(function(barcodeData) {\n\n\t\t\t\t\t\t\tconsole.log(barcodeData);\n\n\t\t\t\t\t\t\taddFriendFrame(barcodeData.text);\n\n\t\t\t\t\t\t}, function(error) {\n\t\t\t\t\t\t\t// An error occurred\n\t\t\t\t\t\t});\n\t\t\t\t} else if (index == 1) {\n\t\t\t\t\t$state.go(\"app.manualAddFrame\");\n\t\t\t\t}\n\n\t\t\t\treturn true;\n\t\t\t}\n\n\t\t});\n\n\t}\n\n\t$scope.listRefresh = function() {\n\t\tStorageService.clear();\n\n\t\tgetFrame().then(function(success) {\n\t\t\t$scope.$broadcast('scroll.refreshComplete');\n\t\t}, function(error) {\n\t\t\t$scope.$broadcast('scroll.refreshComplete');\n\t\t});\n\t};\n\n\t$scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {\n\t\t// console.log('*****'+fromState.url);\n\t\tif (StorageService.isEmpty() || fromState.url == \"^\") {\n\t\t\tgetFrame();\n\t\t} else {\n\t\t\t$scope.frames = StorageService.getAll();\n\t\t}\n\t});\n\n\n})",
+			"file": "www/js/controllers/album.ctrl.js",
+			"file_size": 11958,
+			"file_write_time": 131195111070000000,
+			"settings":
+			{
+				"buffer_size": 11804,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "www/css/ionic.app.css",
+			"settings":
+			{
+				"buffer_size": 250654,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "www/templates/playlists.html",
 			"settings":
 			{
-				"buffer_size": 3510,
+				"buffer_size": 3563,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "scss/ionic.app.scss",
+			"contents": "Searching 188 files for \"renameFrame\"\n\n/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/album.ctrl.js:\n   89  \t//Smart Search\n   90  \n   91: \tvar renameFrameAction = function(frame, newName) {\n   92  \t\tconsole.log(frame.id + '- ' + newName);\n   93  \t\t$rootScope.show();\n   ..\n  112  \t}\n  113  \n  114: \t$scope.renameFrame = function(frame) {\n  115  \t\t$scope.data = {};\n  116  \n  ...\n  125  \t\t\t\ttype: 'button-energized',\n  126  \t\t\t\tonTap: function(e) {\n  127: \t\t\t\t\trenameFrameAction(frame, $scope.data.newName);\n  128  \t\t\t\t}\n  129  \t\t\t}]\n\n/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/playlists.html:\n   54        </div>\n   55  \n   56:       <ion-option-button class=\"button-stable\" ng-click=\"renameFrame(frame)\">\n   57        修改备注\n   58        </ion-option-button>\n\n4 matches across 2 files\n",
 			"settings":
 			{
-				"buffer_size": 3674,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "www/js/controllers/album.ctrl.js",
-			"settings":
-			{
-				"buffer_size": 11336,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "www/js/controllers/upload.ctrl.js",
-			"settings":
-			{
-				"buffer_size": 1416,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "Searching 185 files for \"手机\"\n\n/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/album.ctrl.js:\n  200  				text: '<b>拍照</b>'\n  201  			}, {\n  202: 				text: '从手机相册选择'\n  203  			}],\n  204  			// destructiveText: 'Delete',\n\n/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/user.ctrl.js:\n   48  		function checkPhone(phone) {\n   49  			if (!(/^1[3|4|5|7|8]\\d{9}$/.test(phone))) {\n   50: 				alert(\"手机号码格式有误，请重填\");\n   51  				return false;\n   52  			}\n\n/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/lib/avoscloud-auth/dist/avoscloud-auth.min.js:\n    1: !function(e){\"use strict\";function s(){var s=this;this.events={},this.on=function(e,s,n){var i=e&&s&&\"function\"==typeof s;i&&(n&&!this.events[n]&&(this.events[n]={}),n?this.events[n][e]=s:this.events[e]=s)},this.emit=function(e,n,i){return i&&s.events[i]&&s.events[i][e]?s.events[i][e](n):s.events[e]?s.events[e](n):void 0},e.forEach([\"signin\",\"signup\",\"signupSms\",\"signinSms\",\"signinViaMobile\"],function(n){s[n]||(s[n]={}),s[n].on=function(e,i){return s.on(e,i,n)},e.forEach([\"error\",\"success\"],function(e){s[n][e]=function(i){return\"error\"===e&&\"string\"==typeof i&&(i=new Error(i)),s.emit(e,i,n)}})})}if(!e)throw new Error(\"avoscloudAuth.init(); angular.js required.\");e.module(\"avoscloud-auth\",[\"avoscloud\"]).service(\"avoscloudAuth\",s)}(window.angular,window.debug),function(e,s){\"use strict\";function n(){var e={};e.signup=['<form id=\"signupForm\" class=\"signup-form\" ng-submit=\"signup();\" novalidate>','<div class=\"list\">','<label class=\"item item-input item-stacked-label\">','<span class=\"input-label\">用户名</span>','<input type=\"text\" ng-model=\"user.username\" placeholder=\"\">',\"</label>\",'<label class=\"item item-input item-stacked-label\">','<span class=\"input-label\">密码</span>','<input type=\"password\" ng-model=\"user.password\" placeholder=\"********\">',\"</label>\",'<label class=\"item item-input item-stacked-label\">','<span class=\"input-label\">确认密码</span>','<input type=\"password\" ng-model=\"passwordConfirm\" placeholder=\"********\">',\"</label>\",'<button class=\"button button-full button-positive\" type=\"submit\">注册</button>',\"</div>\",\"</form>\"].join(\"\\n\"),e[\"signup-sms\"]=['<form id=\"signupForm\" class=\"signup-form\" ng-submit=\"signup();\" novalidate>','<div class=\"list\">','<label class=\"item item-input item-stacked-label\">','<span class=\"input-label\">手机</span>','<input type=\"text\" ng-model=\"mobilePhoneNumber\" placeholder=\"\">',\"</label>\",'<label class=\"item item-input item-stacked-label\" ng-show=\"smsSent\">','<span class=\"input-label\">验证码</span>','<input type=\"text\" ng-model=\"smsCode\" placeholder=\"\">',\"</label>\",'<button class=\"button button-full button-positive\" type=\"submit\">注册</button>','<button class=\"button button-full\" ng-click=\"resendCode()\" ng-bind=\"resendCodeText\" ng-show=\"smsSent\" ng-disabled=\"resendCodeDisabled\"></button>',\"</div>\",\"</form>\"].join(\"\\n\"),e.signin=['<form id=\"signinForm\" class=\"signin-form\" ng-submit=\"signin();\" novalidate>','<div class=\"list\">','<label class=\"item item-input item-stacked-label\">','<span class=\"input-label\">用户名</span>','<input type=\"text\" ng-model=\"user.username\" placeholder=\"\">',\"</label>\",'<label class=\"item item-input item-stacked-label\">','<span class=\"input-label\">密码</span>','<input type=\"password\" ng-model=\"user.password\" placeholder=\"********\">',\"</label>\",'<button class=\"button button-full button-positive\" type=\"submit\">登录</button>',\"</div>\",\"</form>\"].join(\"\\n\"),e[\"signin-sms\"]=['<form id=\"signinViaSmsForm\" class=\"signin-form signin-via-sms\" ng-submit=\"signin();\" novalidate>','<div class=\"list\">','<label class=\"item item-input item-stacked-label\">','<span class=\"input-label\">手机</span>','<input type=\"text\" ng-model=\"mobilePhoneNumber\" placeholder=\"\">',\"</label>\",'<label class=\"item item-input item-stacked-label\" ng-show=\"smsSent\">','<span class=\"input-label\">验证码</span>','<input type=\"text\" ng-model=\"smsCode\" placeholder=\"\">',\"</label>\",'<button class=\"button button-full button-positive\" type=\"submit\">登录</button>',\"</div>\",\"</form>\"].join(\"\\n\"),e[\"signin-via-mobile\"]=['<form id=\"signinViaMobileForm\" class=\"signin-form signin-via-sms\" ng-submit=\"signin();\" novalidate>','<div class=\"list\">','<label class=\"item item-input item-stacked-label\">','<span class=\"input-label\">手机</span>','<input type=\"text\" ng-model=\"mobilePhoneNumber\" placeholder=\"\">',\"</label>\",'<label class=\"item item-input item-stacked-label\" ng-show=\"smsSent\">','<span class=\"input-label\">密码</span>','<input type=\"password\" ng-model=\"password\" placeholder=\"\">',\"</label>\",'<button class=\"button button-full button-positive\" type=\"submit\">登录</button>',\"</div>\",\"</form>\"].join(\"\\n\"),this.create=function(s){return e[s]||\"<div></div>\"}}if(!e)throw new Error(\"avoscloudAuth.init(); angular.js required.\");var s=s(\"ionic-form\");e.module(\"avoscloud-auth\").service(\"avoscloud-ionic-form\",n)}(window.angular,window.debug),function(e,s){\"use strict\";function n(e,s,n){function i(n){function i(){return n.user&&n.user.username?n.user.password?void e.login.post(n.user,function(n){return n.sessionToken&&e.headers(\"session\",n.sessionToken),s.signin.success(n)},s.signin.error):s.signin.error(\"password is required\"):s.signin.error(\"username is required\")}n.signin=i}var o={restrict:\"AE\",template:n.create(\"signin\"),link:i};return o}function i(e,s,n){function i(n){function i(){return n.mobilePhoneNumber?n.smsSent&&!n.smsCode?s.signinSms.error(\"smsCode is required\"):n.smsSent?void e.login.post({mobilePhoneNumber:n.mobilePhoneNumber,smsCode:n.smsCode},function(n){return n.sessionToken&&e.headers(\"session\",n.sessionToken),s.signinSms.success(n)},s.signinSms.error):o(function(){n.smsSent=!0},s.signinSms.error):s.signinSms.error(\"mobilePhoneNumber is required\")}function o(s,i){e.requestLoginSmsCode.post({mobilePhoneNumber:n.mobilePhoneNumber},s,i)}n.signin=i}var o={restrict:\"AE\",template:n.create(\"signin-sms\"),link:i};return o}function o(e,s,n){function i(n){function i(){return n.mobilePhoneNumber?n.password?void e.login.post({mobilePhoneNumber:n.mobilePhoneNumber,password:n.password},function(n){return n.sessionToken&&e.headers(\"session\",n.sessionToken),s.signinViaMobile.success(n)},s.signinViaMobile.error):s.signinViaMobile.error(\"password is required\"):s.signinViaMobile.error(\"mobilePhoneNumber is required\")}n.signin=i}var o={restrict:\"AE\",template:n.create(\"signin-via-mobile\"),link:i};return o}if(!e)throw new Error(\"avoscloudAuth.init(); angular.js required.\");var s=s(\"avoscloud:signin\");e.module(\"avoscloud-auth\").directive(\"avoscloudSignin\",[\"avoscloud\",\"avoscloudAuth\",\"avoscloud-ionic-form\",n]).directive(\"avoscloudSigninSms\",[\"avoscloud\",\"avoscloudAuth\",\"avoscloud-ionic-form\",i]).directive(\"avoscloudSigninMobile\",[\"avoscloud\",\"avoscloudAuth\",\"avoscloud-ionic-form\",o])}(window.angular,window.debug),function(e,s){\"use strict\";function n(e,n,i){function o(i){function o(){if(s(i),!i.user)return n.signup.error(\"invalid user params\");if(!i.user.username)return n.signup.error(\"invalid username params\");if(!i.user.password)return n.signup.error(\"invalid password params\");if(!i.passwordConfirm)return n.signup.error(\"invalid passwordConfirm params\");if(i.user.password!==i.passwordConfirm)return n.signup.error(\"passwords are not match\");var o=new e.users(i.user);o.$save(function(s){return s.sessionToken&&e.headers(\"session\",s.sessionToken),n.signup.success(s)},n.signup.error)}i.signup=o}var t={restrict:\"AE\",template:i.create(\"signup\"),link:o};return t}function i(e,n,i,o){function t(i){function t(){if(!i.mobilePhoneNumber)return n.signupSms.error(\"invalid mobilePhoneNumber\");if(i.smsSent)return i.smsCode?a():n.signupSms.error(\"invalid smsCode\");i.user={},i.user.username=i.mobilePhoneNumber,i.user.mobilePhoneNumber=i.mobilePhoneNumber,i.user.password=((new Date).getTime()+10*Math.random()).toString();var o=new e.users(i.user);o.$save(function(n){s(n),i.smsSent=!0,r(60),n.sessionToken&&e.headers(\"session\",n.sessionToken)},n.signupSms.error)}function r(e){return 0===e?(i.resendCodeDisabled=!1,void(i.resendCodeText=\"重发验证短信\")):(i.resendCodeDisabled||(i.resendCodeDisabled=!0),i.resendCodeText=e,e--,void o(function(){r(e)},1e3))}function u(){e.requestMobilePhoneVerify.post({mobilePhoneNumber:i.user.mobilePhoneNumber},function(e){s(e),r(60)},function(e){s(e)})}function a(){var s=new e.verifyMobilePhone;s.$save({code:i.smsCode},n.signupSms.success,n.signupSms.error)}i.signup=t,i.resendCode=u}var r={restrict:\"AE\",template:i.create(\"signup-sms\"),link:t};return r}if(!e)throw new Error(\"avoscloudAuth.init(); angular.js required.\");var s=s(\"avoscloud:signup\");e.module(\"avoscloud-auth\").directive(\"avoscloudSignup\",[\"avoscloud\",\"avoscloudAuth\",\"avoscloud-ionic-form\",n]).directive(\"avoscloudSignupSms\",[\"avoscloud\",\"avoscloudAuth\",\"avoscloud-ionic-form\",\"$timeout\",i])}(window.angular,window.debug);\n    2  //# sourceMappingURL=avoscloud-auth.min.js.map\n\n/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/lib/avoscloud-auth/src/ionic-forms.js:\n   38          '<div class=\"list\">',\n   39            '<label class=\"item item-input item-stacked-label\">',\n   40:             '<span class=\"input-label\">手机</span>',\n   41              '<input type=\"text\" ng-model=\"mobilePhoneNumber\" placeholder=\"\">',\n   42            '</label>',\n   ..\n   71          '<div class=\"list\">',\n   72            '<label class=\"item item-input item-stacked-label\">',\n   73:             '<span class=\"input-label\">手机</span>',\n   74              '<input type=\"text\" ng-model=\"mobilePhoneNumber\" placeholder=\"\">',\n   75            '</label>',\n   ..\n   87          '<div class=\"list\">',\n   88            '<label class=\"item item-input item-stacked-label\">',\n   89:             '<span class=\"input-label\">手机</span>',\n   90              '<input type=\"text\" ng-model=\"mobilePhoneNumber\" placeholder=\"\">',\n   91            '</label>',\n\n/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start/login.html:\n    7                  <label class=\"item item-input item-floating-label signup-element\">\n    8                      <span class=\"input-label\"><i class=\"icon ion-email\"></i> 请输入您的电子邮箱</span>\n    9:                     <input type=\"text\" placeholder=\"请输入您的手机号码\" ng-model=\"creds.phonenumber\">\n   10                  </label>\n   11                  <label class=\"item item-input item-floating-label signup-element\">\n\n9 matches across 5 files\n",
-			"settings":
-			{
-				"buffer_size": 10350,
+				"buffer_size": 848,
 				"line_ending": "Unix",
 				"name": "Find Results",
 				"scratch": true
 			}
 		},
 		{
+			"file": "www/js/controllers/gallery.ctrl.js",
+			"settings":
+			{
+				"buffer_size": 7014,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "www/js/controllers/setting.ctrl.js",
+			"settings":
+			{
+				"buffer_size": 1992,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "www/templates/about.html",
+			"settings":
+			{
+				"buffer_size": 814,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "config.xml",
+			"settings":
+			{
+				"buffer_size": 5048,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "www/js/controllers/user.ctrl.js",
 			"settings":
 			{
-				"buffer_size": 3345,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "www/templates/start/signup.html",
-			"settings":
-			{
-				"buffer_size": 1913,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "www/templates/start/forgot.html",
-			"settings":
-			{
-				"buffer_size": 1929,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "www/js/app.js",
-			"settings":
-			{
-				"buffer_size": 5618,
+				"buffer_size": 4801,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -149,15 +163,26 @@
 			"file": "www/templates/settings.html",
 			"settings":
 			{
-				"buffer_size": 647,
+				"buffer_size": 664,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "www/templates/start/login.html",
+			"file": "www/templates/feedback.html",
 			"settings":
 			{
-				"buffer_size": 1218,
+				"buffer_size": 1151,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "www/templates/playlist.html",
+			"settings":
+			{
+				"buffer_size": 2354,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		}
@@ -292,31 +317,36 @@
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/services",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/lib",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start"
 	],
 	"file_history":
 	[
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/album-cloud.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/platforms/android/project.properties",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/platforms/android/settings.gradle",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start/login.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/scss/ionic.app.scss",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/settings.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/playlists.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/album.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/app.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start/forgot.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start/signup.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/user.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/test.ctrl.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/manualAddFrame.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/config.xml",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start/signup.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/intro.ctrl.js",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/user.ctrl.js",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start/login.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/login.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/signup.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/services/picture.service.js",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/test.ctrl.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/gallery.ctrl.js",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/app.js",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/scss/ionic.app.scss",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/playlist.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/album.ctrl.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/about.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/app.ctrl.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/menu.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/settings.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/playlists.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/setting.ctrl.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/index.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/css/ionic.app.css",
@@ -420,11 +450,7 @@
 		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/package.json",
 		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/templates/menu.html",
 		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/index.html",
-		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/css/app.css",
-		"/Users/Michael/bash_profile",
-		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/templates/login.html",
-		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/config.xml",
-		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/.bowerrc"
+		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/css/app.css"
 	],
 	"find":
 	{
@@ -446,6 +472,30 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"fillFramesArrayURL",
+			"objectId",
+			"FileOfFrame",
+			"renameFrameAction",
+			"renameFrame",
+			"-130px",
+			"myPopup",
+			"search",
+			"<option",
+			"ng-model",
+			"AV.User",
+			"openModal",
+			"alert(",
+			"alert)",
+			"alert",
+			"upload",
+			"listRefresh",
+			"showupload",
+			"s'ho'wu'p'load",
+			".title",
+			"上传",
+			"相框",
+			"联网",
+			"秒",
 			"cloud",
 			"posterId",
 			"手机",
@@ -549,31 +599,7 @@
 			"\"FileOfFrame\"",
 			"\"fileOfFrame\"",
 			"copyImg",
-			"failed",
-			"用时",
-			"clear",
-			"failed",
-			"clear cache",
-			"clear cache failed",
-			"button",
-			"UserService.login",
-			"menu",
-			"document",
-			"cordova.file.documentsDirectory",
-			"com.",
-			"$q",
-			".all",
-			"thumbnail",
-			"getFrame",
-			"createwithout",
-			"getFrame",
-			"getLatestFrameImg",
-			"success",
-			"rootscope.show",
-			"UploadingController",
-			"upload",
-			"encodeFile",
-			"defer.reject"
+			"failed"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -596,24 +622,83 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 7,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "www/templates/playlists.html",
+					"file": "www/js/controllers/album.ctrl.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3510,
+						"buffer_size": 11804,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2742,
-								2742
+								1441,
+								1441
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 632.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "www/css/ionic.app.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 250654,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								248401,
+								248401
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 136210.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "www/templates/playlists.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3563,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								405,
+								405
 							]
 						],
 						"settings":
@@ -623,57 +708,115 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 828.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "scss/ionic.app.scss",
+					"buffer": 3,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3674,
+						"buffer_size": 848,
 						"regions":
 						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										176,
+										187
+									],
+									[
+										339,
+										350
+									],
+									[
+										493,
+										504
+									],
+									[
+										749,
+										760
+									]
+								],
+								"scope": ""
+							}
 						},
 						"selection":
 						[
 							[
-								1047,
-								1047
+								348,
+								348
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ \t].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 126.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "www/js/controllers/album.ctrl.js",
+					"buffer": 4,
+					"file": "www/js/controllers/gallery.ctrl.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 11336,
+						"buffer_size": 7014,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3435,
-								3435
+								5461,
+								5461
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2998.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "www/js/controllers/setting.ctrl.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1992,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1800,
+								1800
 							]
 						],
 						"settings":
@@ -681,20 +824,80 @@
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 0.0,
-						"translation.y": 1924.0,
+						"translation.x": 7.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "www/js/controllers/upload.ctrl.js",
+					"buffer": 6,
+					"file": "www/templates/about.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 814,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								432,
+								432
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "config.xml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5048,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1523,
+								1523
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/XML/XML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 42.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "www/js/controllers/user.ctrl.js",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 1416,
+						"buffer_size": 4801,
 						"regions":
 						{
 						},
@@ -718,75 +921,27 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 9,
+					"file": "www/templates/settings.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10350,
+						"buffer_size": 664,
 						"regions":
 						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										187,
-										189
-									],
-									[
-										453,
-										455
-									],
-									[
-										2379,
-										2381
-									],
-									[
-										3678,
-										3680
-									],
-									[
-										4280,
-										4282
-									],
-									[
-										9117,
-										9119
-									],
-									[
-										9404,
-										9406
-									],
-									[
-										9691,
-										9693
-									],
-									[
-										10166,
-										10168
-									]
-								],
-								"scope": ""
-							}
 						},
 						"selection":
 						[
 							[
-								460,
-								460
+								392,
+								392
 							]
 						],
 						"settings":
 						{
-							"detect_indentation": false,
-							"line_numbers": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([^ 	].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -796,182 +951,61 @@
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "www/js/controllers/user.ctrl.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3345,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								282,
-								286
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "www/templates/start/signup.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1913,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								970,
-								970
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "www/templates/start/forgot.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1929,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1929,
-								1929
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "www/js/app.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5618,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4277,
-								4291
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1809.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "www/templates/settings.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 647,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								120,
-								120
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
 					"buffer": 10,
-					"file": "www/templates/start/login.html",
+					"file": "www/templates/feedback.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1218,
+						"buffer_size": 1151,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1081,
-								1081
+								1032,
+								1032
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax",
-							"tab_size": 4,
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "www/templates/playlist.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2354,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2199,
+								2199
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 184.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
 					"type": "text"
 				}
 			]
@@ -1030,6 +1064,34 @@
 		"selected_items":
 		[
 			[
+				"album",
+				"www/js/controllers/album.ctrl.js"
+			],
+			[
+				"galler",
+				"www/js/controllers/gallery.ctrl.js"
+			],
+			[
+				"conf",
+				"config.xml"
+			],
+			[
+				"a",
+				"www/templates/about.html"
+			],
+			[
+				"sett",
+				"www/js/controllers/setting.ctrl.js"
+			],
+			[
+				"feed",
+				"www/templates/feedback.html"
+			],
+			[
+				"settings",
+				"www/templates/settings.html"
+			],
+			[
 				"sign",
 				"www/templates/start/signup.html"
 			],
@@ -1044,10 +1106,6 @@
 			[
 				"log",
 				"www/templates/start/login.html"
-			],
-			[
-				"conf",
-				"config.xml"
 			],
 			[
 				"login",
@@ -1084,10 +1142,6 @@
 			[
 				"ab",
 				"www/templates/about.html"
-			],
-			[
-				"sett",
-				"www/js/controllers/setting.ctrl.js"
 			],
 			[
 				"in",
