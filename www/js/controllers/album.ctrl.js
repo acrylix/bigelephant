@@ -276,7 +276,7 @@ angular.module('album.controllers', ['ionic'])
 
 		var frame = AV.Object.createWithoutData('Frame', frameId);
 		query.equalTo('frame', frame);
-		// query.equalTo('sender', AV.User.current());
+		query.equalTo('sender', AV.User.current());
 		query.descending('createdAt');
 		query.first().then(function(data) {
 			console.log(" + " + data.attributes.file._url + " " + frameId);

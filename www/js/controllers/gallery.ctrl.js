@@ -223,7 +223,7 @@ angular.module('gallery.controllers', [])
     // query.skip($scope.skip);
     // query.limit(30);
 
-    //query.equalTo('sender', AV.User.current());
+    query.equalTo('sender', AV.User.current()); //CRITICAL!
 
     query.find().then(function(pictures) {
       console.log(pictures.length);
