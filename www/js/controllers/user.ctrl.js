@@ -155,7 +155,12 @@ angular.module('user.controllers', [])
 
 					}, function(error) {
 						$rootScope.hide();
-						alert(error.message);
+						if(error.code == -1){
+							alert("请填写和确认密码")
+						}
+						else{
+							alert(error.message);
+						}
 					})
 				} else {
 					AV.User.requestMobilePhoneVerify($scope.phone + '').then(function(success) {
