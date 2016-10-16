@@ -28,21 +28,21 @@ angular.module('starter', [
     $stateProvider
 
     //***Sign Up***
-    .state('app-login', {
-      url: "/login",
-      templateUrl: "templates/start/login.html",
-      controller: "LogInController"
-    })
-    .state('app-signup', {
-      url: "/signup",
-      templateUrl: "templates/start/signup.html",
-      controller: "SignUpController"
-    })
-    .state('app-forgot', {
-      url: "/forgot",
-      templateUrl: "templates/start/forgot.html",
-      controller: "SignUpController"
-    })
+      .state('app-login', {
+        url: "/login",
+        templateUrl: "templates/start/login.html",
+        controller: "LogInController"
+      })
+      .state('app-signup', {
+        url: "/signup",
+        templateUrl: "templates/start/signup.html",
+        controller: "SignUpController"
+      })
+      .state('app-forgot', {
+        url: "/forgot",
+        templateUrl: "templates/start/forgot.html",
+        controller: "SignUpController"
+      })
 
     .state('app', {
       url: '/app',
@@ -80,6 +80,15 @@ angular.module('starter', [
           'menuContent': {
             templateUrl: 'templates/intro.html',
             controller: 'IntroController'
+          }
+        }
+      })
+      .state('app.noFrame', {
+        url: '/noFrame',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/noFramePage.html',
+            controller: 'AlbumController'
           }
         }
       })
@@ -130,41 +139,41 @@ angular.module('starter', [
       })
 
     .state('app.test', {
-      url: '/test',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/test-page.html',
-          controller: 'TestController'
+        url: '/test',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/test-page.html',
+            controller: 'TestController'
+          }
         }
-      }
-    })
-    .state('app.setting', {
-      url: '/setting',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/settings.html',
-          controller: 'SettingController'
+      })
+      .state('app.setting', {
+        url: '/setting',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/settings.html',
+            controller: 'SettingController'
+          }
         }
-      }
-    })
-    .state('app.manualAddFrame', {
-      url: '/manualadd',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/manualAddFrame.html',
-          controller: 'AlbumController'
+      })
+      .state('app.manualAddFrame', {
+        url: '/manualadd',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/manualAddFrame.html',
+            controller: 'AlbumController'
+          }
         }
-      }
-    })
-    .state('app.single', {
-      url: '/playlists/:playlistId',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/playlist.html',
-          controller: 'GalleryController'
+      })
+      .state('app.single', {
+        url: '/playlists/:playlistId',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/playlist.html',
+            controller: 'GalleryController'
+          }
         }
-      }
-    });
+      });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/playlists');
   })

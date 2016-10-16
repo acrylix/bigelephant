@@ -1,0 +1,53 @@
+<ion-view view-title="大象框" >
+
+<ion-nav-bar class="bar-stable">
+  <ion-nav-buttons side="left">
+    <!-- Toggle left side menu -->
+    <button menu-toggle="left" class="button button-icon button-clear button-energized icon ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button class="button button-clear button-energized" ng-click="">
+    购买
+  </button>
+  </ion-nav-buttons>
+</ion-nav-bar>
+
+<div>
+<ion-slide-box on-slide-changed="slideHasChanged($index)">
+
+  <ion-slide>
+    <div class="box blue"><img class="intro-img" src="img/no1.png" style="margin-top: 3vh !important; margin-bottom: 5vh;"></div>
+  </ion-slide>
+  <ion-slide>
+    <div class="box yellow"><img class="intro-img" src="img/no2.png" style="margin-top: 3vh !important; margin-bottom: 5vh;"></div>
+  </ion-slide>
+  <ion-slide>
+    <div class="box pink"><img class="intro-img" src="img/no3.png" style="margin-top: 3vh !important; margin-bottom: 5vh;"></div>
+  </ion-slide>
+  <ion-slide>
+    <div class="box pink"><img class="intro-img" src="img/no4.png" style="margin-top: 3vh !important; margin-bottom: 5vh;"></div>
+  </ion-slide>
+</ion-slide-box>
+</div>
+
+<div class="row">
+   <div class="col text-center">
+      <p>您还没有绑定相框, 快去添加相框好友</p>
+   </div>
+</div>
+<div class="row">
+   <div class="col text-center">
+      <button class="button button-energized" ng-click="button()">
+        添加相框好友
+      </button>
+   </div>
+</div>
+
+
+<!--     <button class="button button-large button-energized recording-center" style="margin-top: 20px; border-radius: 50px; background-color: #1D1F20" ng-click="go()">
+    添加相框好友
+    </button> -->
+
+
+</ion-view>
+ 

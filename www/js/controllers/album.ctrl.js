@@ -18,6 +18,8 @@ angular.module('album.controllers', ['ionic'])
 	$interval,
 	$ionicHistory,
 	$cordovaToast,
+	$ionicSlideBoxDelegate,
+	$ionicSideMenuDelegate,
 	PictureService) {
 
 	//background loader//
@@ -279,7 +281,7 @@ angular.module('album.controllers', ['ionic'])
 		query.equalTo('sender', AV.User.current());
 		query.descending('createdAt');
 		query.first().then(function(data) {
-			console.log(" + " + data.attributes.file._url + " " + frameId);
+			//console.log(" + " + data.attributes.file._url + " " + frameId);
 
 			var thumbnail = data.attributes.file.thumbnailURL(500, 500, 80);
 			fillFramesArrayURL(frameId, thumbnail);
@@ -304,11 +306,12 @@ angular.module('album.controllers', ['ionic'])
 		query.equalTo('user', AV.User.current());
 		query.find().then(function(results) {
 			console.log('Successfully retrieved ' + results.length + ' posts.');
+
 			// 处理返回的结果数据
 			// debugger;
 			//$scope.frames = results;
 			for (var i = results.length - 1; i >= 0; i--) {
-				console.log(results[i].attributes.frame.id);
+				//console.log(results[i].attributes.frame.id);
 				// debugger;
 				var frameItem = {
 					id: results[i].id,
@@ -420,6 +423,10 @@ angular.module('album.controllers', ['ionic'])
 		$scope.modal = modal;
 	});
 
+	$scope.slideChanged = function(index) {
+		$scope.slideIndex = index;
+	};
+
 	$scope.closeManualAdd = function() {
 		$scope.addinfo.id = '';
 
@@ -427,7 +434,11 @@ angular.module('album.controllers', ['ionic'])
 			disableBack: true
 		});
 
-		$state.go("app.playlists");
+		if ($rootScope.frameCount == 0) {
+			$state.go("app.noFrame");
+		} else {
+			$state.go("app.playlists");
+		}
 	};
 
 	$scope.closeAddFrame = function() {
@@ -523,8 +534,10 @@ angular.module('album.controllers', ['ionic'])
 
 	$scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
 		// console.log('*****'+fromState.url);
-		if (StorageService.isEmpty() || fromState.url == "^") {
+
+		if ($rootScope.frameCount > 0 && (StorageService.isEmpty() || fromState.url == "^")) {
 			getFrame();
+			console.log("called");
 		} else {
 			$scope.frames = StorageService.getAll();
 		}

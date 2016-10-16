@@ -12,7 +12,7 @@ angular.module('starter.controllers', ['ngCordova'])
     }
   })
 
-.controller('AppCtrl', function($scope, $state, $ionicModal, $timeout, UserService) {
+.controller('AppCtrl', function($scope, $state, $ionicModal, $timeout, UserService, $rootScope) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -25,12 +25,14 @@ angular.module('starter.controllers', ['ngCordova'])
   // Form data for the login modal
   $scope.loginData = {};
 
-  // // Create the login modal that we will use later
-  // $ionicModal.fromTemplateUrl('templates/login.html', {
-  //   scope: $scope
-  // }).then(function(modal) {
-  //   $scope.modal = modal;
-  // });
+  $scope.navMainPage = function(){
+    if($rootScope.frameCount == 0){
+      $state.go('app.noFrame');
+    }
+    else{
+      $state.go('app.playlists');
+    }
+  }
 
   // Triggered in the login modal to close it
   $scope.closeLogin = function() {

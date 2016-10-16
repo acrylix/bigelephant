@@ -24,13 +24,31 @@ angular.module('user.controllers', [])
 				.then(function(user) {
 					$rootScope.hide();
 					console.log(user);
-					$state.go('app.intro');
+
+					var query = new AV.Query('MapUserFrame');
+					query.include('frame');
+					query.equalTo('user', AV.User.current());
+					query.find().then(function(results) {
+						if (results.length == 0) {
+							$rootScope.frameCount = 0;
+							$state.go('app.noFrame');
+						} else {
+							$state.go('app.playlists');
+						}
+					}, function(error) {
+						$rootScope.hide();
+						console.log("login err + " + error);
+						$ionicPopup.confirm({
+							title: '无法登陆!',
+							template: error.avosErr.message
+						});
+					})
 
 				}, function(error) {
 					$rootScope.hide();
 					console.log("login err + " + error);
 					$ionicPopup.confirm({
-						title: 'Oops!',
+						title: '无法登陆!',
 						template: error.avosErr.message
 					});
 				})
@@ -135,7 +153,7 @@ angular.module('user.controllers', [])
 						alert('注册验证码发送成功');
 						sentWait();
 
-					}, function(error){
+					}, function(error) {
 						$rootScope.hide();
 						alert(error.message);
 					})
@@ -199,7 +217,7 @@ angular.module('user.controllers', [])
 				alert('密码为空');
 				return false;
 			}
-			if(!$scope.info.smscode){
+			if (!$scope.info.smscode) {
 				alert('验证码为空');
 				return false;
 			}
