@@ -25,24 +25,7 @@ angular.module('user.controllers', [])
 					$rootScope.hide();
 					console.log(user);
 
-					var query = new AV.Query('MapUserFrame');
-					query.include('frame');
-					query.equalTo('user', AV.User.current());
-					query.find().then(function(results) {
-						if (results.length == 0) {
-							$rootScope.frameCount = 0;
-							$state.go('app.noFrame');
-						} else {
-							$state.go('app.playlists');
-						}
-					}, function(error) {
-						$rootScope.hide();
-						console.log("login err + " + error);
-						$ionicPopup.confirm({
-							title: '无法登陆!',
-							template: error.avosErr.message
-						});
-					})
+					$state.go('app.playlists');
 
 				}, function(error) {
 					$rootScope.hide();
@@ -155,10 +138,9 @@ angular.module('user.controllers', [])
 
 					}, function(error) {
 						$rootScope.hide();
-						if(error.code == -1){
+						if (error.code == -1) {
 							alert("请填写和确认密码")
-						}
-						else{
+						} else {
 							alert(error.message);
 						}
 					})

@@ -310,36 +310,47 @@ angular.module('album.controllers', ['ionic'])
 			// 处理返回的结果数据
 			// debugger;
 			//$scope.frames = results;
-			for (var i = results.length - 1; i >= 0; i--) {
-				//console.log(results[i].attributes.frame.id);
-				// debugger;
-				var frameItem = {
-					id: results[i].id,
-					frame: {
-						id: results[i].attributes.frame.id,
-						deviceIdShort: results[i].attributes.frame.attributes.deviceIdShort
-					},
-					frameDeviceId: results[i].attributes.frameDeviceId,
-					frameNickName: results[i].attributes.frameNickName,
-					totalImage: results[i].attributes.totalImage,
-					userNickName: results[i].attributes.userNickName,
-					user: {
-						id: results[i].attributes.user.id,
-						cid: results[i].attributes.user.cid,
-					}
+			console.warn($ionicHistory.currentView().stateName);
+			if (results.length==0) {
+				if ($ionicHistory.currentView().stateName == "app.playlists") {
+					$rootScope.frameCount = 0
+					$ionicHistory.nextViewOptions({
+						disableBack: true
+					});
+					$state.go("app.noFrame");
 				}
-				StorageService.add(frameItem);
+			} else {
+				for (var i = results.length - 1; i >= 0; i--) {
+					//console.log(results[i].attributes.frame.id);
+					// debugger;
+					var frameItem = {
+						id: results[i].id,
+						frame: {
+							id: results[i].attributes.frame.id,
+							deviceIdShort: results[i].attributes.frame.attributes.deviceIdShort
+						},
+						frameDeviceId: results[i].attributes.frameDeviceId,
+						frameNickName: results[i].attributes.frameNickName,
+						totalImage: results[i].attributes.totalImage,
+						userNickName: results[i].attributes.userNickName,
+						user: {
+							id: results[i].attributes.user.id,
+							cid: results[i].attributes.user.cid,
+						}
+					}
+					StorageService.add(frameItem);
 
-			}
-			$scope.frames = StorageService.getAll();
+				}
+				$scope.frames = StorageService.getAll();
 
-			for (var i = 0; i < $scope.frames.length; i++) {
-				$scope.frames[i]
-				getLatestFrameImg($scope.frames[i].frame.id).then(function(url) {
+				for (var i = 0; i < $scope.frames.length; i++) {
+					$scope.frames[i]
+					getLatestFrameImg($scope.frames[i].frame.id).then(function(url) {
 
-				}, function(error) {
-					console.log("album cover err: " + error);
-				});
+					}, function(error) {
+						console.log("album cover err: " + error);
+					});
+				}
 			}
 
 			$scope.$apply();
@@ -535,7 +546,7 @@ angular.module('album.controllers', ['ionic'])
 	$scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
 		// console.log('*****'+fromState.url);
 
-		if ($rootScope.frameCount > 0 && (StorageService.isEmpty() || fromState.url == "^")) {
+		if (StorageService.isEmpty() || fromState.url == "^") {
 			getFrame();
 			console.log("called");
 		} else {

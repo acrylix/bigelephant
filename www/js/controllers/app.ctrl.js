@@ -25,15 +25,6 @@ angular.module('starter.controllers', ['ngCordova'])
   // Form data for the login modal
   $scope.loginData = {};
 
-  $scope.navMainPage = function(){
-    if($rootScope.frameCount == 0){
-      $state.go('app.noFrame');
-    }
-    else{
-      $state.go('app.playlists');
-    }
-  }
-
   // Triggered in the login modal to close it
   $scope.closeLogin = function() {
     $scope.modal.hide();
