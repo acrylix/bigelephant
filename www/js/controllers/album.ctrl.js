@@ -310,7 +310,6 @@ angular.module('album.controllers', ['ionic'])
 			// 处理返回的结果数据
 			// debugger;
 			//$scope.frames = results;
-			console.warn($ionicHistory.currentView().stateName);
 			if (results.length==0) {
 				if ($ionicHistory.currentView().stateName == "app.playlists") {
 					$rootScope.frameCount = 0

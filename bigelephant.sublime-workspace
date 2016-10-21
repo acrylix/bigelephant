@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"show",
+				"showList"
+			],
+			[
+				"$ion",
+				"$ionicHistory"
+			],
+			[
+				"backgrou",
+				"background-size"
+			],
+			[
+				"back",
+				"background-position"
+			],
+			[
 				"max",
 				"max-height"
 			],
@@ -52,10 +68,6 @@
 				"background-image"
 			],
 			[
-				"back",
-				"background"
-			],
-			[
 				"shortlist",
 				"shortlistJson"
 			],
@@ -76,112 +88,10 @@
 	"buffers":
 	[
 		{
-			"contents": "angular.module('album.controllers', ['ionic'])\n\n.controller('AlbumController', function(\n\t$scope,\n\t$state,\n\t$q,\n\t$ionicActionSheet,\n\t$cordovaFile,\n\t$ionicLoading,\n\t$rootScope,\n\t$cordovaImagePicker,\n\t$ionicPlatform,\n\t$cordovaCamera,\n\t$cordovaBarcodeScanner,\n\tStorageService,\n\t$ionicModal,\n\t$ionicPopup,\n\t$interval,\n\t$ionicHistory,\n\t$cordovaToast,\n\tPictureService) {\n\n\t//background loader//\n\t$scope.showUpload = false;\n\n\t$rootScope.$on('upload-started', function(event, args) {\n\t\t$scope.showUpload = true;\n\t\t$scope.total = args.total;\n\t\t$scope.current = 0;\n\t});\n\t$rootScope.$on('upload-increment', function(event, args) {\n\t\tif ($scope.current < $scope.total) {\n\t\t\t$scope.current++;\n\t\t}\n\t});\n\t$rootScope.$on('upload-completed', function(event, args) {\n\t\t$scope.showUpload = false;\n\t\t$scope.listRefresh();\n\t});\n\t//background loader//\n\n\t$scope.shouldShowDelete = false;\n\t$scope.shouldShowReorder = false;\n\t$scope.listCanSwipe = true;\n\n\t//Smart Search\n\t$scope.myPopup = function() {\n\t\t$scope.data = {};\n\n\t\t$ionicPopup.show({\n\t\t\ttemplate: '<input type=\"text\" class=\"smart-search-input\" ng-model=\"data.searchKeyWord\">',\n\t\t\ttitle: '智能搜索',\n\t\t\tsubTitle: 'ex. 美食',\n\t\t\tscope: $scope,\n\t\t\tbuttons: [{\n\t\t\t\ttext: '取消'\n\t\t\t}, {\n\t\t\t\ttext: '<b>搜索</b>',\n\t\t\t\ttype: 'button-energized',\n\t\t\t\tonTap: function(e) {\n\t\t\t\t\t//$scope.countfix($scope.data.searchKeyWord);\n\t\t\t\t\t$state.go('app.smartGallery', {\n\t\t\t\t\t\tkey: $scope.data.searchKeyWord\n\t\t\t\t\t})\n\t\t\t\t}\n\t\t\t}]\n\t\t})\n\t};\n\n\t// $scope.countfix = function(key) {\n\t// \tvar fid = [];\n\n\t// \tvar query = new AV.Query('FileOfFrame');\n\t// \tvar frame = AV.Object.createWithoutData('Frame', key);\n\t// \tquery.equalTo('frame', frame);\n\t// \tquery.find().then(function(fof) {\n\t// \t\tconsole.warn(fof.length);\n\n\t// \t}, function(error) {\n\t// \t\t// 失败了\n\t// \t\tconsole.log(error);\n\t// \t});\n\n\n\t// }\n\n\t//Smart Search\n\n\tvar renameFrameAction = function(frame, newName) {\n\t\tconsole.log(frame.id + '- ' + newName);\n\t\t$rootScope.show();\n\n\t\tvar Muf = AV.Object.extend('MapUserFrame');\n\t\tvar query = new AV.Query(Muf);\n\n\t\tquery.get(frame.id).then(function(muf) {\n\t\t\tmuf.set('frameNickName', newName);\n\t\t\tmuf.save().then(function() {\n\t\t\t\t$rootScope.hide();\n\t\t\t\t$scope.listRefresh();\n\t\t\t}, function(error) {\n\t\t\t\t$rootScope.hide();\n\t\t\t\tconsole.log('error ' + error);\n\t\t\t});\n\n\t\t}, function(error) {\n\t\t\t$rootScope.hide();\n\t\t\tconsole.log('error ' + error);\n\t\t});\n\t}\n\n\t$scope.renameFrame = function(frame) {\n\t\t$scope.data = {};\n\n\t\t$ionicPopup.show({\n\t\t\ttemplate: '<input type=\"text\" class=\"smart-search-input\" ng-model=\"data.newName\">',\n\t\t\ttitle: '修改备注',\n\t\t\tscope: $scope,\n\t\t\tbuttons: [{\n\t\t\t\ttext: '取消'\n\t\t\t}, {\n\t\t\t\ttext: '<b>确定</b>',\n\t\t\t\ttype: 'button-energized',\n\t\t\t\tonTap: function(e) {\n\t\t\t\t\trenameFrameAction(frame, $scope.data.newName);\n\t\t\t\t}\n\t\t\t}]\n\t\t})\n\t};\n\n\t$scope.moveItem = function(item, fromIndex, toIndex) {\n\t\t$scope.items.splice(fromIndex, 1);\n\t\t$scope.items.splice(toIndex, 0, item);\n\t};\n\n\t$scope.takePic = function() {\n\n\t\tPictureService.clearFileCache(); //REMOVE THIS BEFORE FLIGHT!!!!\n\n\t\t$ionicPlatform.ready(function() {\n\t\t\tvar options = {\n\t\t\t\tquality: 80,\n\t\t\t\tdestinationType: Camera.DestinationType.DATA_URL,\n\t\t\t\tsourceType: Camera.PictureSourceType.CAMERA,\n\t\t\t\tallowEdit: false,\n\t\t\t\tencodingType: Camera.EncodingType.JPEG,\n\t\t\t\t// popoverOptions: CameraPopoverOptions,\n\t\t\t\tsaveToPhotoAlbum: true,\n\t\t\t\tcorrectOrientation: true\n\t\t\t};\n\n\t\t\t$cordovaCamera.getPicture(options).then(function(imageData) {\n\t\t\t\t//var base64 = \"data:image/jpeg;base64,\" + imageData;\n\t\t\t\tdebugger;\n\n\t\t\t\t//var tempFileName = imageURI.replace(/^.*[\\\\\\/]/, '');\n\n\t\t\t\tPictureService.prepDir().then(function(success) {\n\t\t\t\t\t//PictureService.copyToMem(imageURI);\n\t\t\t\t\tPictureService.addTmpImg(imageData);\n\t\t\t\t\t$rootScope.type = 'camera';\n\t\t\t\t});\n\n\t\t\t\t$state.go('app.selectFrame', {});\n\n\n\t\t\t}, function(err) {\n\t\t\t\t// error\n\t\t\t\tconsole.log(error);\n\t\t\t});\n\t\t});\n\t}\n\n\t$scope.imagePicker = function() {\n\n\t\tPictureService.clearFileCache(); //REMOVE THIS BEFORE FLIGHT!!!!\n\n\t\tvar options = {\n\t\t\tmaximumImagesCount: 3,\n\t\t\twidth: 800,\n\t\t\theight: 800,\n\t\t\tquality: 80\n\t\t};\n\n\t\t$ionicPlatform.ready(function() {\n\n\t\t\t$cordovaImagePicker.getPictures(options)\n\t\t\t\t.then(function(results) {\n\n\t\t\t\t\tPictureService.prepDir().then(function(success) {\n\n\t\t\t\t\t\tfor (var i = 0; i < results.length; i++) {\n\t\t\t\t\t\t\tconsole.log('Image URI: ' + results[i]);\n\t\t\t\t\t\t\tvar filePath = results[i];\n\n\t\t\t\t\t\t\t//var tempFileName = filePath.replace(/^.*[\\\\\\/]/, '');\n\n\t\t\t\t\t\t\tPictureService.copyToMem(filePath);\n\t\t\t\t\t\t\t$rootScope.type = 'album';\n\n\t\t\t\t\t\t\t$state.go('app.selectFrame', {});\n\n\t\t\t\t\t\t}\n\n\t\t\t\t\t});\n\n\t\t\t\t}, function(error) {\n\t\t\t\t\t// error getting photos\n\t\t\t\t\tconsole.log(error);\n\t\t\t\t});\n\t\t});\n\n\t}\n\n\t$scope.cameraButton = function() {\n\n\t\t// Show the action sheet\n\t\tvar hideSheet = $ionicActionSheet.show({\n\t\t\tbuttons: [{\n\t\t\t\ttext: '<b>拍照</b>'\n\t\t\t}, {\n\t\t\t\ttext: '从手机相册选择'\n\t\t\t}],\n\t\t\t// destructiveText: 'Delete',\n\t\t\ttitleText: '发照片',\n\t\t\tcancelText: '取消',\n\t\t\tcancel: function() {\n\t\t\t\t// add cancel code..\n\t\t\t},\n\t\t\tbuttonClicked: function(index) {\n\t\t\t\tif (index == 0) {\n\t\t\t\t\t$scope.takePic();\n\t\t\t\t} else if (index == 1) {\n\t\t\t\t\t$scope.imagePicker();\n\t\t\t\t}\n\n\t\t\t\treturn true;\n\t\t\t}\n\n\t\t});\n\n\t};\n\n\t$scope.frames = [];\n\t$scope.frameImg = {};\n\n\tvar fillFramesArrayURL = function(frameId, URL) {\n\t\tfor (var i = 0; i < $scope.frames.length; i++) {\n\t\t\tif ($scope.frames[i].frame.id == frameId) {\n\t\t\t\t$scope.frames[i].latestImg = URL;\n\t\t\t\t// break;\n\t\t\t}\n\t\t}\n\t}\n\n\t$scope.test = function() {\n\t\t// debugger;\n\t\tvar query = new AV.Query('PhotoTag');\n\n\t\tquery.equalTo('objectId', '572e454479df540060b962df');\n\t\tquery.include('fileOfFrame');\n\t\tquery.first().then(function(data) {\n\t\t\t// debugger;\n\t\t\tvar file = data.attributes.fileOfFrame.attributes.file;\n\n\t\t}, function(error) {\n\t\t\tconsole.log(error);\n\n\t\t});\n\n\t}\n\n\tvar getLatestFrameImg = function(frameId) { ///\n\t\tvar defer = $q.defer();\n\t\tvar query = new AV.Query('FileOfFrame');\n\n\t\tvar frame = AV.Object.createWithoutData('Frame', frameId);\n\t\tquery.equalTo('frame', frame);\n\t\t// query.equalTo('sender', AV.User.current());\n\t\tquery.descending('createdAt');\n\t\tquery.first().then(function(data) {\n\t\t\tconsole.log(\" + \" + data.attributes.file._url + \" \" + frameId);\n\n\t\t\tvar thumbnail = data.attributes.file.thumbnailURL(500, 500, 80);\n\t\t\tfillFramesArrayURL(frameId, thumbnail);\n\n\t\t\tdefer.resolve(data.attributes.file._url);\n\t\t}, function(error) {\n\t\t\tconsole.log(error);\n\t\t\tdefer.reject(error);\n\t\t});\n\n\t\treturn defer.promise;\n\n\t}\n\tvar getFrame = function() {\n\t\tvar defer = $q.defer();\n\n\t\tStorageService.clear();\n\t\t$scope.frames = [];\n\n\t\tvar query = new AV.Query('MapUserFrame');\n\t\tquery.include('frame');\n\t\tquery.equalTo('user', AV.User.current());\n\t\tquery.find().then(function(results) {\n\t\t\tconsole.log('Successfully retrieved ' + results.length + ' posts.');\n\t\t\t// 处理返回的结果数据\n\t\t\t// debugger;\n\t\t\t//$scope.frames = results;\n\t\t\tfor (var i = results.length - 1; i >= 0; i--) {\n\t\t\t\tconsole.log(results[i].attributes.frame.id);\n\t\t\t\t// debugger;\n\t\t\t\tvar frameItem = {\n\t\t\t\t\tid: results[i].id,\n\t\t\t\t\tframe: {\n\t\t\t\t\t\tid: results[i].attributes.frame.id,\n\t\t\t\t\t\tdeviceIdShort: results[i].attributes.frame.attributes.deviceIdShort\n\t\t\t\t\t},\n\t\t\t\t\tframeDeviceId: results[i].attributes.frameDeviceId,\n\t\t\t\t\tframeNickName: results[i].attributes.frameNickName,\n\t\t\t\t\ttotalImage: results[i].attributes.totalImage,\n\t\t\t\t\tuserNickName: results[i].attributes.userNickName,\n\t\t\t\t\tuser: {\n\t\t\t\t\t\tid: results[i].attributes.user.id,\n\t\t\t\t\t\tcid: results[i].attributes.user.cid,\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\tStorageService.add(frameItem);\n\n\t\t\t}\n\t\t\t$scope.frames = StorageService.getAll();\n\n\t\t\tfor (var i = 0; i < $scope.frames.length; i++) {\n\t\t\t\t$scope.frames[i]\n\t\t\t\tgetLatestFrameImg($scope.frames[i].frame.id).then(function(url) {\n\n\t\t\t\t}, function(error) {\n\t\t\t\t\tconsole.log(\"album cover err: \" + error);\n\t\t\t\t});\n\t\t\t}\n\n\t\t\t$scope.$apply();\n\t\t\tdefer.resolve();\n\n\t\t}, function(error) {\n\t\t\tconsole.log('Error: ' + error.code + ' ' + error.message);\n\t\t\tdefer.reject(error);\n\t\t});\n\n\t\treturn defer.promise;\n\t}\n\n\t$scope.deteleFrame = function(frame, index) {\n\n\t\tthis.frames.splice(index, 1);\n\t\tvar frame = AV.Object.createWithoutData('MapUserFrame', frame.id);\n\t\tframe.destroy().then(function() {\n\t\t\tconsole.log('destroyed MUF ' + frame.id);\n\t\t}, function(error) {\n\t\t\tconsole.log('destroyed MUF failed ' + error);\n\t\t});\n\t}\n\n\tvar checkFrame = function(id) {\n\t\tvar defer = $q.defer();\n\n\t\tvar query = new AV.Query('Frame');\n\t\tquery.equalTo('deviceIdShort', id);\n\t\tquery.first().then(function(data) {\n\t\t\tconsole.log('frame found');\n\t\t\tdefer.resolve(data);\n\t\t}, function(error) {\n\t\t\tconsole.log('frame not found');\n\t\t\tdefer.reject();\n\t\t});\n\n\t\treturn defer.promise;\n\t}\n\n\t$scope.addinfo = {\n\t\tid: ''\n\t}\n\n\t$scope.manualAddFrame = function() {\n\t\tif ($scope.addinfo.id == '') {\n\t\t\talert('ID空');\n\t\t} else {\n\t\t\taddFriendFrame($scope.addinfo.id);\n\t\t}\n\t}\n\n\tvar addFriendFrame = function(qr) {\n\t\tcheckFrame(qr).then(function(frame) {\n\t\t\tif (!frame) {\n\t\t\t\tvar myPopup = $ionicPopup.show({\n\n\t\t\t\t\ttitle: '没有找到可添加相框',\n\t\t\t\t\tsubTitle: '请将相框先联网再扫码添加',\n\t\t\t\t\tbuttons: [{\n\t\t\t\t\t\ttext: 'Ok',\n\t\t\t\t\t\ttype: 'button-energized'\n\t\t\t\t\t}, ]\n\t\t\t\t});\n\t\t\t} else {\n\t\t\t\t$scope.frameData = {};\n\t\t\t\t$scope.frameData.id = frame.id;\n\t\t\t\t$scope.frameData.deviceIdShort = frame.attributes.deviceIdShort;\n\t\t\t\t$scope.frameData.deviceId = frame.attributes.deviceId;\n\n\t\t\t\t$scope.modal.show();\n\t\t\t}\n\t\t}, function(error) {\n\t\t\talert('frame not found');\n\t\t})\n\t}\n\n\t$ionicModal.fromTemplateUrl('templates/addFrame.html', {\n\t\tscope: $scope\n\t}).then(function(modal) {\n\t\t$scope.modal = modal;\n\t});\n\n\t$scope.closeManualAdd = function() {\n\t\t$scope.addinfo.id = '';\n\n\t\t$ionicHistory.nextViewOptions({\n\t\t\tdisableBack: true\n\t\t});\n\n\t\t$state.go(\"app.playlists\");\n\t};\n\n\t$scope.closeAddFrame = function() {\n\t\t$scope.modal.hide();\n\t};\n\n\tfunction saveMapUserFrame() {\n\t\tvar defer = $q.defer();\n\n\t\tvar MUF = AV.Object.extend('MapUserFrame');\n\t\tvar muf = new MUF();\n\t\tvar frame = AV.Object.createWithoutData('Frame', $scope.frameData.id);\n\t\tmuf.set('frame', frame);\n\t\tmuf.set('frameDeviceId', $scope.frameData.deviceId);\n\t\tmuf.set('userNickName', $scope.frameData.userNickName);\n\t\tmuf.set('frameNickName', $scope.frameData.frameNickName);\n\t\tmuf.set('user', AV.User.current());\n\n\t\tmuf.save().then(function(muf) {\n\t\t\tdefer.resolve(muf.id);\n\t\t}, function(err) {\n\t\t\tconsole.log('Failed to create new muf, with error message: ' + err.message);\n\t\t\tdefer.reject();\n\t\t});\n\n\t\treturn defer.promise;\n\t}\n\n\t$scope.addFriendFrameSave = function() {\n\t\tdebugger;\n\t\tsaveMapUserFrame().then(function(id) {\n\t\t\tconsole.log('LINKED MUF ID: ' + id);\n\t\t\t$scope.modal.hide();\n\t\t\t$ionicHistory.nextViewOptions({\n\t\t\t\tdisableBack: true\n\t\t\t});\n\n\t\t\t$state.go(\"app.playlists\");\n\t\t}, function(error) {\n\n\t\t});\n\t}\n\n\t$scope.button = function() {\n\n\n\t\t// Show the action sheet\n\t\tvar hideSheet = $ionicActionSheet.show({\n\t\t\tbuttons: [{\n\t\t\t\ttext: '<b>扫描</b>'\n\t\t\t}, {\n\t\t\t\ttext: '手动添加'\n\t\t\t}],\n\t\t\t// destructiveText: 'Delete',\n\t\t\ttitleText: '加好友',\n\t\t\tcancelText: '取消',\n\t\t\tcancel: function() {\n\t\t\t\t// add cancel code..\n\t\t\t},\n\t\t\tbuttonClicked: function(index) {\n\t\t\t\tif (index == 0) {\n\t\t\t\t\t$cordovaBarcodeScanner\n\t\t\t\t\t\t.scan()\n\t\t\t\t\t\t.then(function(barcodeData) {\n\n\t\t\t\t\t\t\tconsole.log(barcodeData);\n\n\t\t\t\t\t\t\taddFriendFrame(barcodeData.text);\n\n\t\t\t\t\t\t}, function(error) {\n\t\t\t\t\t\t\t// An error occurred\n\t\t\t\t\t\t});\n\t\t\t\t} else if (index == 1) {\n\t\t\t\t\t$state.go(\"app.manualAddFrame\");\n\t\t\t\t}\n\n\t\t\t\treturn true;\n\t\t\t}\n\n\t\t});\n\n\t}\n\n\t$scope.listRefresh = function() {\n\t\tStorageService.clear();\n\n\t\tgetFrame().then(function(success) {\n\t\t\t$scope.$broadcast('scroll.refreshComplete');\n\t\t}, function(error) {\n\t\t\t$scope.$broadcast('scroll.refreshComplete');\n\t\t});\n\t};\n\n\t$scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {\n\t\t// console.log('*****'+fromState.url);\n\t\tif (StorageService.isEmpty() || fromState.url == \"^\") {\n\t\t\tgetFrame();\n\t\t} else {\n\t\t\t$scope.frames = StorageService.getAll();\n\t\t}\n\t});\n\n\n})",
-			"file": "www/js/controllers/album.ctrl.js",
-			"file_size": 11958,
-			"file_write_time": 131195111070000000,
+			"file": "www/templates/noFramePage.html",
 			"settings":
 			{
-				"buffer_size": 11804,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "www/css/ionic.app.css",
-			"settings":
-			{
-				"buffer_size": 250654,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "www/templates/playlists.html",
-			"settings":
-			{
-				"buffer_size": 3563,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "Searching 188 files for \"renameFrame\"\n\n/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/album.ctrl.js:\n   89  \t//Smart Search\n   90  \n   91: \tvar renameFrameAction = function(frame, newName) {\n   92  \t\tconsole.log(frame.id + '- ' + newName);\n   93  \t\t$rootScope.show();\n   ..\n  112  \t}\n  113  \n  114: \t$scope.renameFrame = function(frame) {\n  115  \t\t$scope.data = {};\n  116  \n  ...\n  125  \t\t\t\ttype: 'button-energized',\n  126  \t\t\t\tonTap: function(e) {\n  127: \t\t\t\t\trenameFrameAction(frame, $scope.data.newName);\n  128  \t\t\t\t}\n  129  \t\t\t}]\n\n/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/playlists.html:\n   54        </div>\n   55  \n   56:       <ion-option-button class=\"button-stable\" ng-click=\"renameFrame(frame)\">\n   57        修改备注\n   58        </ion-option-button>\n\n4 matches across 2 files\n",
-			"settings":
-			{
-				"buffer_size": 848,
-				"line_ending": "Unix",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "www/js/controllers/gallery.ctrl.js",
-			"settings":
-			{
-				"buffer_size": 7014,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "www/js/controllers/setting.ctrl.js",
-			"settings":
-			{
-				"buffer_size": 1992,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "www/templates/about.html",
-			"settings":
-			{
-				"buffer_size": 814,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "config.xml",
-			"settings":
-			{
-				"buffer_size": 5048,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "www/js/controllers/user.ctrl.js",
-			"settings":
-			{
-				"buffer_size": 4801,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "www/templates/settings.html",
-			"settings":
-			{
-				"buffer_size": 664,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "www/templates/feedback.html",
-			"settings":
-			{
-				"buffer_size": 1151,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "www/templates/playlist.html",
-			"settings":
-			{
-				"buffer_size": 2354,
+				"buffer_size": 1635,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -194,13 +104,21 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 392.0,
-		"last_filter": "for",
+		"height": 327.0,
+		"last_filter": "java",
 		"selected_items":
 		[
 			[
-				"for",
+				"java",
 				"Format: Javascript"
+			],
+			[
+				"",
+				"About"
+			],
+			[
+				"for",
+				"Snippet: ion-form"
 			],
 			[
 				"form",
@@ -209,10 +127,6 @@
 			[
 				"format",
 				"Format: Javascript"
-			],
-			[
-				"",
-				"About"
 			],
 			[
 				"ins",
@@ -287,7 +201,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 602.0
+		"width": 568.0
 	},
 	"console":
 	{
@@ -313,7 +227,6 @@
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/scss",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/css",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/services",
@@ -323,37 +236,41 @@
 	],
 	"file_history":
 	[
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/app.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/config.xml",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/album.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/noFramePage.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/test-page.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/test.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/app.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/user.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/playlists.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/menu.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/intro.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/manualAddFrame.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/addFrame.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/playlist.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/feedback.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/settings.html",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/scss/ionic.app.scss",
+		"/Users/Michael/Documents/zhaoyuntech/hidden-lowlands-82344/server.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/setting.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/gallery.ctrl.js",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/css/ionic.app.css",
+		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/about.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/album-cloud.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/platforms/android/project.properties",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/platforms/android/settings.gradle",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start/login.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/scss/ionic.app.scss",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/settings.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/playlists.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/album.ctrl.js",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/app.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start/forgot.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/start/signup.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/user.ctrl.js",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/test.ctrl.js",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/manualAddFrame.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/config.xml",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/intro.ctrl.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/login.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/signup.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/services/picture.service.js",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/gallery.ctrl.js",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/playlist.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/about.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/app.ctrl.js",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/menu.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/setting.ctrl.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/index.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/css/ionic.app.css",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/image-popover.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/js/controllers/upload.ctrl.js",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/smart-gallery.html",
-		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/www/templates/addFrame.html",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/bigelephant/bigelephant.sublime-project",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/android-build/platforms/android/ant.properties",
 		"/Users/Michael/Documents/zhaoyuntech/hybrid/app/android-build/platforms/android/secure.properties",
@@ -446,11 +363,7 @@
 		"/Users/Michael/Documents/ALGO/AlgoMobile/ParseCloudCode/AlgoBasket/cloud/main.js",
 		"/Users/Michael/Documents/ALGO/AlgoMobile/ParseCloudCode/AlgoBasket/cloud/driver.js",
 		"/Users/Michael/Documents/ALGO/AlgoMobile/ParseCloudCode/AlgoBasket/cloud/user.js",
-		"/Users/Michael/Documents/ALGO/AlgoMobile/ParseCloudCode/AlgoBasket/cloud/buyer.js",
-		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/package.json",
-		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/templates/menu.html",
-		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/index.html",
-		"/Users/Michael/Documents/ALGO/AlgoMobile/AlgoMobile/www/css/app.css"
+		"/Users/Michael/Documents/ALGO/AlgoMobile/ParseCloudCode/AlgoBasket/cloud/buyer.js"
 	],
 	"find":
 	{
@@ -472,6 +385,50 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"button",
+			"called",
+			"app.noFrame",
+			"noFrame",
+			"manual",
+			"noFrame",
+			"ionichistory",
+			"getframe",
+			"frameCount",
+			"ion-view",
+			"recordingExists",
+			"ng-show",
+			"showNoFramesFound",
+			"ng-show",
+			"shownof",
+			"ng-hide",
+			"recordingExists",
+			"ng-show",
+			"getFrame",
+			"frameCount",
+			"history",
+			"ionHistory",
+			"frameCount",
+			"rootScope",
+			"newUserCreate",
+			"cannot signup",
+			"frameCount",
+			"AppCtrl",
+			"getFrame",
+			"frameCount",
+			"closeManualAdd",
+			"addFriendFrame",
+			".intro-img{",
+			"album-cover",
+			"empty password",
+			"SignUpController",
+			"signup",
+			"app-login",
+			"smart",
+			"getPhoto",
+			"avosSmartSearch",
+			"key",
+			"smartsearch",
+			"相册",
 			"fillFramesArrayURL",
 			"objectId",
 			"FileOfFrame",
@@ -555,51 +512,7 @@
 			"recording.wav",
 			"uploadRecordingFile",
 			"emula",
-			"uploadRecordingFile",
-			"emulated",
-			"recording",
-			"copyRecordingToMem",
-			"path.replace",
-			"copyToMem",
-			"edit",
-			"\"loading",
-			"$scope.loading",
-			"scope.loading",
-			"SmartSearchController",
-			"Left",
-			"addFriendFrame",
-			"AV.User",
-			"saveFileOfFrameItem",
-			"save()",
-			"save",
-			"fileofframe",
-			"FileOfFrame",
-			"login.html",
-			"first()",
-			"mapuserframe",
-			"mapauserframe",
-			"button",
-			".loading",
-			"noResults",
-			"ng-show",
-			"ng-hide",
-			"ng-show",
-			"hide()",
-			"show()",
-			"show",
-			"full",
-			"left",
-			"latestImg",
-			"getFrame",
-			"pull",
-			"debugger",
-			"button",
-			"加好友",
-			"cordovaCamera",
-			"\"FileOfFrame\"",
-			"\"fileOfFrame\"",
-			"copyImg",
-			"failed"
+			"uploadRecordingFile"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -622,282 +535,16 @@
 	"groups":
 	[
 		{
-			"selected": 7,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "www/js/controllers/album.ctrl.js",
+					"file": "www/templates/noFramePage.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 11804,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1441,
-								1441
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 632.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "www/css/ionic.app.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 250654,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								248401,
-								248401
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 136210.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "www/templates/playlists.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3563,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								405,
-								405
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 848,
-						"regions":
-						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										176,
-										187
-									],
-									[
-										339,
-										350
-									],
-									[
-										493,
-										504
-									],
-									[
-										749,
-										760
-									]
-								],
-								"scope": ""
-							}
-						},
-						"selection":
-						[
-							[
-								348,
-								348
-							]
-						],
-						"settings":
-						{
-							"detect_indentation": false,
-							"line_numbers": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([^ \t].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "www/js/controllers/gallery.ctrl.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7014,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5461,
-								5461
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2998.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "www/js/controllers/setting.ctrl.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1992,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1800,
-								1800
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 7.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "www/templates/about.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 814,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								432,
-								432
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "config.xml",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5048,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1523,
-								1523
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/XML/XML.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 42.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "www/js/controllers/user.ctrl.js",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 4801,
+						"buffer_size": 1635,
 						"regions":
 						{
 						},
@@ -910,35 +557,6 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "www/templates/settings.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 664,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								392,
-								392
-							]
-						],
-						"settings":
-						{
 							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
@@ -947,67 +565,14 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "www/templates/feedback.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1151,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1032,
-								1032
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "www/templates/playlist.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2354,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2199,
-								2199
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/MavensMate/sublime/lang/Visualforce.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 184.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
+					"stack_index": 0,
 					"type": "text"
 				}
+			]
+		},
+		{
+			"sheets":
+			[
 			]
 		}
 	],
@@ -1028,11 +593,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.632742281535,
 			1.0
 		],
 		"rows":
@@ -1064,20 +636,64 @@
 		"selected_items":
 		[
 			[
-				"album",
-				"www/js/controllers/album.ctrl.js"
-			],
-			[
-				"galler",
-				"www/js/controllers/gallery.ctrl.js"
-			],
-			[
 				"conf",
 				"config.xml"
 			],
 			[
+				"app",
+				"www/js/app.js"
+			],
+			[
+				"alb",
+				"www/js/controllers/album.ctrl.js"
+			],
+			[
+				"no",
+				"www/templates/noFramePage.html"
+			],
+			[
+				"menu",
+				"www/templates/menu.html"
+			],
+			[
+				"playlists",
+				"www/templates/playlists.html"
+			],
+			[
+				"config",
+				"config.xml"
+			],
+			[
+				"manual",
+				"www/templates/manualAddFrame.html"
+			],
+			[
+				"add",
+				"www/templates/addFrame.html"
+			],
+			[
 				"a",
-				"www/templates/about.html"
+				"www/js/app.js"
+			],
+			[
+				"introc",
+				"www/js/controllers/intro.ctrl.js"
+			],
+			[
+				"album",
+				"www/js/controllers/album.ctrl.js"
+			],
+			[
+				"app.js",
+				"www/js/app.js"
+			],
+			[
+				"nopage",
+				"www/templates/noFramePage.html"
+			],
+			[
+				"galler",
+				"www/js/controllers/gallery.ctrl.js"
 			],
 			[
 				"sett",
@@ -1112,20 +728,8 @@
 				"www/templates/start/login.html"
 			],
 			[
-				"app",
-				"www/js/app.js"
-			],
-			[
-				"alb",
-				"www/js/controllers/album.ctrl.js"
-			],
-			[
 				"gall",
 				"www/js/controllers/gallery.ctrl.js"
-			],
-			[
-				"playlists",
-				"www/templates/playlists.html"
 			],
 			[
 				"pic",
@@ -1248,10 +852,6 @@
 				"www/templates/mentor/home.html"
 			],
 			[
-				"app.js",
-				"www/js/app.js"
-			],
-			[
 				"_vari",
 				"www/lib/ionic/scss/_variables.scss"
 			],
@@ -1268,20 +868,12 @@
 				"www/js/user/services.js"
 			],
 			[
-				"config",
-				"config.xml"
-			],
-			[
 				"request",
 				"www/templates/buyer/request.html"
 			],
 			[
 				"mapvi",
 				"www/templates/buyer/mapView.html"
-			],
-			[
-				"menu",
-				"www/templates/menu.html"
 			],
 			[
 				"core.js",
@@ -1424,7 +1016,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 289.0,
+	"side_bar_width": 225.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
