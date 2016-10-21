@@ -24,7 +24,9 @@ angular.module('starter', [
   'picture.services'
 ])
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+  $ionicConfigProvider.scrolling.jsScrolling(false);
+
     $stateProvider
 
     //***Sign Up***

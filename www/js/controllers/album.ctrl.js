@@ -153,7 +153,7 @@ angular.module('album.controllers', ['ionic'])
 
 			$cordovaCamera.getPicture(options).then(function(imageData) {
 				//var base64 = "data:image/jpeg;base64," + imageData;
-				debugger;
+				// debugger;
 
 				//var tempFileName = imageURI.replace(/^.*[\\\/]/, '');
 
@@ -478,7 +478,7 @@ angular.module('album.controllers', ['ionic'])
 	}
 
 	$scope.addFriendFrameSave = function() {
-		debugger;
+		// debugger;
 		saveMapUserFrame().then(function(id) {
 			console.log('LINKED MUF ID: ' + id);
 			$scope.modal.hide();

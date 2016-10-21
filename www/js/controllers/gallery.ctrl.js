@@ -36,7 +36,7 @@ angular.module('gallery.controllers', [])
   $scope.keyword = $stateParams.key;
 
   $scope.frame = StorageService.get($stateParams.playlistId);
-  debugger;
+  // debugger;
 
   $scope.showImages = function(index) {
     $scope.activeSlide = index;
@@ -124,7 +124,7 @@ angular.module('gallery.controllers', [])
     $http(req)
       .success(function(data, status, headers, config) {
         //success
-        debugger;
+        // debugger;
 
         console.log(data);
 
@@ -141,13 +141,13 @@ angular.module('gallery.controllers', [])
         $q.all(promises).then(function(files) {
           //NICE!
           // $rootScope.hide();
-          debugger;
+          // debugger;
           $scope.loading = false;
           $scope.$apply();
           console.log("displaying smart search results");
 
         }, function(error) {
-          debugger;
+          // debugger;
           $scope.loading = false;
           $scope.$apply();
           console.log("displaying smart search results with err");
@@ -229,7 +229,7 @@ angular.module('gallery.controllers', [])
       console.log(pictures.length);
       $rootScope.hide();
       for (var i = 0; i < pictures.length; i++) {
-        console.log(pictures[i].id + ' ' + i);
+        // console.log(pictures[i].id + ' ' + i); //DEBUG-COMBO
         var file = pictures[i].get('file');
         var url = file.thumbnailURL(150, 150, 10);
         var full = file.thumbnailURL(800, 800, 10);
@@ -247,7 +247,7 @@ angular.module('gallery.controllers', [])
         });
         $scope.$apply();
       }
-      debugger;
+      // debugger;
       $scope.imgp = _.chain($scope.images).groupBy('date').pairs().sortBy(function(a, b) {
         return new Date(b.date) - new Date(a.date);
       }).value();
@@ -263,7 +263,7 @@ angular.module('gallery.controllers', [])
 
   $scope.imageWidth = window.innerWidth / 4 + 'px';
 
-  debugger;
+  // debugger;
   console.log($stateParams.playlistId);
 
 });

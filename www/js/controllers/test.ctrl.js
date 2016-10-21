@@ -15,7 +15,7 @@ angular.module('test.controllers', ['ionic'])
 		$scope.frames = $rootScope.selectedFrames;
 
 		function encodeFile(imageURI, index) {
-			debugger;
+			// debugger;
 
 			var defer = $q.defer();
 
@@ -237,7 +237,7 @@ angular.module('test.controllers', ['ionic'])
 					});
 
 					$rootScope.uploading = true;
-					debugger;
+					//debugger;
 				});
 			}
 			if ($rootScope.type == 'camera') {
@@ -258,7 +258,7 @@ angular.module('test.controllers', ['ionic'])
 						fileOfFrameEntry(files, null);
 					});
 					$rootScope.uploading = true;
-					debugger;
+					//debugger;
 
 				}, function(err) {
 					console.log('camera upload failed');
