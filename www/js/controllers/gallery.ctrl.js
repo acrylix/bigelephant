@@ -224,9 +224,9 @@ angular.module('gallery.controllers', [])
     // query.limit(30);
 
     query.equalTo('sender', AV.User.current()); //CRITICAL!
-
+    query.limit(1000);
     query.find().then(function(pictures) {
-      console.log(pictures.length);
+      console.log("pics "+pictures.length);
       $rootScope.hide();
       for (var i = 0; i < pictures.length; i++) {
         // console.log(pictures[i].id + ' ' + i); //DEBUG-COMBO
@@ -251,9 +251,9 @@ angular.module('gallery.controllers', [])
       $scope.imgp = _.chain($scope.images).groupBy('date').pairs().sortBy(function(a, b) {
         return new Date(b.date) - new Date(a.date);
       }).value();
-      $scope.$broadcast('scroll.infiniteScrollComplete');
-      $scope.skip += 30;
-      console.log($scope.skip);
+      // $scope.$broadcast('scroll.infiniteScrollComplete');
+      // $scope.skip += 30;
+      // console.log($scope.skip);
 
     }, function(error) {
       console.log(error);

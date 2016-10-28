@@ -69,23 +69,6 @@ angular.module('album.controllers', ['ionic'])
 		})
 	};
 
-	// $scope.countfix = function(key) {
-	// 	var fid = [];
-
-	// 	var query = new AV.Query('FileOfFrame');
-	// 	var frame = AV.Object.createWithoutData('Frame', key);
-	// 	query.equalTo('frame', frame);
-	// 	query.find().then(function(fof) {
-	// 		console.warn(fof.length);
-
-	// 	}, function(error) {
-	// 		// 失败了
-	// 		console.log(error);
-	// 	});
-
-
-	// }
-
 	//Smart Search
 
 	var renameFrameAction = function(frame, newName) {
@@ -303,6 +286,7 @@ angular.module('album.controllers', ['ionic'])
 
 		var query = new AV.Query('MapUserFrame');
 		query.include('frame');
+		query.limit(1000);
 		query.equalTo('user', AV.User.current());
 		query.find().then(function(results) {
 			console.log('Successfully retrieved ' + results.length + ' posts.');

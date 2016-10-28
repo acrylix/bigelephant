@@ -12,49 +12,45 @@ angular.module('upload.controllers', [])
 	'$ionicHistory',
 	'$ionicNavBarDelegate',
 	'$q',
-	function($state, $scope, $rootScope, $ionicPopup, UserService, StorageService, PictureService, $ionicPopup, $ionicHistory, $ionicNavBarDelegate, $q) {
- 
+	function($state, $scope, $rootScope, $ionicPopup, UserService, StorageService, PictureService, $ionicPopup, $ionicHistory, $ionicNavBarDelegate, $q) { 
 		$ionicNavBarDelegate.showBackButton(false);
 
 		$scope.cancel = function() {
 			$state.go('app.playlists');
 		}
 
-		
+
 
 		$scope.send = function() {
 
-			// debugger;
+			var nonSelected = true;
 
-			// var files = [];
-			// var promises = [];
-			// var imageUris = PictureService.getAll();
+			for (var i = 0; i < $scope.frames.length; i++) {
+				if ($scope.frames[i].checked == true) {
+					nonSelected = false;
+					break;
+				}
+			}
 
-			// $rootScope.$broadcast('upload-started', {
-			// 	total: imageUris.length
-			// });
+			if (nonSelected) {
+				$ionicPopup.show({
 
-			// console.log("Start");
-			// for (var i = 0; i < imageUris.length; i++) {
-			// 	console.log("URI: " + imageUris[i]);
-			// 	promises.push(encodeFile(imageUris[i], i + 1));
-			// }
+					title: '没选相框?',
+					subTitle: '请选择至少一个相框上传',
+					buttons: [{
+						text: 'Ok',
+						type: 'button-energized'
+					}, ]
+				});
+			} else {
+				$rootScope.selectedFrames = $scope.frames;
 
-			// $q.all(promises).then(function(files) {
-			// 	files.push(files);
-			// 	fileOfFrameEntry(files);
-			// 	$rootScope.uploading = true;
-			// 	debugger;
-			// });
+				$ionicHistory.nextViewOptions({
+					disableBack: true
+				});
 
-			// debugger;
-			$rootScope.selectedFrames = $scope.frames;
-
-			$ionicHistory.nextViewOptions({
-				disableBack: true
-			});
-
-			$state.go('app.test');
+				$state.go('app.test');
+			}
 
 		}
 
