@@ -45,11 +45,12 @@ angular.module('user.controllers', [])
 	'$q',
 	'$scope',
 	'$rootScope',
-	function($state, $q, $scope, $rootScope) {
+	'$ionicPopup',
+	function($state, $q, $scope, $rootScope, $ionicPopup) {
 
 		function checkPhone(phone) {
 			if (!(/^1[3|4|5|7|8]\d{9}$/.test(phone + ''))) {
-				alert("手机号码格式有误，请重填");
+				$rootScope.alert('用户注册', '手机号码格式有误，请重填');
 				return false;
 			}
 			return true;
@@ -133,26 +134,26 @@ angular.module('user.controllers', [])
 				if (!success.length) {
 					newUserCreate($scope.phone).then(function(success) {
 						$rootScope.hide();
-						alert('注册验证码发送成功');
+						$rootScope.alert('用户注册', '注册验证码发送成功');
 						sentWait();
 
 					}, function(error) {
 						$rootScope.hide();
 						if (error.code == -1) {
-							alert("请填写和确认密码")
+							$rootScope.alert('用户注册', '请先填写和确认密码');
 						} else {
-							alert(error.message);
+							$rootScope.alert('用户注册', error.message);
 						}
 					})
 				} else {
 					AV.User.requestMobilePhoneVerify($scope.phone + '').then(function(success) {
 						$rootScope.hide();
-						alert('注册验证码发送成功');
+						$rootScope.alert('用户注册', '注册验证码发送成功');
 						sentWait();
 
 					}, function(error) {
 						$rootScope.hide();
-						alert(error.message);
+						$rootScope.alert('用户注册', error.message);
 					});
 				}
 			});
@@ -165,11 +166,11 @@ angular.module('user.controllers', [])
 
 				} else {
 					AV.User.requestPasswordResetBySmsCode($scope.info.phonenumber + '').then(function(success) {
-						alert('重置验证码发送成功');
+						$rootScope.alert('用户注册', '重置验证码发送成功');
 						sentWait();
 
 					}, function(error) {
-						alert(error.message);
+						$rootScope.alert('用户注册', error.message);
 					});
 				}
 			}
@@ -177,35 +178,35 @@ angular.module('user.controllers', [])
 
 		$scope.resetPassword = function() {
 			if ($scope.info.password != $scope.info.passwordcheck) {
-				alert('密码不匹配');
+				$rootScope.alert('用户注册', '密码不匹配');
 				return false;
 			}
 			if ($scope.info.password == '') {
-				alert('密码为空');
+				$rootScope.alert('用户注册', '密码为空');
 				return false;
 			}
 			if (!checkPhone($scope.info.phonenumber)) {
 				return false;
 			}
 			AV.User.resetPasswordBySmsCode($scope.info.smscode + '', $scope.info.password).then(function(success) {
-				alert('密码重置成功');
+				$rootScope.alert('用户注册', '密码重置成功');
 				$state.go('app-login');
 			}, function(error) {
-				alert(error.message);
+				$rootScope.alert('用户注册', error.message);
 			});
 		}
 
 		$scope.signup = function() {
 			if ($scope.info.password != $scope.info.passwordcheck) {
-				alert('密码不匹配');
+				$rootScope.alert('用户注册', '密码不匹配');
 				return false;
 			}
 			if ($scope.info.password == '') {
-				alert('密码为空');
+				$rootScope.alert('用户注册', '密码为空');
 				return false;
 			}
 			if (!$scope.info.smscode) {
-				alert('验证码为空');
+				$rootScope.alert('用户注册', '验证码为空');
 				return false;
 			}
 			if (!checkPhone($scope.info.phonenumber)) {
@@ -216,12 +217,12 @@ angular.module('user.controllers', [])
 			AV.User.verifyMobilePhone($scope.info.smscode).then(function(success) {
 				//验证成功
 				$rootScope.hide();
-				alert("账号创建成功!");
+				$rootScope.alert('用户注册', '账号创建成功!');
 				$state.go('app-login');
 			}, function(err) {
 				//验证失败
 				$rootScope.hide();
-				alert(err.message);
+				$rootScope.alert('用户注册', error.message);
 			});
 
 		}

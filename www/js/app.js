@@ -25,7 +25,7 @@ angular.module('starter', [
 ])
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-  $ionicConfigProvider.scrolling.jsScrolling(false);
+    $ionicConfigProvider.scrolling.jsScrolling(false);
 
     $stateProvider
 
@@ -179,7 +179,7 @@ angular.module('starter', [
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/playlists');
   })
-  .run(function($ionicPlatform, $rootScope, $state, $ionicLoading) {
+  .run(function($ionicPlatform, $rootScope, $state, $ionicLoading, $ionicPopup) {
 
     // loading helpers
     $rootScope.show = function() {
@@ -194,8 +194,19 @@ angular.module('starter', [
     $rootScope.hide = function() {
       $ionicLoading.hide();
     };
-
-    //catch error routes
+    $rootScope.alert = function(title, text) {
+        var alertBox = function() {
+          var alertPopup = $ionicPopup.alert({
+            title: title,
+            template: text,
+            buttons: [{
+              text: '<b>OK</b>',
+              type: 'button-energized'
+            }]
+          });
+        }();
+      }
+      //catch error routes
     $rootScope.$on('$stateChangeError',
       function(event, toState, toParams, fromState, fromParams, error) {
 
