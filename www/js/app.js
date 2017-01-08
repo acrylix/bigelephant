@@ -18,6 +18,7 @@ angular.module('starter', [
   'setting.controllers',
   'camera.controllers',
   'upload.controllers',
+  'file-upload.controllers',
   'album-cloud.controllers',
   'user.services',
   'frame.services',
@@ -146,6 +147,15 @@ angular.module('starter', [
           'menuContent': {
             templateUrl: 'templates/test-page.html',
             controller: 'TestController'
+          }
+        }
+      })
+    .state('app.upload', {
+        url: '/upload',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/pictureUpload/upload.html',
+            controller: 'FileUploadController'
           }
         }
       })

@@ -1,9 +1,8 @@
 <ion-view title="Signup">
     <ion-content padding="true" scroll="false" class="has-header">
-    <div class="spacer" style="height: 50px;"></div>
+        <div class="spacer" style="height: 50px;"></div>
         <form>
             <ion-list>
-
                 <label class="item item-input item-floating-label signup-element">
                     <span class="input-label"><i class="icon ion-email"></i> 请输入您的电子邮箱</span>
                     <input type="text" placeholder="请输入您的手机号码" ng-model="creds.phonenumber">
@@ -12,13 +11,13 @@
                     <span class="input-label"><i class="icon ion-lock-combination"></i> 请输入您的密码</span>
                     <input type="password" placeholder="请输入您的密码" ng-model="creds.password">
                 </label>
-                
             </ion-list>
             <button class="button button-energized button-block" ng-click="doLoginAction()">登陆</button>
             <button class="button button-stable button-block" ui-sref="app-signup">创建账户</button>
-            
-
-                    <a ui-sref='app-forgot' class="button button-stable button-clear button-block" style="font-size: 90%;">忘记密码?</a>
+            <a ui-sref='app-forgot' class="button button-stable button-clear button-block" style="font-size: 90%;">忘记密码?</a>
+            <div class="weui-uploader__input-box">
+                <input id="browse" type="file" class="weui-uploader__input" accept="image/*" multiple>
+            </div>
         </form>
     </ion-content>
 </ion-view>
