@@ -1,0 +1,20 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-stable">
+        <h1 class="title">选择相框</h1>
+        <div class="buttons">
+            <button class="button button-stable" ng-click="frameSelected()">上传</button>
+        </div>
+        <div class="buttons">
+            <button class="button button-stable" ng-click="closeFrameModal()">关闭</button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <ion-list>
+            <ion-checkbox class="checkbox-energized" ng-repeat="item in frames" ng-model="item.checked" ng-checked="item.checked">
+                {{ item.frameNickName }}
+                <br>
+                <h4>ID: {{ item.frame.deviceIdShort }}</h4>
+            </ion-checkbox>
+        </ion-list>
+    </ion-content>
+</ion-modal-view>

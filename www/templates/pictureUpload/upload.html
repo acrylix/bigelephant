@@ -1,36 +1,43 @@
 <ion-view title="Upload">
-    <ion-content padding="true" scroll="false" class="has-header">
-        
+<ion-nav-buttons side="left">
+        <button class="button" ng-click="cancel()">
+            取消
+        </button>
+    </ion-nav-buttons>
+    <ion-content padding="true" scroll="true" class="has-header">
         <div class="page" id="picture_selection_page">
-                <div class="weui-cells weui-cells_form">
-                    <div class="weui-cell">
-                        <div class="weui-cell__bd">
-                            <div class="weui-uploader">
-                                <div class="weui-uploader__hd">
-                                    <p class="weui-uploader__title">图片上传<a ng-class="{'weui-loading': loadingState}"></a></p>
-                                    <div class="weui-uploader__info">{{uploadCount}}/9</div>
-                                </div>
-                                <div class="weui-uploader__bd">
-                                    <ul class="weui-uploader__files" id="uploaderFiles">
-                                        
-                                        <li  ng-repeat="img in images" ng-class="{'weui-uploader__file_status': img.progress != 0 }"class="weui-uploader__file" ng-style="{'background-image':'url('+img.data+')'}">
-                                            
-                                            <div class="weui-uploader__file-content">{{img.progress}}%</div>
-
-                                        </li>
-                                            
-                                    </ul>
-                                    <div class="weui-uploader__input-box">
-                                        <input ng-show="images.length<9" id="browse" type="file" onchange="angular.element(this).scope().previewFile(this.files)" class="weui-uploader__input" accept="image/*" multiple>
-                                    </div>
+            <div class="">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <div class="weui-uploader">
+                            <div class="weui-uploader__hd">
+                                <p class="weui-uploader__title">图片上传
+                                    <a ng-class="{'weui-loading': loadingState}"></a>
+                                </p>
+                                <div class="weui-uploader__info">{{uploadCount}}张</div>
+                            </div>
+                            <div class="weui-uploader__bd">
+                                <ul class="weui-uploader__files" id="uploaderFiles">
+                                    <li ng-repeat="img in images" ng-class="{'weui-uploader__file_status': uploadStarted }" class="weui-uploader__file" ng-style="{'background-image':'url('+img.data+')'}">
+                                        <div ng-show="img.progress!=100" class="weui-uploader__file-content">
+                                            {{img.progress}}%
+                                        </div>
+                                        <div ng-show="img.progress==100" class="weui-uploader__file-content">
+                                            <i class="weui-icon-success"></i>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class="weui-uploader__input-box">
+                                    <input ng-show="images.length<9" id="browse" type="file" onchange="angular.element(this).scope().previewFile(this.files)" class="weui-uploader__input" accept="image/*" multiple>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <a href="javascript:;" class="weui-btn weui-btn_plain-primary" ng-click="upload()">上传图片</a>
             </div>
-
+            <button class="button button-energized button-outline button-block" ng-click="openRecordModal()">添加语音</button>
+            <button class="button button-energized button-block" ng-click="openFrameModal()">上传图片</button>
+        </div>
         </div>
     </ion-content>
 </ion-view>

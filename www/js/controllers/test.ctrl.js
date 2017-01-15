@@ -159,6 +159,7 @@ angular.module('test.controllers', ['ionic'])
 
 			if (!$scope.recordingExists) {
 				defer.resolve(null);
+				return;
 			};
 
 			var recordingUri = PictureService.getRecordingUri();

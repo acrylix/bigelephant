@@ -1,0 +1,37 @@
+<ion-modal-view>
+    <ion-header-bar class="bar-stable">
+        <h1 class="title">录语音</h1>
+        <div class="buttons">
+            <button class="button button-stable" ng-click="closeRecordModal()">关闭</button>
+        </div>
+    </ion-header-bar>
+    <ion-content scroll="false">
+        <div class="spacer" style="height: 40px;"></div>
+        <div class="row">
+            <h2 class="recording-center">&nbsp;{{timeDisp}}&nbsp;</h2>
+        </div>
+        <div class="spacer" style="height: 20px;"></div>
+        <div class="row">
+            <img class="recording-icon" src="img/audio.png" ng-hide="recording">
+            <img class="recording-icon" src="img/audio-pause.png" ng-show="recording">
+        </div>
+        <div class="spacer" style="height: 120px;"></div>
+        <div class="row">
+            <button class="button button-large button-energized recording-center" on-hold="startTimer()" on-release="stopTimer()">
+                按住说话
+            </button>
+        </div>
+        <div class="spacer" style="height: 10px;"></div>
+        <div class="row">
+            <button class="button button-large button-energized recording-center" ng-click="send()">
+                <i class="icon ion-ios-cloud-upload-outline"></i> 直接发送
+            </button>
+        </div>
+        <div class="spacer" style="height: 10px;"></div>
+        <div class="row" ng-show="recordingExists">
+            <button class="button button button-balanced recording-center" ng-click="playRecording()">
+                <i class="icon ion-play"></i>
+            </button>
+        </div>
+    </ion-content>
+</ion-modal-view>
