@@ -227,7 +227,7 @@ angular.module('gallery.controllers', [])
     query.limit(1000);
     query.find().then(function(pictures) {
       console.log("pics "+pictures.length);
-      $rootScope.hide();
+      
       for (var i = 0; i < pictures.length; i++) {
         // console.log(pictures[i].id + ' ' + i); //DEBUG-COMBO
         var file = pictures[i].get('file');
@@ -254,6 +254,9 @@ angular.module('gallery.controllers', [])
       // $scope.$broadcast('scroll.infiniteScrollComplete');
       // $scope.skip += 30;
       // console.log($scope.skip);
+
+      $scope.$apply();
+      $rootScope.hide();
 
     }, function(error) {
       console.log(error);
