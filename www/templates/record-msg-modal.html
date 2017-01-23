@@ -2,7 +2,7 @@
     <ion-header-bar class="bar-stable">
         <h1 class="title">录语音</h1>
         <div class="buttons">
-            <button class="button button-stable" ng-click="closeRecordModal()">关闭</button>
+            <button class="button button-stable" ng-click="closeRecordModalClear()">取消</button>
         </div>
     </ion-header-bar>
     <ion-content scroll="false">
@@ -23,8 +23,8 @@
         </div>
         <div class="spacer" style="height: 10px;"></div>
         <div class="row">
-            <button class="button button-large button-energized recording-center" ng-click="send()">
-                <i class="icon ion-ios-cloud-upload-outline"></i> 直接发送
+            <button class="button button-large button-energized recording-center" ng-click="closeRecordModal()">
+                <i class="icon ion-android-add-circle"></i> 添加语音
             </button>
         </div>
         <div class="spacer" style="height: 10px;"></div>

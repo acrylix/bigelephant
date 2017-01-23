@@ -35,8 +35,10 @@
                     </div>
                 </div>
             </div>
-            <button class="button button-energized button-outline button-block" ng-click="openRecordModal()">添加语音</button>
-            <button class="button button-energized button-block" ng-click="openFrameModal()">上传图片</button>
+            <button class="button button-energized button-outline button-block" ng-click="openRecordModal()">{{recordingLabel}}</button>
+            <button ng-show="recordingData!=null" class="button button-positive button-outline button-block" ng-click="playRecording()">
+                <i class="icon ion-play"></i> 预览语音</button>
+            <button class="button button-energized button-block" ng-click="openFrameModal()">上传图片{{recordingExistsLabel}}</button>
         </div>
         </div>
     </ion-content>

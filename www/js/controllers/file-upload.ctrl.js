@@ -38,7 +38,9 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
         $scope.uploadCount = 0;
 
         $scope.images = [];
-        $scope.recordingData;
+        $scope.recordingData = null;
+        $scope.recordingLabel = "添加语音";
+        $scope.recordingExistsLabel = "";
 
         $scope.loadingState = false;
         $scope.uploadStarted = false;
@@ -57,6 +59,9 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
             $state.go("app.playlists");
 
             $scope.images = [];
+            $scope.recordingData = null;
+            $scope.recordingLabel = "添加语音";
+            $scope.recordingExistsLabel = "";
             $scope.uploadCount = 0;
         };
 
@@ -141,7 +146,6 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
         ///////////
         // image upload
 
-
         /* microphone module */
 
         // recording modal
@@ -152,13 +156,17 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
             $scope.modal = modal;
         });
         $scope.openRecordModal = function() {
-
-            //TODO: Investigate 
-            // PictureService.clearFileCache(); //REMOVE THIS BEFORE FLIGHT!!!!
-
             $scope.modal.show();
         };
         $scope.closeRecordModal = function() {
+            $scope.modal.hide();
+        };
+
+        $scope.closeRecordModalClear = function() {
+            $scope.recordingData = null;
+            $scope.recordingLabel = "添加语音";
+            $scope.recordingExistsLabel = "";
+
             $scope.modal.hide();
         };
         // recording modal
@@ -234,6 +242,8 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
                         data = data.split(',')[1];
 
                         $scope.recordingData = data;
+                        $scope.recordingLabel = "更换语音";
+                        $scope.recordingExistsLabel = "+语音";
                     });
             }
         };
@@ -259,20 +269,24 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
 
             var data = $scope.recordingData;
 
-            var file = new AV.File('recording.wav', {
-                base64: data
-            });
-            file.save().then(function(obj) {
-                defer.resolve(obj);
-
-            }, function(err) {
-                $rootScope.alert("系统出错", "无法保存录音!");
+            if (data == null) {
                 defer.reject(err);
-            });
+            } else {
+                var file = new AV.File('recording.wav', {
+                    base64: data
+                });
+                file.save().then(function(obj) {
+                    defer.resolve(obj);
+
+                }, function(err) {
+                    $rootScope.alert("系统出错", "无法保存录音!");
+                    defer.reject(err);
+                });
+            }
 
             return defer.promise;
         }
-        
+
         /* microphone module end */
 
         /* frame select modal */
