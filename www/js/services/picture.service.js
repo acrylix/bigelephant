@@ -159,7 +159,7 @@ angular.module('picture.services', ['ngStorage'])
               console.log('recording copied to perm location');
             }, function(error) {
               // error
-              alert("rec mem copy failed");
+              console.log("rec mem copy failed");
             });
 
         }

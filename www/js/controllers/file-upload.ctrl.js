@@ -31,11 +31,14 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
         $ionicNavBarDelegate,
         $q) { 
 
+        $ionicNavBarDelegate.showBackButton(false);
+
         // image upload
         /////////////////
         $scope.uploadCount = 0;
 
         $scope.images = [];
+        $scope.recordingData;
 
         $scope.loadingState = false;
         $scope.uploadStarted = false;
@@ -46,14 +49,15 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
         }
 
         $scope.cancel = function() {
-            $scope.images = [];
-            $scope.uploadCount = 0;
 
             $ionicHistory.nextViewOptions({
                 disableBack: true
             });
 
             $state.go("app.playlists");
+
+            $scope.images = [];
+            $scope.uploadCount = 0;
         };
 
         $scope.save_img_cloud = function(img, id) {
@@ -148,6 +152,10 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
             $scope.modal = modal;
         });
         $scope.openRecordModal = function() {
+
+            //TODO: Investigate 
+            // PictureService.clearFileCache(); //REMOVE THIS BEFORE FLIGHT!!!!
+
             $scope.modal.show();
         };
         $scope.closeRecordModal = function() {
@@ -170,28 +178,32 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
             $scope.time = 0;
             $scope.recordingExists = false;
 
-            PictureService.deleteRecording("recording.wav").then(function(success) {
+            PictureService.clearFileCache(); //REMOVE THIS BEFORE FLIGHT!!!!
 
-                mediaRec = new Media("recording.wav", ///var/mobile/Applications/<UUID>/tmp/myrecording.wav
-                    function() {
-                        console.log("recordAudio():Audio Success");
-                    },
-                    function(err) {
-                        $rootScope.alert('系统出错', '无法录音!');
-                    });
+            PictureService.prepDir().then(function(success) {
+                PictureService.deleteRecording("recording.wav").then(function(success) {
 
-                mediaRec.startRecord();
-                $scope.timeDisp = Math.floor($scope.time / 1000 / 60) + ':' + pad(Math.floor($scope.time / 1000 % 60), 2);
+                    mediaRec = new Media("recording.wav", ///var/mobile/Applications/<UUID>/tmp/myrecording.wav
+                        function() {
+                            console.log("recordAudio():Audio Success");
+                        },
+                        function(err) {
+                            $rootScope.alert('系统出错', '无法录音!');
+                        });
 
-                timer = setInterval(function() {
-                    $scope.recording = true;
-                    $scope.time += 100;
+                    mediaRec.startRecord();
                     $scope.timeDisp = Math.floor($scope.time / 1000 / 60) + ':' + pad(Math.floor($scope.time / 1000 % 60), 2);
-                    $scope.$apply();
-                }, 100);
 
-            }, function(error) {
-                $rootScope.alert('系统出错', '无法录音!');
+                    timer = setInterval(function() {
+                        $scope.recording = true;
+                        $scope.time += 100;
+                        $scope.timeDisp = Math.floor($scope.time / 1000 / 60) + ':' + pad(Math.floor($scope.time / 1000 % 60), 2);
+                        $scope.$apply();
+                    }, 100);
+
+                }, function(error) {
+                    $rootScope.alert('系统出错', '无法录音!');
+                });
             });
         };
 
@@ -206,7 +218,23 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
                 timer = undefined;
                 $scope.$apply();
 
-                PictureService.copyRecordingToMem("recording.wav");
+                // new
+                if (ionic.Platform.isIOS()) {
+                    var path = cordova.file.tempDirectory;
+                } else if (ionic.Platform.isAndroid()) {
+                    var path = cordova.file.externalRootDirectory;
+                }
+
+                var filename = "recording.wav";
+
+                $cordovaFile.readAsDataURL(path, filename)
+                    .then(function(data) {
+                        var clean64 = /^data:audio\/.*;base64,/;
+
+                        data = data.split(',')[1];
+
+                        $scope.recordingData = data;
+                    });
             }
         };
 
@@ -229,44 +257,22 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
                 return defer.promise;
             };
 
-            var recordingUri = PictureService.getRecordingUri();
+            var data = $scope.recordingData;
 
-            var path = cordova.file.dataDirectory;
+            var file = new AV.File('recording.wav', {
+                base64: data
+            });
+            file.save().then(function(obj) {
+                defer.resolve(obj);
 
-            if (ionic.Platform.isAndroid()) {
-                path = cordova.file.externalDataDirectory;
-            }
-
-            // $cordovaFile.readAsDataURL(cordova.file.externalDataDirectory, "recording.wav")
-            //$cordovaFile.readAsDataURL(cordova.file.dataDirectory + "ElephantPics/", "recording.wav")
-            $cordovaFile.readAsDataURL(path, "recording.wav")
-                .then(function(data) {
-
-                    var clean64 = /^data:audio\/.*;base64,/;
-
-
-                    data = data.split(',')[1];
-
-                    var file = new AV.File('recording.wav', {
-                        base64: data
-                    });
-                    file.save().then(function(obj) {
-                        defer.resolve(obj);
-
-                    }, function(err) {
-                        $rootScope.alert("系统出错", "无法保存录音!");
-                        defer.reject(err);
-                    });
-
-                }, function(error) {
-                    $rootScope.alert("系统出错", "录音格式不支持!");
-                    defer.reject(error);
-                });
+            }, function(err) {
+                $rootScope.alert("系统出错", "无法保存录音!");
+                defer.reject(err);
+            });
 
             return defer.promise;
         }
-
-
+        
         /* microphone module end */
 
         /* frame select modal */
@@ -278,12 +284,16 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
             $scope.frameModal = modal;
         });
         $scope.openFrameModal = function() {
-            $scope.frames = StorageService.getAll();
+            if (this.images.length == 0) {
+                $rootScope.alert("大象框", "请选择相片");
+            } else {
+                $scope.frames = StorageService.getAll();
 
-            for (var i = 0; i < $scope.frames.length; i++) {
-                $scope.frames[i].checked = false;
+                for (var i = 0; i < $scope.frames.length; i++) {
+                    $scope.frames[i].checked = false;
+                }
+                $scope.frameModal.show();
             }
-            $scope.frameModal.show();
         };
         $scope.closeFrameModal = function() {
             $scope.frameModal.hide();
@@ -316,6 +326,7 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
                 });
             } else {
                 this.closeFrameModal();
+
                 $scope.send();
             }
         }
@@ -324,8 +335,9 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
 
         /* send module */
         $scope.send = function() {
-
+            this.loading(true);
             this.uploadStarted = true;
+            this.$apply();
             var promises = [];
 
             for (var i = 0; i < this.images.length; i++) {
@@ -339,17 +351,15 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
                 }, function(err) {
                     fileOfFrameEntry(files, null);
                 });
+                this.loading(false);
+                this.$apply();
                 $rootScope.alert('大象框', '图片上传成功!');
-            }).catch(function(ex) {
-                console.error(ex);
-            });
-
-            // $ionicHistory.nextViewOptions({
-            //     disableAnimate: true,
-            //     disableBack: true
-            // });
-
-            // $state.go('app.playlists');
+                this.cancel();
+            }.bind(this)).catch(function(ex) {
+                this.loading(false);
+                this.$apply();
+                $rootScope.alert('大象框', '图片上传失败!');
+            }.bind(this));
 
         }
 
@@ -371,15 +381,6 @@ angular.module('file-upload.controllers', ['ngImageInputWithPreview'])
             $q.all(promises).then(function(files) {
                 //NICE!
                 console.log("END");
-
-                var myPopup = $ionicPopup.show({
-
-                    title: '上传结束',
-                    buttons: [{
-                        text: 'Ok',
-                        type: 'button-energized'
-                    }, ]
-                });
 
             }).catch(function(error) {
                 console.log("FOF batch err: " + error);
